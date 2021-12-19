@@ -9,7 +9,7 @@ export default function Home() {
           <h3>खाँडादेवी गाउँपालिका</h3>
           <p>माकादुम , रामेछाप, प्रदेश नं ३</p>
         </div>
-        <Link to="/vp-app/app">Village Profile App</Link>
+        <Link to="/village-profile-app/app">Village Profile App</Link>
       </div>
     </div>
   );

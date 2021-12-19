@@ -38,7 +38,7 @@ export default function AddNewData(props: any) {
       is_posted: "0",
       user_id: auth.id,
     });
-    history.push("/vp-app/app");
+    history.push("/village-profile-app/app");
   };
 
   const loadBastiByWadaId = async (e: any) => {

@@ -143,10 +143,10 @@ export default function VillageProfileHome() {
           Logout
         </p>
       </div>
-      <Link to="/vp-app/app/add-new">Add New Household</Link>
-      <Link to="/vp-app/app/pending">Pending Data</Link>
-      <Link to="/vp-app/app/incomplete">Incomplete Data</Link>
-      <Link to="/vp-app/app/all">All Data</Link>
+      <Link to="/village-profile-app/app/add-new">Add New Household</Link>
+      <Link to="/village-profile-app/app/pending">Pending Data</Link>
+      <Link to="/village-profile-app/app/incomplete">Incomplete Data</Link>
+      <Link to="/village-profile-app/app/all">All Data</Link>
     </div>
   );
 }

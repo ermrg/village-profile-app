@@ -39,7 +39,7 @@ export default function AllData() {
     <div>
       <button
         className="btn btn-warning"
-        onClick={() => history.push("/vp-app/app")}
+        onClick={() => history.push("/village-profile-app/app")}
       >
         Back
       </button>

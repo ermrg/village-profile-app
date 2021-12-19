@@ -13,22 +13,22 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/vp-app/app/add-new">
+        <Route path="/village-profile-app/app/add-new">
           <AddNewData data={{}} />
         </Route>
-        <Route path="/vp-app/app/pending">
+        <Route path="/village-profile-app/app/pending">
           <PendingData />
         </Route>
-        <Route path="/vp-app/app/all">
+        <Route path="/village-profile-app/app/all">
           <AllData />
         </Route>
-        <Route path="/vp-app/app">
+        <Route path="/village-profile-app/app">
           <VillageProfileHome />
         </Route>
         <Route path="/">
           <Home />
         </Route>
-        <Route path="/vp-app">
+        <Route path="/village-profile-app">
           <Home />
         </Route>
       </Switch>
