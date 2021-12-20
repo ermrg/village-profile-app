@@ -1,38 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Cookies from "universal-cookie";
 import api from "../../Api/api";
 import {
-  getAllHousehold,
   getPendingHouseholds,
   IHousehold,
   updateHousehold,
 } from "../../db/models/Household";
-const cookies = new Cookies();
+import { getAllUsers, IUser } from "../../db/models/UserModel";
 
 export default function AllData() {
   const [households, setHousholds] = useState([] as IHousehold[]);
-  let auth = cookies.get("auth");
+  const [auth, setAuth] = useState({} as IUser);
+
   const history = useHistory();
 
   useEffect(() => {
+    checkUser();
     getHouseholds();
-  }, []);
+  }, [auth]);
 
   const getHouseholds = async () => {
-    let hhs = await getPendingHouseholds(auth.id);
+    let hhs = await getPendingHouseholds(auth.id ? auth.id.toString() : "");
     setHousholds([...hhs]);
   };
 
   const postHousehold = async (hh: any) => {
-    let res = await api.postHousehold(hh);
-    if (res.status === 200) {
-      let local_hh = await updateHousehold({ ...hh, is_posted: 1 });
-      console.log(local_hh);
+    if (window.navigator.onLine) {
+      let res = await api.postHousehold(hh);
+      if (res.status === 200) {
+        await updateHousehold({ ...hh, is_posted: 1 });
+      } else {
+        console.log(hh.id, "Failed");
+      }
+      getHouseholds();
     } else {
-      console.log(hh.id, "Failed");
+      alert("Please connect to WIFI!");
     }
-    getHouseholds();
+  };
+
+  const checkUser = async () => {
+    let auth = await getAllUsers();
+    if (auth.length) {
+      setAuth({ ...auth[0] });
+    }
   };
   return (
     <div>

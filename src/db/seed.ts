@@ -1,10 +1,6 @@
-import Cookies from "universal-cookie";
 import api from "../Api/api";
 import { addNewBasti, getBastiByName } from "./models/BastiModel";
 import { addNewWard, getWardByName } from "./models/WardModel";
-
-const cookies = new Cookies();
-let auth = cookies.get("auth");
 
 export async function getWadas(office_id: String) {
   console.log("Synchronizing Wards...");

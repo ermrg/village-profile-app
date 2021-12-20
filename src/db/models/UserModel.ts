@@ -1,11 +1,12 @@
 import { db } from "../db";
+import { IHousehold } from "./Household";
 
 export interface IUser {
   id?: number;
   name: string;
   username: string;
-  office_name?: string;
-  office_id?: string;
+  office_name: string;
+  office_id: string;
   phone: string;
   password: string;
 }
@@ -15,13 +16,17 @@ export class User {
   username: string;
   phone: string;
   password: string;
+  office_name: string;
+  office_id: string;
 
-  constructor(name: string, username: string, phone: string, password: string, id?: number) {
-    this.name = name;
-    this.username = username;
-    this.phone = phone;
-    this.password = password;
-    if (id) this.id = id;
+  constructor(data: IUser) {
+    this.name = data.name;
+    this.username = data.username;
+    this.phone = data.phone;
+    this.password = data.password;
+    this.office_name = data.office_name;
+    this.office_id = data.office_id;
+    if (data.id) this.id = data.id;
     db.users.mapToClass(User);
   }
   save() {
@@ -32,7 +37,7 @@ export class User {
 export async function addNewUser(data: IUser) {
   await db.transaction("rw", db.users, async function () {
     let user = await db.users.add(
-      new User(data.name, data.username, data.phone, data.password)
+      new User({...data})
     );
     console.log(user);
   });
@@ -50,11 +55,9 @@ export async function getUserById(id: number) {
 }
 
 export async function updateUser(data: IUser) {
-  return await db.users.put({
-    id: data.id,
-    name: data.name,
-    username: data.username,
-    password: data.password,
-    phone: data.phone,
-  });
+  return await db.users.put({...data});
+}
+
+export async function deleteUser() {
+  return await db.users.clear();
 }

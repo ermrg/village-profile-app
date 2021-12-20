@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Cookies from "universal-cookie";
 import api from "../../Api/api";
 import {
   getAllHousehold,
-  getPendingHouseholds,
   IHousehold,
   updateHousehold,
 } from "../../db/models/Household";
-const cookies = new Cookies();
 
 export default function AllData() {
   const [households, setHousholds] = useState([] as IHousehold[]);
-  let auth = cookies.get("auth");
   const history = useHistory();
 
   useEffect(() => {
@@ -26,14 +22,17 @@ export default function AllData() {
   };
 
   const postHousehold = async (hh: any) => {
-    let res = await api.postHousehold(hh);
-    if (res.status === 200) {
-      let local_hh = await updateHousehold({ ...hh, is_posted: 1 });
-      console.log(local_hh);
+    if (window.navigator.onLine) {
+      let res = await api.postHousehold(hh);
+      if (res.status === 200) {
+        await updateHousehold({ ...hh, is_posted: 1 });
+      } else {
+        console.log(hh.id, "Failed");
+      }
+      getHouseholds();
     } else {
-      console.log(hh.id, "Failed");
+      alert("Please connect to WIFI!");
     }
-    getHouseholds();
   };
   return (
     <div>

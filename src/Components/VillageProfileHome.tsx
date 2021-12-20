@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Cookies from "universal-cookie";
-import { IUser } from "../db/models/UserModel";
+import {
+  addNewUser,
+  deleteUser,
+  getAllUsers,
+  IUser,
+} from "../db/models/UserModel";
 import api from "../Api/api";
 import { syncDb } from "../db/seed";
 
-const cookies = new Cookies();
 const initialAuth = {
   name: "",
   username: "",
@@ -19,35 +22,19 @@ export default function VillageProfileHome() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   useEffect(() => {
-    checkInCookies();
-    // loadAllCollectors();
+    checkUser();
+    checkGeoLocation();
   }, []);
-  // async function syncDbWithServer() {
-  //   if (window.navigator.onLine) {
-  //     setLoad ing(true);
-  //     syncDb();
-  //     setLoading(false);
-  //   }
-  // }
-  // async function createUser(data: IUser) {
-  //   await addNewUser(data);
-  // }
 
-  // async function getUsers() {
-  //   let users = await getAllUsers();
-  //   console.log(users);
-  // }
-
-  // async function getById(id: number) {
-  //   let user = await getUserById(id);
-  //   console.log(user);
-  // }
-
-  // async function updateUserModel(data: IUser) {
-  //   let user = await updateUser(data);
-  //   console.log(user);
-  // }
-
+  const checkGeoLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((positions: any) => {
+        console.log(positions);
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  };
 
   const handleValueChance = (e: any) => {
     e.persist();
@@ -63,44 +50,35 @@ export default function VillageProfileHome() {
     let res = await api.login(auth);
     if (res.data) {
       let data = res.data;
-      setAuth((auth) => ({
-        ...auth,
-        id: data?.id ? data?.id : initialAuth.id,
-        name: data?.name ? data?.name : "",
-        office_name: data?.office_name
-          ? data?.office_name
-          : initialAuth.office_name,
-        office_id: data?.office_id ? data?.office_id : initialAuth.office_id,
-      }));
-      setInCookies(data);
-      await syncDb(data)
+      await addNewUser(data);
+      setAuth({ ...data });
     } else {
-      setError("Phone or Password did not match!");
+      setError("Username or Password did not match!");
     }
     setLoading(false);
   };
 
-  const checkInCookies = () => {
-    let auth = cookies.get("auth");
-    if (auth) {
-      setAuth({ ...auth });
+  const checkUser = async () => {
+    let auth = await getAllUsers();
+    console.log(auth);
+    if (auth.length) {
+      setAuth({ ...auth[0] });
     }
   };
-  const setInCookies = (colelctor: IUser) => {
-    cookies.set("auth", colelctor);
-  };
-  const clearCookies = () => {
-    cookies.remove("auth");
-  };
+
+  const syncServerData = async () => {
+    setLoading(true)
+    await syncDb(auth);
+    setLoading(false)
+  }
 
   const logout = () => {
     setAuth({ ...initialAuth });
-    clearCookies();
+    deleteUser();
   };
-  console.log(auth);
 
   if (loading) {
-    return <div className="vp-home">Loading...</div>;
+    return <div className="vp-home">Server Loading...</div>;
   }
   if (!auth.id) {
     return (
@@ -145,8 +123,9 @@ export default function VillageProfileHome() {
       </div>
       <Link to="/village-profile-app/app/add-new">Add New Household</Link>
       <Link to="/village-profile-app/app/pending">Pending Data</Link>
-      <Link to="/village-profile-app/app/incomplete">Incomplete Data</Link>
+      {/* <Link to="/village-profile-app/app/incomplete">Incomplete Data</Link> */}
       <Link to="/village-profile-app/app/all">All Data</Link>
+      <button className="btn btn-sm btn-secondary" onClick={syncServerData}>Pull Data</button>
     </div>
   );
 }

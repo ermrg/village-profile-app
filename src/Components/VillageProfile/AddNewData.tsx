@@ -7,16 +7,16 @@ import {
   getAllHousehold,
   IHousehold,
 } from "../../db/models/Household";
+import { getAllUsers, IUser } from "../../db/models/UserModel";
 import { getAllWards, IWard } from "../../db/models/WardModel";
 import GharKoBiabarn from "./Forms/GharKoBiabarn";
 const requiredFields = [1, 2];
-const cookies = new Cookies();
 
 export default function AddNewData(props: any) {
   // To edit send data.household
   const history = useHistory();
   let { data } = props;
-  let auth = cookies.get("auth");
+  const [auth, setAuth] = useState({} as IUser)
   const [wards, setWards] = useState([] as IWard[]);
   const [bastis, setBastis] = useState([] as IBasti[]);
   const [household, setHousehold] = useState({
@@ -24,8 +24,17 @@ export default function AddNewData(props: any) {
   } as IHousehold);
   data.requiredFields = requiredFields;
   useEffect(() => {
+    checkUser();
     loadAllWada();
   }, []);
+
+  const checkUser = async () => {
+    let auth = await getAllUsers()
+    if (auth.length) {
+      setAuth({ ...auth[0] });
+    }
+  };
+
   async function loadAllWada() {
     let wards = await getAllWards();
     setWards([...wards]);
@@ -36,7 +45,7 @@ export default function AddNewData(props: any) {
       ...household,
       status: "0",
       is_posted: "0",
-      user_id: auth.id,
+      user_id: auth.id?.toString(),
     });
     history.push("/village-profile-app/app");
   };
