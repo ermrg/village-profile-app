@@ -16,14 +16,13 @@ export default function AllData() {
 
   useEffect(() => {
     checkUser();
-    getHouseholds();
-  }, [auth]);
+  }, []);
 
-  const getHouseholds = async () => {
-    let hhs = await getPendingHouseholds(auth.id ? auth.id.toString() : "");
+  const getHouseholds = async (auth_: IUser) => {
+    let hhs = await getPendingHouseholds(auth_.id ? auth_.id.toString() : "");
     setHousholds([...hhs]);
   };
-
+  console.log('s');
   const postHousehold = async (hh: any) => {
     if (window.navigator.onLine) {
       let res = await api.postHousehold(hh);
@@ -32,16 +31,17 @@ export default function AllData() {
       } else {
         console.log(hh.id, "Failed");
       }
-      getHouseholds();
+      getHouseholds(auth);
     } else {
       alert("Please connect to WIFI!");
     }
   };
 
   const checkUser = async () => {
-    let auth = await getAllUsers();
-    if (auth.length) {
-      setAuth({ ...auth[0] });
+    let auth_ = await getAllUsers();
+    if (auth_.length) {
+      setAuth({...auth_[0]});
+      getHouseholds(auth_[0]);
     }
   };
   return (

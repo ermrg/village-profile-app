@@ -1,15 +1,22 @@
 import Dexie from "dexie";
 import { IBasti } from "./models/BastiModel";
+import { IDharma } from "./models/DharmaModel";
 import { IHousehold } from "./models/Household";
+import { IJaati } from "./models/JaatiModel";
+import { IMarga } from "./models/MargaModel";
+import { IMember } from "./models/Member";
 import { IUser } from "./models/UserModel";
 import { IWard } from "./models/WardModel";
-import { syncDb } from "./seed";
 
 export class AppDatabase extends Dexie {
   users: Dexie.Table<IUser>;
   wards: Dexie.Table<IWard>;
   bastis: Dexie.Table<IBasti>;
+  margas: Dexie.Table<IMarga>;
+  jaatis: Dexie.Table<IJaati>;
+  dharmas: Dexie.Table<IDharma>;
   households: Dexie.Table<IHousehold>;
+  members: Dexie.Table<IMember>;
 
   constructor() {
     super("VPDB");
@@ -29,11 +36,18 @@ export class AppDatabase extends Dexie {
       users: "++id, name, phone, password",
       wards: "id, name, status",
       bastis: "id, name, status, wardId",
+      margas: "id, name, status, wardId, bastiId",
+      jaatis: "id, name, status",
+      dharmas: "id, name, status",
       households: "++id, name, phone, password, [user_id+is_posted]",
+      members: "++id, name, hh_id",
     });
     db.open()
       .then(async function (db) {
         console.log("DB opened Succefully");
+        db.tables.forEach(function (table) {
+          console.log(table.name);
+        });
       })
       .catch(function (err) {
         console.log("DB error", err);

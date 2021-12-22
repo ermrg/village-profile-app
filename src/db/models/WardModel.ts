@@ -10,10 +10,10 @@ export class Ward {
   name: string;
   status: number;
 
-  constructor(name: string, status: number, id?: number) {
-    this.name = name;
-    this.status = status;
-    if (id) this.id = id;
+  constructor(data: IWard) {
+    this.name = data.name;
+    this.status = data.status;
+    if (data.id) this.id = data.id;
     db.wards.mapToClass(Ward);
   }
   save() {
@@ -23,10 +23,9 @@ export class Ward {
 
 export async function addNewWard(data: IWard) {
   await db.transaction("rw", db.wards, async function () {
-    let ward = await db.wards.add(
-      new Ward(data.name, data.status, data.id)
+    await db.wards.add(
+      new Ward({...data})
     );
-    console.log(ward);
   });
 }
 
@@ -46,9 +45,5 @@ export async function getWardByName(name: string) {
 }
 
 export async function updateWard(data: IWard) {
-  return await db.wards.put({
-    id: data.id,
-    name: data.name,
-    status: data.status,
-  });
+  return await db.wards.put({...data});
 }

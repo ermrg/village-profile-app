@@ -4,6 +4,8 @@ export interface IHousehold {
   id?: number;
   id_string?: String;
   hoh_name?: String;
+  hoh_role?: String;
+  hoh_gender?: String;
   hoh?: String;
   province?: String;
   district?: String;
@@ -11,8 +13,8 @@ export interface IHousehold {
   ward_id?: String;
   basti_id?: String;
   marga_id?: String;
-  religion?: String;
-  jaati?: String;
+  religion_id?: String;
+  jaati_id?: String;
   mother_tongue?: String;
   main_occupation?: String;
   has_bank_acc?: String;
@@ -42,12 +44,14 @@ export interface IHousehold {
 export class Household {
   id: number;
   hoh_name?: String;
+  hoh_role?: String;
+  hoh_gender?: String;
   hoh?: String;
   ward_id?: String;
   basti_id?: String;
   marga_id?: String;
-  religion?: String;
-  jaati?: String;
+  religion_id?: String;
+  jaati_id?: String;
   mother_tongue?: String;
   main_occupation?: String;
   has_bank_acc?: String;
@@ -75,12 +79,14 @@ export class Household {
 
   constructor(data: IHousehold) {
     this.hoh_name = data.hoh_name;
+    this.hoh_role = data.hoh_role;
+    this.hoh_gender = data.hoh_gender;
     this.hoh = data.hoh;
     this.ward_id = data.ward_id;
     this.basti_id = data.basti_id;
     this.marga_id = data.marga_id;
-    this.religion = data.religion;
-    this.jaati = data.jaati;
+    this.religion_id = data.religion_id;
+    this.jaati_id = data.jaati_id;
     this.mother_tongue = data.mother_tongue;
     this.main_occupation = data.main_occupation;
     this.has_bank_acc = data.has_bank_acc;
@@ -105,6 +111,7 @@ export class Household {
     this.remarks = data.remarks;
     this.user_id = data.user_id;
     this.is_posted = data.is_posted;
+    if (data.id) this.id = data.id;
     db.households.mapToClass(Household);
   }
   save() {
@@ -113,8 +120,8 @@ export class Household {
 }
 
 export async function addNewHousehold(data: IHousehold) {
-  await db.transaction("rw", db.households, async function () {
-    await db.households.add(
+  return await db.transaction("rw", db.households, async function () {
+    return await db.households.add(
       new Household({...data})
     );
   });

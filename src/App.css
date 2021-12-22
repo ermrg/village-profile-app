@@ -77,9 +77,11 @@ a {
 }
 .form-group input {
   padding: 5px 15px;
-  font-size: 28px;
+  font-size: 20px;
   background: #fff;
   border-radius: 5px;
+  height: 40px;
+  margin-bottom: 20px;
 }
 .vp-form-wrapper {
   /* padding: 20px; */
@@ -87,7 +89,7 @@ a {
 .vp-form {
   overflow-y: scroll;
   height: 100vh;
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
 }
 .vp-form .form-group {
   display: flex;
@@ -104,13 +106,13 @@ a {
 .vp-form .form-group:nth-of-type(even) {
   background-color: #fff;
 }
-.vp-form .form-group.required{
-  border:2px solid red;
+.vp-form .form-group.required {
+  border: 2px solid red;
   border-radius: 5px;
 }
 .vp-form .form-group .label {
   font-weight: bold;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
 }
 .vp-form .form-group .options-verical {
   display: flex;
@@ -128,8 +130,17 @@ a {
   margin-right: 20px;
 }
 
-.save-btns{
+.save-btns {
   position: absolute;
   bottom: 10px;
   right: 10px;
+}
+
+div.dropdown-menu.open {
+  max-height: 10px !important;
+  overflow: hidden;
+}
+ul.dropdown-menu.inner {
+  max-height: 10px !important;
+  overflow-y: auto;
 }

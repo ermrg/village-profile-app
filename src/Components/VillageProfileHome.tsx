@@ -23,18 +23,18 @@ export default function VillageProfileHome() {
   const [error, setError] = useState("");
   useEffect(() => {
     checkUser();
-    checkGeoLocation();
+    // checkGeoLocation();
   }, []);
 
-  const checkGeoLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((positions: any) => {
-        console.log(positions);
-      });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  };
+  // const checkGeoLocation = () => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((positions: any) => {
+  //       console.log(positions);
+  //     });
+  //   } else {
+  //     console.log("Geolocation is not supported by this browser.");
+  //   }
+  // };
 
   const handleValueChance = (e: any) => {
     e.persist();
