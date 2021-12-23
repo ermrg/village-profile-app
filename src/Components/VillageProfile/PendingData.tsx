@@ -7,6 +7,7 @@ import {
   updateHousehold,
 } from "../../db/models/Household";
 import { getAllUsers, IUser } from "../../db/models/UserModel";
+import AddNewData from "./AddNewData";
 
 export default function AllData() {
   const [households, setHousholds] = useState([] as IHousehold[]);
@@ -19,10 +20,11 @@ export default function AllData() {
   }, []);
 
   const getHouseholds = async (auth_: IUser) => {
+    // console.log(auth_);
     let hhs = await getPendingHouseholds(auth_.id ? auth_.id.toString() : "");
     setHousholds([...hhs]);
   };
-  console.log('s');
+  console.log(households);
   const postHousehold = async (hh: any) => {
     if (window.navigator.onLine) {
       let res = await api.postHousehold(hh);
@@ -40,7 +42,7 @@ export default function AllData() {
   const checkUser = async () => {
     let auth_ = await getAllUsers();
     if (auth_.length) {
-      setAuth({...auth_[0]});
+      setAuth({ ...auth_[0] });
       getHouseholds(auth_[0]);
     }
   };
@@ -56,7 +58,7 @@ export default function AllData() {
         <thead>
           <tr>
             <th>SN</th>
-            <th>Household Id</th>
+            <th>Id</th>
             <th>Ward</th>
             <th>Posted</th>
             <th>Action</th>
@@ -80,13 +82,15 @@ export default function AllData() {
                   {hh.is_posted == "0" && (
                     <>
                       <button
-                        className="btn btn-warning"
-                        onClick={() => postHousehold(hh)}
+                        className="btn btn-warning btn-sm"
+                        onClick={() =>
+                          history.push("/village-profile-app/app/edit/" + hh.id)
+                        }
                       >
                         Edit
                       </button>
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-primary btn-sm"
                         onClick={() => postHousehold(hh)}
                       >
                         Post

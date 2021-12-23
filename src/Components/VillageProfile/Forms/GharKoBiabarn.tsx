@@ -1,18 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IBasti } from "../../../db/models/BastiModel";
+import { IHousehold } from "../../../db/models/Household";
 import { IMarga } from "../../../db/models/MargaModel";
 import { IWard } from "../../../db/models/WardModel";
-import { gender_choice, hoh_roles } from "../../../enums";
+import { gender_choice, hoh_roles, mother_tongues } from "../../../enums";
 
 let initialCoords = {
   latitude: 0,
   longitude: 0,
 };
 export default function GharKoBiabarn(props: any) {
-  let { data, bastis, wards, margas, household, jaatis, dharmas } = props;
+  let { data, bastis, wards, margas, hh, jaatis, dharmas } = props;
   let { handleChange } = props;
   const [geoLocation, setGeoLocation] = useState({ ...initialCoords } as any);
-
+  const [household, setHousehold] = useState({ ...hh } as IHousehold);
+  useEffect(() => {
+    setHousehold({ ...hh });
+  }, [hh]);
   const checkRequired = (id: number) => {
     let requiredFields = data?.requiredFields || [];
     return requiredFields.indexOf(id) > -1;
@@ -109,19 +113,25 @@ export default function GharKoBiabarn(props: any) {
         id="1"
       >
         <label className="label">1. वडाको नाम</label>
-        <div className="options-verical" onChange={(e) => handleChange(e)}>
+        <div className="options-verical">
           {wards.map((w: IWard, key: any) => (
             <div className="radio" key={key}>
               <label>
-                {household.ward_id == w.id ? (
+                {household.ward_id == w.id.toString() ? (
                   <input
                     type="radio"
                     value={w.id}
                     name="ward_id"
                     defaultChecked
+                    onChange={(e) => handleChange(e)}
                   />
                 ) : (
-                  <input type="radio" value={w.id} name="ward_id" />
+                  <input
+                    type="radio"
+                    value={w.id}
+                    name="ward_id"
+                    onChange={(e) => handleChange(e)}
+                  />
                 )}
                 {w.name}
               </label>
@@ -135,19 +145,25 @@ export default function GharKoBiabarn(props: any) {
         id="2"
       >
         <label className="label">2. टोलको नाम</label>
-        <div className="options-verical" onChange={(e) => handleChange(e)}>
+        <div className="options-verical">
           {bastis.map((b: IBasti, key: any) => (
             <div className="radio" key={key}>
               <label>
-                {household.basti_id == b.id ? (
+                {household.basti_id == b.id.toString() ? (
                   <input
                     type="radio"
                     value={b.id}
                     name="basti_id"
                     defaultChecked
+                    onChange={(e) => handleChange(e)}
                   />
                 ) : (
-                  <input type="radio" value={b.id} name="basti_id" />
+                  <input
+                    type="radio"
+                    value={b.id}
+                    name="basti_id"
+                    onChange={(e) => handleChange(e)}
+                  />
                 )}
                 {b.name}
               </label>
@@ -161,19 +177,25 @@ export default function GharKoBiabarn(props: any) {
         id="3"
       >
         <label className="label">3. मार्गको नाम</label>
-        <div className="options-verical" onChange={(e) => handleChange(e)}>
+        <div className="options-verical">
           {margas.map((m: IMarga, key: any) => (
             <div className="radio" key={key}>
               <label>
-                {household.marga_id == m.id ? (
+                {household.marga_id == m.id.toString() ? (
                   <input
                     type="radio"
                     value={m.id}
                     name="marga_id"
                     defaultChecked
+                    onChange={(e) => handleChange(e)}
                   />
                 ) : (
-                  <input type="radio" value={m.id} name="marga_id" />
+                  <input
+                    type="radio"
+                    value={m.id}
+                    name="marga_id"
+                    onChange={(e) => handleChange(e)}
+                  />
                 )}
                 {m.name}
               </label>
@@ -181,7 +203,7 @@ export default function GharKoBiabarn(props: any) {
           ))}
         </div>
       </div>
-      
+
       <div
         className={`form-group ${data && checkRequired(4) ? "required" : ""}`}
         id="4"
@@ -192,8 +214,8 @@ export default function GharKoBiabarn(props: any) {
             onChange={(e) => handleChange(e)}
             type="text"
             className="form-control"
-            value={household.house_no ?? ""}
-            name="house_no"
+            value={household.house_num ?? ""}
+            name="house_num"
           />
         </div>
         <label className="label">5. घरमुलीको नाम</label>
@@ -207,7 +229,7 @@ export default function GharKoBiabarn(props: any) {
           />
         </div>
         <label className="label">6. घरमुली</label>
-        <div className="options-verical" onChange={(e) => handleChange(e)}>
+        <div className="options-verical">
           {hoh_roles.map((m: any, key: any) => (
             <div className="radio" key={key}>
               <label>
@@ -217,71 +239,106 @@ export default function GharKoBiabarn(props: any) {
                     value={m.value}
                     name="hoh_role"
                     defaultChecked
+                    onChange={(e) => handleChange(e)}
                   />
                 ) : (
-                  <input type="radio" value={m.value} name="hoh_role" />
+                  <input
+                    type="radio"
+                    value={m.value}
+                    name="hoh_role"
+                    onChange={(e) => handleChange(e)}
+                  />
                 )}
-                {m.key}
+                {m.label}
               </label>
             </div>
           ))}
         </div>
         <label className="label">7. घरमुलीको लिंग</label>
-        <div className="options-verical" onChange={(e) => handleChange(e)}>
+        <div className="options-verical">
           {gender_choice.map((m: any, key: any) => (
             <div className="radio" key={key}>
               <label>
-                {household.hoh_role == m.value ? (
+                {household.hoh_gender == m.value ? (
                   <input
                     type="radio"
                     value={m.value}
                     name="hoh_gender"
+                    onChange={(e) => handleChange(e)}
                     defaultChecked
                   />
                 ) : (
-                  <input type="radio" value={m.value} name="hoh_gender" />
+                  <input
+                    type="radio"
+                    value={m.value}
+                    name="hoh_gender"
+                    onChange={(e) => handleChange(e)}
+                  />
                 )}
-                {m.key}
+                {m.label}
               </label>
             </div>
           ))}
         </div>
         <label className="label">8. जाति</label>
-        <div className="options-verical" onChange={(e) => handleChange(e)}>
-          <select className="form-control" name="jaati_id" required>
-            <option value={""} key={"-1"} selected>
+        <div className="options-verical">
+          <select
+            className="form-control"
+            name="jaati_id"
+            required
+            onChange={(e) => handleChange(e)}
+            value={household.jaati_id ? household.jaati_id : ""}
+          >
+            <option value={""} key={"jaati-1"}>
               ------ जाति ------
             </option>
-            {jaatis.map((d: any, key: any) =>
-              household.jaati_id == d.id ? (
-                <option value={d.id} key={key} selected>
-                  {d.name}
-                </option>
-              ) : (
-                <option value={d.id} key={key}>
-                  {d.name}
-                </option>
-              )
-            )}
+            {jaatis.map((d: any, key: any) => (
+              <option value={d.id} key={"jaati" + key}>
+                {d.name}
+              </option>
+            ))}
           </select>
         </div>
         <label className="label">9. धर्म</label>
-        <div className="options-verical" onChange={(e) => handleChange(e)}>
-          <select className="form-control" name="religion_id" required>
-            <option value={""} key={"-1"} selected>
+        <div className="options-verical">
+          <select
+            className="form-control"
+            name="religion_id"
+            required
+            value={household.religion_id ? household.religion_id : ""}
+            onChange={(e) => handleChange(e)}
+          >
+            <option value={""} key={"religion-1"}>
               ------ धर्म ------
             </option>
-            {dharmas.map((d: any, key: any) =>
-              household.religion_id == d.id ? (
-                <option value={d.id} key={key} selected>
-                  {d.name}
-                </option>
-              ) : (
-                <option value={d.id} key={key}>
-                  {d.name}
-                </option>
-              )
-            )}
+            {dharmas.map((d: any, key: any) => (
+              <option value={d.id} key={"religion" + key}>
+                {d.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <label className="label">10. मातृभाषा:</label>
+        <div className="options-verical">
+          <select
+            className="form-control"
+            value={
+              household.mother_tongue_id
+                ? household.mother_tongue_id.toString()
+                : ""
+            }
+            name="mother_tongue_id"
+            onChange={(e) => handleChange(e)}
+          >
+            <option value={""} key={"मातृभाषा-1"}>
+              ------ मातृभाषा ------
+            </option>
+            {mother_tongues.map((option, key) => (
+              <option value={option.value} key={"relation_with_hoh" + key}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -290,17 +347,17 @@ export default function GharKoBiabarn(props: any) {
         className={`form-group ${data && checkRequired(5) ? "required" : ""}`}
         id="5"
       >
-        <label className="label">10. परिवार संख्याः</label>
+        <label className="label">11. परिवार संख्याः</label>
         <div className="options-verical">
           <input
             onChange={(e) => handleChange(e)}
             type="number"
             className="form-control"
-            value={household.num_of_member ?? ""}
+            defaultValue={household.num_of_member ?? ""}
             name="num_of_member"
           />
         </div>
-        <label className="label">11. घरमूलीको फोटोः</label>
+        <label className="label">12. घरमूलीको फोटोः</label>
         <div className="options-verical">
           <video
             id="video"
@@ -342,20 +399,20 @@ export default function GharKoBiabarn(props: any) {
             घरमूलीको फोटो
           </button>
         </div>
-        <label className="label">12. घरको जियो कोड:</label>
+        <label className="label">13. घरको जियो कोड:</label>
         <div className="options-verical">
           {parseFloat(household.latitude) > 0 &&
           parseFloat(household.longitude) > 0 ? (
             <>
               <input
-                // onChange={(e) => handleChange(e)}
+                onChange={null}
                 type="number"
                 className="form-control geo-field-add-lat"
                 value={household.latitude}
                 name="latitude"
               />
               <input
-                // onChange={(e) => handleChange(e)}
+                onChange={null}
                 type="number"
                 className="form-control geo-field-add-long"
                 value={household.longitude}
@@ -365,17 +422,17 @@ export default function GharKoBiabarn(props: any) {
           ) : (
             <>
               <input
-                // onChange={(e) => handleChange(e)}
+                onChange={null}
                 type="text"
                 className="form-control geo-field-add-lat"
-                value={geoLocation.latitude}
+                defaultValue={geoLocation.latitude}
                 name="latitude"
               />
               <input
-                // onChange={(e) => handleChange(e)}
+                onChange={null}
                 type="text"
                 className="form-control geo-field-add-long"
-                value={geoLocation.longitude}
+                defaultValue={geoLocation.longitude}
                 name="longitude"
               />
             </>

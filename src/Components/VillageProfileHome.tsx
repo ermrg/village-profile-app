@@ -60,7 +60,6 @@ export default function VillageProfileHome() {
 
   const checkUser = async () => {
     let auth = await getAllUsers();
-    console.log(auth);
     if (auth.length) {
       setAuth({ ...auth[0] });
     }

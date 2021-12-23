@@ -32,6 +32,7 @@ a {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  text-align: center;
 }
 .vp-home .welcome {
   position: absolute;
@@ -80,7 +81,7 @@ a {
   font-size: 20px;
   background: #fff;
   border-radius: 5px;
-  height: 40px;
+  /* height: 40px; */
   margin-bottom: 20px;
 }
 .vp-form-wrapper {
@@ -112,7 +113,7 @@ a {
 }
 .vp-form .form-group .label {
   font-weight: bold;
-  /* margin-bottom: 40px; */
+  margin-top: 20px;
 }
 .vp-form .form-group .options-verical {
   display: flex;
@@ -121,6 +122,7 @@ a {
 .vp-form .form-group .options-horizontal {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
 }
 .vp-form .form-group .radio {
   display: flex;

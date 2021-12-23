@@ -7,6 +7,7 @@ import VillageProfileHome from "./Components/VillageProfileHome";
 import "./App.css"
 import { db } from "./db/db";
 import AllData from "./Components/VillageProfile/AllData";
+import EditHousehold from "./Components/VillageProfile/EditHousehold";
 
 export default function App() {
   db.open();
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/village-profile-app/app/add-new">
           <AddNewData data={{}} />
         </Route>
+        <Route path="/village-profile-app/app/edit/:id" children={<EditHousehold />}/>
         <Route path="/village-profile-app/app/pending">
           <PendingData />
         </Route>

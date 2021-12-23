@@ -9,6 +9,13 @@ import {
 } from "../../db/models/Household";
 import { getAllJaatis, IJaati } from "../../db/models/JaatiModel";
 import { getMargaByBastiId, IMarga } from "../../db/models/MargaModel";
+import {
+  addNewMember,
+  getMembersbyHousehold,
+  IMember,
+  updateMember,
+} from "../../db/models/Member";
+import { getAllOccupations, IOccupation } from "../../db/models/Occupation";
 import { getAllUsers, IUser } from "../../db/models/UserModel";
 import { getAllWards, IWard } from "../../db/models/WardModel";
 import GharKoBiabarn from "./Forms/GharKoBiabarn";
@@ -19,26 +26,43 @@ export default function AddNewData(props: any) {
   // To edit send data.household
   const history = useHistory();
   let { data } = props;
+
   const [auth, setAuth] = useState({} as IUser);
   const [wards, setWards] = useState([] as IWard[]);
   const [bastis, setBastis] = useState([] as IBasti[]);
   const [margas, setMargas] = useState([] as IMarga[]);
   const [jaatis, setJaatis] = useState([] as IJaati[]);
   const [dharmas, setDharmas] = useState([] as IDharma[]);
-  const [household, setHousehold] = useState({
-    ...data.household,
-  } as IHousehold);
+  const [household, setHousehold] = useState({} as IHousehold);
+  const [members, setMembers] = useState([] as IMember[]);
+  const [occupations, setOccupations] = useState([] as IOccupation[]);
   data.requiredFields = requiredFields;
   useEffect(() => {
     checkUser();
     loadAllWada();
     loadJaatiAndDharma();
-  }, []);
+    setHousehold({ ...data.household });
+    if (data.household) {
+      if (data.household.ward_id) {
+        loadBastiByWadaId(data.household.ward_id);
+      }
+      if (data.household.basti_id) {
+        loadMargaByBastiId(data.household.basti_id);
+      }
+      if (data.household.id) {
+        loadMembersByHoushold(data.household.id);
+      }
+    }
+  }, [data]);
+  const loadMembersByHoushold = async (household_id: string) => {
+    let mems = await getMembersbyHousehold(household_id);
+    setMembers([...mems]);
+  };
 
   const checkUser = async () => {
-    let auth = await getAllUsers();
-    if (auth.length) {
-      setAuth({ ...auth[0] });
+    let auth_ = await getAllUsers();
+    if (auth_.length) {
+      setAuth({ ...auth_[0] });
     }
   };
 
@@ -52,23 +76,19 @@ export default function AddNewData(props: any) {
     setJaatis([...jaatis_]);
     let dharmas_ = await getAllDharmas();
     setDharmas([...dharmas_]);
+    let occupations_ = await getAllOccupations();
+    console.log(occupations_);
+    setOccupations([...occupations_])
   };
 
   const saveAndExitHousehold = async () => {
-    await addNewHousehold({
-      ...household,
-      status: "0",
-      is_posted: "0",
-      user_id: auth.id?.toString(),
-    });
-    history.push("/village-profile-app/app");
-  };
-  const saveHousehold = async () => {
+    let hh_id: any;
     if (household.id) {
+      hh_id = household.id;
       await updateHousehold(household);
       console.log("Updated!");
     } else {
-      let hh = await addNewHousehold({
+      hh_id = await addNewHousehold({
         ...household,
         status: "0",
         is_posted: "0",
@@ -76,30 +96,72 @@ export default function AddNewData(props: any) {
       });
       setHousehold((household) => ({
         ...household,
-        id: hh,
+        id: hh_id,
+        is_posted: "0",
+        user_id: auth.id?.toString(),
       }));
       console.log("Saved!");
     }
+    await saveMembers(hh_id);
+    history.push("/village-profile-app/app");
   };
 
-  const loadBastiByWadaId = async (e: any) => {
-    let wardId = e.target.value;
+  const saveHousehold = async () => {
+    let hh_id: any;
+    if (household.id) {
+      hh_id = household.id;
+      await updateHousehold(household);
+      console.log("Updated!");
+    } else {
+      hh_id = await addNewHousehold({
+        ...household,
+        status: "0",
+        is_posted: "0",
+        user_id: auth.id?.toString(),
+      });
+      setHousehold((household) => ({
+        ...household,
+        id: hh_id,
+        is_posted: "0",
+        user_id: auth.id?.toString(),
+      }));
+      console.log("Saved!");
+    }
+    await saveMembers(hh_id);
+  };
+
+  const saveMembers = async (hh_id: any) => {
+    let memberList = members;
+    if (members.length) {
+      members.map(async (m, key) => {
+        if (m.id) {
+          await updateMember(m);
+        } else {
+          m.hh_id = hh_id;
+          let m_id = await addNewMember(m);
+          memberList[key].id = m_id;
+        }
+      });
+      setMembers([...memberList]);
+    }
+  };
+
+  const loadBastiByWadaId = async (wardId: any) => {
     let bastis = await getBastiByWardId(wardId);
     setBastis([...bastis]);
   };
 
-  const loadMargaByBastiId = async (e: any) => {
-    let bastiId = e.target.value;
+  const loadMargaByBastiId = async (bastiId: any) => {
     let margas = await getMargaByBastiId(bastiId);
     setMargas([...margas]);
   };
 
   const handleChange = (e: any) => {
     if (e.target.name === "ward_id") {
-      loadBastiByWadaId(e);
+      loadBastiByWadaId(e.target.value);
     }
     if (e.target.name === "basti_id") {
-      loadMargaByBastiId(e);
+      loadMargaByBastiId(e.target.value);
     }
     setHousehold((household) => ({
       ...household,
@@ -107,10 +169,14 @@ export default function AddNewData(props: any) {
     }));
   };
 
-  const handleMemberChange = (e: any) => {
-    console.log(e.target.value);
+  const handleMemberChange = (index: number, name: string, value: string) => {
+    let mem = members.length > index ? members[index] : ({} as any);
+    mem[name] = value;
+    let newMemberList = members;
+    newMemberList[index] = mem;
+    setMembers([...newMemberList]);
   };
-  console.log(household);
+  console.log(household, members);
   return (
     <div className="vp-form-wrapper">
       <div className="save-btns">
@@ -120,7 +186,7 @@ export default function AddNewData(props: any) {
       <div className="vp-form">
         <GharKoBiabarn
           data={data}
-          household={household}
+          hh={household}
           handleChange={handleChange}
           wards={wards}
           bastis={bastis}
@@ -131,9 +197,14 @@ export default function AddNewData(props: any) {
         <PariwarKoBibaran
           data={data}
           household={household}
+          mems={members}
           handleMemberChange={handleMemberChange}
           saveHousehold={saveHousehold}
+          occupations={occupations}
         />
+        <div className="form-group" style={{height: '50vh'}}>
+          <div className="vp-home">Complete. <br/>Please Click 'Save & Exit'</div>;
+        </div>
       </div>
     </div>
   );

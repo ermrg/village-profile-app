@@ -10,6 +10,7 @@ const api = {
   loadBasti: (office_id: String) => axios.get(`${server}bastis/`, {params: {office_id: office_id}}),
   loadJaati: () => axios.get(`${server}jaatis/`),
   loadDharma: () => axios.get(`${server}dharmas/`),
+  loadOccupations: () => axios.get(`${server}occupations/`),
   login: (auth: IUser) => axios.post(`${server}login/`, { data: auth }),
   
   postHousehold: (data: any) => axios.post(`${server}post-household/`, { data }),

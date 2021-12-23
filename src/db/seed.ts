@@ -3,6 +3,7 @@ import { addNewBasti, getBastiByName } from "./models/BastiModel";
 import { addNewDharma, getDharmaByName } from "./models/DharmaModel";
 import { addNewJaati, getJaatiByName } from "./models/JaatiModel";
 import { addNewMarga, getMargaByName } from "./models/MargaModel";
+import { addNewOccupation, getOccupationByName } from "./models/Occupation";
 import { addNewWard, getWardByName } from "./models/WardModel";
 
 export async function getWadas(office_id: String) {
@@ -50,7 +51,13 @@ export async function getMargas(office_id: String) {
     margas.map(async (m: any) => {
       let checkMarga = await getMargaByName(m.name);
       if (checkMarga.length === 0) {
-        await addNewMarga({ id: m.id, name: m.name, bastiId: m.basti_id, wardId: m.wardId, status: m.status });
+        await addNewMarga({
+          id: m.id,
+          name: m.name,
+          bastiId: m.basti_id,
+          wardId: m.wardId,
+          status: m.status,
+        });
       }
     });
     console.log(margas.length, " Marga Synced.");
@@ -87,6 +94,21 @@ export async function getDharma() {
   }
 }
 
+export async function getOccupation() {
+  console.log("Synchronizing Occupation...");
+  let res = await api.loadOccupations();
+  if (res.status === 200) {
+    let occupations = res.data;
+    occupations.map(async (m: any) => {
+      let checkDharma = await getOccupationByName(m.name);
+      if (checkDharma.length === 0) {
+        await addNewOccupation({ ...m });
+      }
+    });
+    console.log(occupations.length, " Occupation Synced.");
+  }
+}
+
 export async function syncDb(data: any) {
   if (window.navigator.onLine) {
     await getWadas(data.office_id);
@@ -94,5 +116,6 @@ export async function syncDb(data: any) {
     await getMargas(data.office_id);
     await getJaati();
     await getDharma();
+    await getOccupation();
   }
 }

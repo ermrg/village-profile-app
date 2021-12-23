@@ -5,6 +5,7 @@ import { IHousehold } from "./models/Household";
 import { IJaati } from "./models/JaatiModel";
 import { IMarga } from "./models/MargaModel";
 import { IMember } from "./models/Member";
+import { IOccupation } from "./models/Occupation";
 import { IUser } from "./models/UserModel";
 import { IWard } from "./models/WardModel";
 
@@ -15,6 +16,7 @@ export class AppDatabase extends Dexie {
   margas: Dexie.Table<IMarga>;
   jaatis: Dexie.Table<IJaati>;
   dharmas: Dexie.Table<IDharma>;
+  occupations: Dexie.Table<IOccupation>;
   households: Dexie.Table<IHousehold>;
   members: Dexie.Table<IMember>;
 
@@ -39,6 +41,7 @@ export class AppDatabase extends Dexie {
       margas: "id, name, status, wardId, bastiId",
       jaatis: "id, name, status",
       dharmas: "id, name, status",
+      occupations: "id, name, status",
       households: "++id, name, phone, password, [user_id+is_posted]",
       members: "++id, name, hh_id",
     });

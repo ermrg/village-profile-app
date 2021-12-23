@@ -46,8 +46,8 @@ export default function AllData() {
         <thead>
           <tr>
             <th>SN</th>
-            <th>Household Id</th>
-            <th>Ward</th>
+            <th>Id</th>
+            <th>User</th>
             <th>Posted</th>
             <th>Action</th>
           </tr>
@@ -58,12 +58,12 @@ export default function AllData() {
               <tr key={key}>
                 <td>{++key}</td>
                 <td>{hh.id}</td>
-                <td>{hh.ward_id}</td>
+                <td>{hh.user_id}</td>
                 <td>
                   {hh.is_posted == "1" ? (
-                    <label className="badge badge-success">YES</label>
+                    <label className="badge badge-success">YES{hh.is_posted}</label>
                   ) : (
-                    <label className="badge badge-danger">NO</label>
+                    <label className="badge badge-danger">NO{hh.is_posted}</label>
                   )}
                 </td>
                 <td>
