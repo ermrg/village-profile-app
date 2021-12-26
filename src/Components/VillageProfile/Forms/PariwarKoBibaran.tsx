@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { IMember, ITrainingDetail, IVehicle } from "../../../db/models/Member";
 import {
+  disability_card_types,
+  disability_types,
+  disease_names,
   education_levels,
   education_statuses,
   marital_statuses,
@@ -605,7 +608,9 @@ export default function PariwarKoBibaran(props: any) {
                     <button
                       className="btn btn-outline-success btn-block"
                       key={ts_key}
-                      onClick={() => saveVehicle(m, "remove", v.vehicle_type_name)}
+                      onClick={() =>
+                        saveVehicle(m, "remove", v.vehicle_type_name)
+                      }
                     >
                       {v.vehicle_type_name} - {v.count}
                     </button>
@@ -632,17 +637,17 @@ export default function PariwarKoBibaran(props: any) {
                       </option>
                     ))}
                   </select>
-                  <label className="label">b.  कति? </label>
+                  <label className="label">b. कति? </label>
                   <div className="options-vertical">
-                      <input
-                        type="number"
-                        className="form-control"
-                        name="count"
-                        key={"b.  कति?" + key}
-                        onChange={handleVehicleChange}
-                        placeholder="Ex: 1"
-                        value={1}
-                      />
+                    <input
+                      type="number"
+                      className="form-control"
+                      name="count"
+                      key={"b.  कति?" + key}
+                      onChange={handleVehicleChange}
+                      placeholder="Ex: 1"
+                      value={1}
+                    />
                   </div>
                   <button
                     onClick={() => saveVehicle(m, "add")}
@@ -653,7 +658,373 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               </div>
             )}
+            <label className="label">30. स्वास्थ्य बिमा गरिएको छ ? </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="has_health_insurance"
+                key={"स्वास्थ्य बिमा गरिएको छ.?" + key}
+                value={
+                  members.length > m && members[m].has_health_insurance
+                    ? members[m].has_health_insurance.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "has_health_insurance", e.target.value)
+                }
+              >
+                <option value={"0"}>छैन</option>
+                <option value={"1"}>छ</option>
+              </select>
+            </div>
 
+            <label className="label">31. जिमा बिमा गरिएको छ ? </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="has_life_insurance"
+                key={"जिमा बिमा गरिएको छ ?" + key}
+                value={
+                  members.length > m && members[m].has_life_insurance
+                    ? members[m].has_life_insurance.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "has_life_insurance", e.target.value)
+                }
+              >
+                <option value={"0"}>छैन</option>
+                <option value={"1"}>छ</option>
+              </select>
+            </div>
+
+            <label className="label">32. बैंकमा खाता छ? </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="has_bank_account"
+                key={"बैंकमा खाता छ?" + key}
+                value={
+                  members.length > m && members[m].has_bank_account
+                    ? members[m].has_bank_account.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "has_bank_account", e.target.value)
+                }
+              >
+                <option value={"0"}>छैन</option>
+                <option value={"1"}>छ</option>
+              </select>
+            </div>
+
+            <label className="label">33. सहकारीमा सदस्य हुनुहुन्छ? </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="has_cooperative_account"
+                key={"सहकारीमा सदस्य हुनुहुन्छ?" + key}
+                value={
+                  members.length > m && members[m].has_cooperative_account
+                    ? members[m].has_cooperative_account.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(
+                    m,
+                    "has_cooperative_account",
+                    e.target.value
+                  )
+                }
+              >
+                <option value={"0"}>छैन</option>
+                <option value={"1"}>छ</option>
+              </select>
+            </div>
+
+            <label className="label">34. तपाई पेन्सन बुझ्नुहुन्छ? </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="has_pension"
+                key={"तपाई पेन्सन बुझ्नुहुन्छ?" + key}
+                value={
+                  members.length > m && members[m].has_pension
+                    ? members[m].has_pension.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "has_pension", e.target.value)
+                }
+              >
+                <option value={"0"}>छैन</option>
+                <option value={"1"}>छ</option>
+              </select>
+            </div>
+            {members.length > m && members[m].has_pension == "1" && (
+              <>
+                <label className="label">a. पेन्सन आम्दानी मासिक (रू.) </label>
+                <div className="options-vertical">
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="pension_income"
+                    key={"पेन्सन आम्दानी मासिक (रू.)" + key}
+                    onChange={(e) =>
+                      handleMemberChange(m, "pension_income", e.target.value)
+                    }
+                    placeholder="Ex: 25000"
+                    defaultValue={
+                      members[m].pension_income ? members[m].pension_income : ""
+                    }
+                  />
+                </div>
+              </>
+            )}
+
+            <label className="label">35. अपाङ्ता छ? </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="has_disability"
+                key={"अपाङ्ता छ?" + key}
+                value={
+                  members.length > m && members[m].has_disability
+                    ? members[m].has_disability.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "has_disability", e.target.value)
+                }
+              >
+                <option value={"0"}>छैन</option>
+                <option value={"1"}>छ</option>
+              </select>
+            </div>
+
+            {members.length > m && members[m].has_disability == "1" && (
+              <>
+                <label className="label">a. अपाङ्गताको प्रकार: </label>
+                <div className="options-vertical">
+                  <select
+                    className="form-control"
+                    name="disability_type_id"
+                    key={"अपाङ्गताको प्रकार:" + key}
+                    value={
+                      members.length > m && members[m].disability_type_id
+                        ? members[m].disability_type_id.toString()
+                        : "0"
+                    }
+                    onChange={(e) =>
+                      handleMemberChange(
+                        m,
+                        "disability_type_id",
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option value={""}>----------</option>
+                    {disability_types.map((dt: any, keydt: any) => (
+                      <option
+                        value={dt.value}
+                        key={keydt + "disability_type_id कार्डः"}
+                      >
+                        {dt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <label className="label">b. अपाङ्गताको कार्डः </label>
+                <div className="options-vertical">
+                  <select
+                    className="form-control"
+                    name="disability_card_id"
+                    key={"अपाङ्गताको कार्डः" + key}
+                    value={
+                      members.length > m && members[m].disability_card_id
+                        ? members[m].disability_card_id.toString()
+                        : "0"
+                    }
+                    onChange={(e) =>
+                      handleMemberChange(
+                        m,
+                        "disability_card_id",
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option value={""}>----------</option>
+                    {disability_card_types.map((dt: any, keydt: any) => (
+                      <option
+                        value={dt.value}
+                        key={keydt + "अपाङ्गताको कार्डः"}
+                      >
+                        {dt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
+
+            <label className="label">36. रोग छ? </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="has_chronic_disease"
+                key={"रोग छ?" + key}
+                value={
+                  members.length > m && members[m].has_chronic_disease
+                    ? members[m].has_chronic_disease.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "has_chronic_disease", e.target.value)
+                }
+              >
+                <option value={"0"}>छैन</option>
+                <option value={"1"}>छ</option>
+              </select>
+            </div>
+
+            {members.length > m && members[m].has_chronic_disease == "1" && (
+              <>
+                <label className="label">a. रोगको नाम: </label>
+                <div className="options-vertical">
+                  <select
+                    className="form-control"
+                    name="disease_name"
+                    key={"रोगको नाम:" + key}
+                    value={
+                      members.length > m && members[m].disease_name
+                        ? members[m].disease_name.toString()
+                        : "0"
+                    }
+                    onChange={(e) =>
+                      handleMemberChange(m, "disease_name", e.target.value)
+                    }
+                  >
+                    <option value={""}>----------</option>
+                    {disease_names.map((dt: any, keydt: any) => (
+                      <option
+                        value={dt.value}
+                        key={keydt + "disability_type_id disease_name"}
+                      >
+                        {dt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <label className="label">b. उपचारको अवस्थाः </label>
+                <div className="options-vertical">
+                  <select
+                    className="form-control"
+                    name="treatment_condition"
+                    key={"उपचारको अवस्थाः" + key}
+                    value={
+                      members.length > m && members[m].treatment_condition
+                        ? members[m].treatment_condition.toString()
+                        : "0"
+                    }
+                    onChange={(e) =>
+                      handleMemberChange(
+                        m,
+                        "treatment_condition",
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option value={""}>----------</option>
+                    <option value={"औषधी गरिरहेको"}>औषधी गरिरहेको</option>
+                    <option value={"नगरेको"}>नगरेको</option>
+                    <option value={"छाडेको"}>छाडेको</option>
+                  </select>
+                </div>
+              </>
+            )}
+
+            <label className="label">
+              37. तपाईलाई कोरोना सक्रमण वा शंका लागेको थियो ?{" "}
+            </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="covid_infection_status"
+                key={"तपाईलाई कोरोना सक्रमण वा शंका लागेको थियो ?" + key}
+                value={
+                  members.length > m && members[m].covid_infection_status
+                    ? members[m].covid_infection_status.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(
+                    m,
+                    "covid_infection_status",
+                    e.target.value
+                  )
+                }
+              >
+                <option value={"सक्रमण भएको"}>सक्रमण भएको</option>
+                <option value={"सक्रमण नभएको"}>सक्रमण नभएको</option>
+                <option value={"शंका लागेको"}>शंका लागेको</option>
+              </select>
+            </div>
+
+            <label className="label">38. कोभिड भ्याक्सिन लगाएको/ नलगाएको</label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="has_covid_vaccine"
+                key={"कोभिड भ्याक्सिन लगाएको/ नलगाएको" + key}
+                value={
+                  members.length > m && members[m].has_covid_vaccine
+                    ? members[m].has_covid_vaccine.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "has_covid_vaccine", e.target.value)
+                }
+              >
+                <option value={"0"}>नलगाएको</option>
+                <option value={"1"}>लगाएको</option>
+              </select>
+            </div>
+
+            {members.length > m && members[m].has_covid_vaccine == "1" && (
+              <>
+                <label className="label">a. कुन भ्याक्सिन? </label>
+                <div className="options-vertical">
+                  <select
+                    className="form-control"
+                    name="covid_vaccine_status"
+                    key={"रोगको नाम:" + key}
+                    value={
+                      members.length > m && members[m].covid_vaccine_status
+                        ? members[m].covid_vaccine_status.toString()
+                        : "0"
+                    }
+                    onChange={(e) =>
+                      handleMemberChange(
+                        m,
+                        "covid_vaccine_status",
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option value={""}>----------</option>
+                    <option value={"भेरोसेल(पहिलो डोज)"}>भेरोसेल (पहिलो दोस्रो)</option>
+                    <option value={"भेरोसेल(दुवै डोज)"}>भेरोसेल दुवै डोज</option>
+                    <option value={"जोनसन"}>जोनसन</option>
+                    <option value={"कोभिसिल्ड(पहिलो डोज)"}>कोभिसिल्ड ( पहिलो डोज)</option>
+                    <option value={"एस्ट्राजेनिका(पहिलो डोज)"}>एस्ट्राजेनिका ( पहिलो  डोज)</option>
+                    <option value={"कोभिसिल्ड(दुबै डोज)"}>कोभिसिल्ड(दुबै डोज)</option>
+                    <option value={"एस्ट्राजेनिका(दुबै डोज)"}>एस्ट्राजेनिका(दुबै डोज)</option>
+                  </select>
+                </div>
+              </>
+            )}
           </div>
         </>
       ))}

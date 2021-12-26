@@ -39,7 +39,7 @@ export interface IMember {
 
   spouse?: String;
   guardian?: String;
-  has_disability?: String;
+  has_disability?: string;
   has_chronic_disease?: String;
   has_technical_training?: string;
   foreign_stay?: String;
@@ -47,15 +47,25 @@ export interface IMember {
   is_vaccinated?: String;
   is_hoh?: String;
   bank_account?: String;
-  disability_card?: String;
-  disability_type?: String;
+  disability_card_id?: String;
+  disability_type_id?: String;
   country_visited?: String;
   technical_skills?: ITrainingDetail[];
   vehicles?: IVehicle[];
   has_vehicle?: string;
+  has_bank_account?: string;
+  has_health_insurance?: string;
+  has_life_insurance?: string;
+  has_cooperative_account?: string;
+  has_pension?: string;
+  pension_income?: string;
+  has_covid_vaccine?: string;
+  covid_vaccine_status?: string;
+  covid_infection_status?: string;
   vaccine_name?: String;
   foreign_reason?: String;
   disease_name?: String;
+  treatment_condition?: String;
   status?: String;
   remarks?: String;
   user_id?: String;
@@ -87,7 +97,7 @@ export class Member {
 
   spouse?: String;
   guardian?: String;
-  has_disability?: String;
+  has_disability?: string;
   has_chronic_disease?: String;
   has_technical_training?: string;
   foreign_stay?: String;
@@ -95,16 +105,26 @@ export class Member {
   is_vaccinated?: String;
   is_hoh?: String;
   bank_account?: String;
-  disability_card?: String;
-  disability_type?: String;
+  disability_card_id?: String;
+  disability_type_id?: String;
   country_visited?: String;
   technical_skills?: ITrainingDetail[];
   vehicles?: IVehicle[];
   has_vehicle?: string;
+  has_bank_account?: string;
+  has_health_insurance?: string;
+  has_life_insurance?: string;
+  has_cooperative_account?: string;
+  has_pension?: string;
+  pension_income?: string;
+  has_covid_vaccine?: string;
+  covid_vaccine_status?: string;
+  covid_infection_status?: string;
 
   vaccine_name?: String;
   foreign_reason?: String;
   disease_name?: String;
+  treatment_condition?: String;
   status?: String;
   remarks?: String;
   user_id?: String;
@@ -143,17 +163,27 @@ export class Member {
     this.is_vaccinated = data.is_vaccinated;
     this.is_hoh = data.is_hoh;
     this.bank_account = data.bank_account;
-    this.disability_card = data.disability_card;
-    this.disability_type = data.disability_type;
+    this.disability_card_id = data.disability_card_id;
+    this.disability_type_id = data.disability_type_id;
     this.country_visited = data.country_visited;
 
     this.technical_skills = data.technical_skills;
     this.vehicles = data.vehicles;
     this.has_vehicle = data.has_vehicle;
+    this.has_bank_account = data.has_bank_account;
+    this.has_health_insurance = data.has_health_insurance;
+    this.has_life_insurance = data.has_life_insurance;
+    this.has_cooperative_account = data.has_cooperative_account;
+    this.has_pension = data.has_pension;
+    this.pension_income = data.pension_income;
+    this.covid_infection_status = data.covid_infection_status;
+    this.covid_vaccine_status = data.covid_vaccine_status;
+    this.has_covid_vaccine = data.has_covid_vaccine;
 
     this.vaccine_name = data.vaccine_name;
     this.foreign_reason = data.foreign_reason;
     this.disease_name = data.disease_name;
+    this.treatment_condition = data.treatment_condition;
     this.status = data.status;
     this.remarks = data.remarks;
     this.user_id = data.user_id;

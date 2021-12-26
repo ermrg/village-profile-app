@@ -319,6 +319,34 @@ const vehicle_types = [
   { value: "6", label: "ट्रक/ त्रपर" },
   { value: "7", label: "डोजर लोडर हेभी उपकरण" },
 ];
+
+const disability_types = [
+  { value: "1", label: "दृष्टिबिहिन" },
+  { value: "2", label: "न्यून दृष्टिबिहिन" },
+  { value: "3", label: "बहिरा" },
+  { value: "4", label: "बोल्न नसक्ने" },
+  { value: "5", label: "सुस्त मनस्थिति" },
+  { value: "6", label: "सुस्त श्रवन" },
+  { value: "7", label: "हातखुट्टा नचल्ने" },
+];
+
+const disability_card_types = [
+  { value: "1", label: "रातो" },
+  { value: "2", label: "निलो" },
+  { value: "3", label: "सेतो" },
+  { value: "4", label: "पाएको छैन" },
+];
+
+const disease_names = [
+  { value: "प्रेसर", label: "प्रेसर" },
+  { value: "सुगर", label: "सुगर" },
+  { value: "क्षयरोग", label: "क्षयरोग" },
+  { value: "क्यान्सर", label: "क्यान्सर" },
+  { value: "एच.आई.भि/ एड्स", label: "एच.आई.भि/ एड्स" },
+  { value: "ग्याष्ट्रिक", label: "ग्याष्ट्रिक" },
+  { value: "हेपाटाईटिस बी", label: "हेपाटाईटिस बी" },
+  { value: "अन्य", label: "अन्य" },
+];
 export {
   hoh_roles,
   gender_choice,
@@ -328,4 +356,7 @@ export {
   education_statuses,
   marital_statuses,
   vehicle_types,
+  disability_types,
+  disability_card_types,
+  disease_names,
 };
