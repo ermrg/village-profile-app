@@ -172,6 +172,13 @@ export default function AddNewData(props: any) {
     }));
   };
 
+  const handleArrayChangeInHousehold = (name: string, value: any) => {
+    setHousehold((household) => ({
+      ...household,
+      [name]: value,
+    }));
+  };
+
   const handleMemberChange = (index: number, name: string, value: any) => {
     let mem = members.length > index ? members[index] : ({} as any);
     mem[name] = value;
@@ -197,6 +204,7 @@ export default function AddNewData(props: any) {
           margas={margas}
           jaatis={jaatis}
           dharmas={dharmas}
+          handleArrayChangeInHousehold={handleArrayChangeInHousehold}
         />
         <PariwarKoBibaran
           data={data}

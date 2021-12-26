@@ -1,5 +1,12 @@
 import { db } from "../db";
 
+export interface IMissingDeceasedMember{
+  reason_id: string;
+  reason: string;
+  age?: string;
+  name?: string;
+  gender?: string;
+}
 export interface IHousehold {
   id?: number;
   id_string?: string;
@@ -41,6 +48,9 @@ export interface IHousehold {
   office?: string;
   user_id?: string;
   is_posted?: string;
+
+  missing_deceased_members?: IMissingDeceasedMember[];
+  has_missing_deceased_member?: string;
 }
 export class Household {
   id: number;
@@ -79,6 +89,10 @@ export class Household {
   user_id?: string;
   is_posted?: string;
 
+  missing_deceased_members?: IMissingDeceasedMember[];
+  has_missing_deceased_member?: string;
+
+
   constructor(data: IHousehold) {
     this.hoh_name = data.hoh_name;
     this.hoh_role = data.hoh_role;
@@ -114,6 +128,8 @@ export class Household {
     this.remarks = data.remarks;
     this.user_id = data.user_id;
     this.is_posted = data.is_posted;
+    this.missing_deceased_members = data.missing_deceased_members;
+    this.has_missing_deceased_member = data.has_missing_deceased_member;
     if (data.id) this.id = data.id;
     db.households.mapToClass(Household);
   }

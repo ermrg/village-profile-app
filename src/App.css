@@ -146,7 +146,12 @@ ul.dropdown-menu.inner {
   max-height: 10px !important;
   overflow-y: auto;
 }
-.search-wrapper input{
+.search-wrapper input {
   padding: unset;
   margin: unset;
+}
+.child-section {
+  background: #bbbbbb73;
+  margin: 10px;
+  padding: 0 10px 15px 10px;
 }

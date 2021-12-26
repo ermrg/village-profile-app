@@ -347,6 +347,17 @@ const disease_names = [
   { value: "हेपाटाईटिस बी", label: "हेपाटाईटिस बी" },
   { value: "अन्य", label: "अन्य" },
 ];
+
+const death_reasons = [
+  { value: "1", label: "कालगति" },
+  { value: "2", label: "दुर्घटना" },
+  { value: "3", label: "आत्महत्या" },
+  { value: "4", label: "हत्या" },
+  { value: "5", label: "दिर्घरोगी" },
+  { value: "6", label: "थाहा नभएको" },
+  { value: "7", label: "हराएको" },
+  { value: "8", label: "बेपत्ता पारिएको" },
+];
 export {
   hoh_roles,
   gender_choice,
@@ -359,4 +370,5 @@ export {
   disability_types,
   disability_card_types,
   disease_names,
+  death_reasons,
 };

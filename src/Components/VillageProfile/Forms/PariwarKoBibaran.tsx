@@ -85,7 +85,6 @@ export default function PariwarKoBibaran(props: any) {
       );
       newTechSkills.splice(index, 1);
     }
-    console.log(newTechSkills);
     handleMemberChange(m, "technical_skills", newTechSkills);
     setTechSkill({ ...initialTechSkill });
   };
