@@ -26,6 +26,7 @@ export interface IHousehold {
   house_num?: string;
   num_of_member?: string;
   resident_type?: string;
+  migration_date?: string;
   phone_num?: string;
   mobile_num?: string;
   longitude?: string;
@@ -63,6 +64,7 @@ export class Household {
   house_num?: string;
   num_of_member?: string;
   resident_type?: string;
+  migration_date?: string;
   phone_num?: string;
   mobile_num?: string;
   longitude?: string;
@@ -98,6 +100,7 @@ export class Household {
     this.house_num = data.house_num;
     this.num_of_member = data.num_of_member;
     this.resident_type = data.resident_type;
+    this.migration_date = data.migration_date;
     this.phone_num = data.phone_num;
     this.mobile_num = data.mobile_num;
     this.longitude = data.longitude;

@@ -4,6 +4,7 @@ import { addNewDharma, getDharmaByName } from "./models/DharmaModel";
 import { addNewJaati, getJaatiByName } from "./models/JaatiModel";
 import { addNewMarga, getMargaByName } from "./models/MargaModel";
 import { addNewOccupation, getOccupationByName } from "./models/Occupation";
+import { addNewTechnicalSkill, getTechnicalSkillByName } from "./models/TechnicalSkill";
 import { addNewWard, getWardByName } from "./models/WardModel";
 
 export async function getWadas(office_id: String) {
@@ -109,6 +110,21 @@ export async function getOccupation() {
   }
 }
 
+export async function getTechnicalSkill() {
+  console.log("Synchronizing Technical Skills...");
+  let res = await api.loadTechnicalSkills();
+  if (res.status === 200) {
+    let technicalSkills = res.data;
+    technicalSkills.map(async (m: any) => {
+      let checkTS = await getTechnicalSkillByName(m.name);
+      if (checkTS.length === 0) {
+        await addNewTechnicalSkill({ ...m });
+      }
+    });
+    console.log(technicalSkills.length, " Technical Skills Synced.");
+  }
+}
+
 export async function syncDb(data: any) {
   if (window.navigator.onLine) {
     await getWadas(data.office_id);
@@ -117,5 +133,6 @@ export async function syncDb(data: any) {
     await getJaati();
     await getDharma();
     await getOccupation();
+    await getTechnicalSkill();
   }
 }

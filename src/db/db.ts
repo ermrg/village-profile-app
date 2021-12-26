@@ -6,6 +6,7 @@ import { IJaati } from "./models/JaatiModel";
 import { IMarga } from "./models/MargaModel";
 import { IMember } from "./models/Member";
 import { IOccupation } from "./models/Occupation";
+import { ITechnicalSkill } from "./models/TechnicalSkill";
 import { IUser } from "./models/UserModel";
 import { IWard } from "./models/WardModel";
 
@@ -19,6 +20,7 @@ export class AppDatabase extends Dexie {
   occupations: Dexie.Table<IOccupation>;
   households: Dexie.Table<IHousehold>;
   members: Dexie.Table<IMember>;
+  technicalSkills: Dexie.Table<ITechnicalSkill>;
 
   constructor() {
     super("VPDB");
@@ -42,6 +44,7 @@ export class AppDatabase extends Dexie {
       jaatis: "id, name, status",
       dharmas: "id, name, status",
       occupations: "id, name, status",
+      technicalSkills: "id, name, status",
       households: "++id, name, phone, password, [user_id+is_posted]",
       members: "++id, name, hh_id",
     });

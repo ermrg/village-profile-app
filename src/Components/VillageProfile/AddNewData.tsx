@@ -16,6 +16,7 @@ import {
   updateMember,
 } from "../../db/models/Member";
 import { getAllOccupations, IOccupation } from "../../db/models/Occupation";
+import { getAllTechnicalSkills, ITechnicalSkill } from "../../db/models/TechnicalSkill";
 import { getAllUsers, IUser } from "../../db/models/UserModel";
 import { getAllWards, IWard } from "../../db/models/WardModel";
 import GharKoBiabarn from "./Forms/GharKoBiabarn";
@@ -36,6 +37,7 @@ export default function AddNewData(props: any) {
   const [household, setHousehold] = useState({} as IHousehold);
   const [members, setMembers] = useState([] as IMember[]);
   const [occupations, setOccupations] = useState([] as IOccupation[]);
+  const [technical_skills, setTechnicalSkills] = useState([] as ITechnicalSkill[]);
   data.requiredFields = requiredFields;
   useEffect(() => {
     checkUser();
@@ -77,8 +79,9 @@ export default function AddNewData(props: any) {
     let dharmas_ = await getAllDharmas();
     setDharmas([...dharmas_]);
     let occupations_ = await getAllOccupations();
-    console.log(occupations_);
     setOccupations([...occupations_])
+    let ts = await getAllTechnicalSkills();
+    setTechnicalSkills([...ts])
   };
 
   const saveAndExitHousehold = async () => {
@@ -169,14 +172,15 @@ export default function AddNewData(props: any) {
     }));
   };
 
-  const handleMemberChange = (index: number, name: string, value: string) => {
+  const handleMemberChange = (index: number, name: string, value: any) => {
     let mem = members.length > index ? members[index] : ({} as any);
     mem[name] = value;
     let newMemberList = members;
     newMemberList[index] = mem;
     setMembers([...newMemberList]);
+    console.log(name, value);
+
   };
-  console.log(household, members);
   return (
     <div className="vp-form-wrapper">
       <div className="save-btns">
@@ -201,6 +205,7 @@ export default function AddNewData(props: any) {
           handleMemberChange={handleMemberChange}
           saveHousehold={saveHousehold}
           occupations={occupations}
+          technical_skills={technical_skills}
         />
         <div className="form-group" style={{height: '50vh'}}>
           <div className="vp-home">Complete. <br/>Please Click 'Save & Exit'</div>;

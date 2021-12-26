@@ -6,6 +6,7 @@ import {
   IHousehold,
   updateHousehold,
 } from "../../db/models/Household";
+import { getMembersbyHousehold } from "../../db/models/Member";
 import { getAllUsers, IUser } from "../../db/models/UserModel";
 import AddNewData from "./AddNewData";
 
@@ -24,12 +25,13 @@ export default function AllData() {
     let hhs = await getPendingHouseholds(auth_.id ? auth_.id.toString() : "");
     setHousholds([...hhs]);
   };
-  console.log(households);
   const postHousehold = async (hh: any) => {
     if (window.navigator.onLine) {
+      hh['members'] = await getMembersbyHousehold(hh.id);
+      console.log(hh);
       let res = await api.postHousehold(hh);
       if (res.status === 200) {
-        await updateHousehold({ ...hh, is_posted: 1 });
+        // await updateHousehold({ ...hh, is_posted: 1 });
       } else {
         console.log(hh.id, "Failed");
       }

@@ -275,6 +275,50 @@ const education_statuses = [
   },
 ];
 
+const marital_statuses = [
+  {
+    value: "1",
+    label: "विवाहित",
+  },
+  {
+    value: "2",
+    label: "अविवाहित",
+  },
+  {
+    value: "3",
+    label: "एकल बिबाह",
+  },
+  {
+    value: "4",
+    label: "बहु बिबाह",
+  },
+  {
+    value: "5",
+    label: "पुन: बिबाह",
+  },
+  {
+    value: "6",
+    label: "बिदुर / बिधुवा",
+  },
+  {
+    value: "7",
+    label: "सम्बन्ध बिच्छेद",
+  },
+  {
+    value: "8",
+    label: "बिबाहित तर अलग बसेको",
+  },
+];
+
+const vehicle_types = [
+  { value: "1", label: "अटो  रिक्सा" },
+  { value: "2", label: "मोटरसाइकल" },
+  { value: "3", label: "कार" },
+  { value: "4", label: "जिप/भ्यान" },
+  { value: "5", label: "बस" },
+  { value: "6", label: "ट्रक/ त्रपर" },
+  { value: "7", label: "डोजर लोडर हेभी उपकरण" },
+];
 export {
   hoh_roles,
   gender_choice,
@@ -282,4 +326,6 @@ export {
   mother_tongues,
   education_levels,
   education_statuses,
+  marital_statuses,
+  vehicle_types,
 };

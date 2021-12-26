@@ -5,6 +5,7 @@ import AddNewData from "./Components/VillageProfile/AddNewData";
 import PendingData from "./Components/VillageProfile/PendingData";
 import VillageProfileHome from "./Components/VillageProfileHome";
 import "./App.css"
+import "./bootstrap.css"
 import { db } from "./db/db";
 import AllData from "./Components/VillageProfile/AllData";
 import EditHousehold from "./Components/VillageProfile/EditHousehold";

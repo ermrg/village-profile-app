@@ -11,6 +11,7 @@ const api = {
   loadJaati: () => axios.get(`${server}jaatis/`),
   loadDharma: () => axios.get(`${server}dharmas/`),
   loadOccupations: () => axios.get(`${server}occupations/`),
+  loadTechnicalSkills: () => axios.get(`${server}technical-skills/`),
   login: (auth: IUser) => axios.post(`${server}login/`, { data: auth }),
   
   postHousehold: (data: any) => axios.post(`${server}post-household/`, { data }),

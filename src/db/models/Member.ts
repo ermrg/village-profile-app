@@ -1,5 +1,17 @@
 import { db } from "../db";
 
+export interface ITrainingDetail {
+  skill_id: string;
+  skill_name: string;
+  source?: string;
+  duration?: string;
+}
+
+export interface IVehicle {
+  vehicle_type: string;
+  vehicle_type_id: string;
+  count: string
+}
 export interface IMember {
   id?: number;
   name_eng?: string;
@@ -17,15 +29,19 @@ export interface IMember {
   phone_num?: String;
   mobile_num?: string;
   is_married?: String;
+  resident_place?: string;
   monthly_income?: String;
   education_level_id?: String;
   has_informal_education?: String;
-  marital_status?: String;
+  marital_status_id?: string;
+  marriage_year?: string;
+  age_on_marriage?: string;
+
   spouse?: String;
   guardian?: String;
   has_disability?: String;
   has_chronic_disease?: String;
-  has_technical_training?: String;
+  has_technical_training?: string;
   foreign_stay?: String;
   is_child_marriage?: String;
   is_vaccinated?: String;
@@ -34,7 +50,9 @@ export interface IMember {
   disability_card?: String;
   disability_type?: String;
   country_visited?: String;
-  technical_skill?: String;
+  technical_skills?: ITrainingDetail[];
+  vehicles?: IVehicle[];
+  has_vehicle?: string;
   vaccine_name?: String;
   foreign_reason?: String;
   disease_name?: String;
@@ -58,16 +76,20 @@ export class Member {
   relation_with_hoh_id?: string;
   phone_num?: String;
   mobile_num?: string;
+  resident_place?: string;
   is_married?: String;
   monthly_income?: String;
   education_level_id?: String;
   has_informal_education?: String;
-  marital_status?: String;
+  marital_status_id?: string;
+  marriage_year?: string;
+  age_on_marriage?: string;
+
   spouse?: String;
   guardian?: String;
   has_disability?: String;
   has_chronic_disease?: String;
-  has_technical_training?: String;
+  has_technical_training?: string;
   foreign_stay?: String;
   is_child_marriage?: String;
   is_vaccinated?: String;
@@ -76,7 +98,10 @@ export class Member {
   disability_card?: String;
   disability_type?: String;
   country_visited?: String;
-  technical_skill?: String;
+  technical_skills?: ITrainingDetail[];
+  vehicles?: IVehicle[];
+  has_vehicle?: string;
+
   vaccine_name?: String;
   foreign_reason?: String;
   disease_name?: String;
@@ -100,9 +125,13 @@ export class Member {
     this.phone_num = data.phone_num;
     this.mobile_num = data.mobile_num;
     this.is_married = data.is_married;
+    this.resident_place = data.resident_place;
     this.monthly_income = data.monthly_income;
     this.education_level_id = data.education_level_id;
-    this.marital_status = data.marital_status;
+    this.marital_status_id = data.marital_status_id;
+    this.marriage_year = data.marriage_year;
+    this.age_on_marriage = data.age_on_marriage;
+
     this.spouse = data.spouse;
     this.guardian = data.guardian;
     this.has_disability = data.has_disability;
@@ -117,7 +146,11 @@ export class Member {
     this.disability_card = data.disability_card;
     this.disability_type = data.disability_type;
     this.country_visited = data.country_visited;
-    this.technical_skill = data.technical_skill;
+
+    this.technical_skills = data.technical_skills;
+    this.vehicles = data.vehicles;
+    this.has_vehicle = data.has_vehicle;
+
     this.vaccine_name = data.vaccine_name;
     this.foreign_reason = data.foreign_reason;
     this.disease_name = data.disease_name;
@@ -149,11 +182,8 @@ export async function getMemberById(id: number) {
   return await db.members.get(id);
 }
 
-export async function getMembersbyHousehold(hh_id:string) {
-  return await db.members
-    .where("hh_id")
-    .equals(hh_id)
-    .toArray();
+export async function getMembersbyHousehold(hh_id: string) {
+  return await db.members.where("hh_id").equals(hh_id).toArray();
 }
 
 export async function updateMember(data: IMember) {
