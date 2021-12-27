@@ -1,11 +1,32 @@
 import { db } from "../db";
 
-export interface IMissingDeceasedMember{
+export interface IMissingDeceasedMember {
   reason_id: string;
   reason: string;
   age?: string;
   name?: string;
   gender?: string;
+}
+
+export interface IFestivals {
+  id: string;
+  name: string;
+}
+
+export interface IWaterSource {
+  water_source_id: string;
+  distance: string;
+}
+
+export interface IForeignMember {
+  member_name: string;
+  reason: string;
+  reason_id: string;
+  country: string;
+  country_id: string;
+  visited_year_bs?: string;
+  return_year_bs?: string;
+  monthly_income?: number;
 }
 export interface IHousehold {
   id?: number;
@@ -51,6 +72,30 @@ export interface IHousehold {
 
   missing_deceased_members?: IMissingDeceasedMember[];
   has_missing_deceased_member?: string;
+  has_foreign_member?: string;
+  foreign_members?: IForeignMember[];
+  animal_count?: string;
+  business_count?: string;
+  rent_business_count?: string;
+  annual_expense?: string;
+  festivals?: IFestivals[];
+  water_source_id?: string;
+  water_source_location?: string;
+  water_source_distance?: string;
+  public_vehicle_distance_meter?: string;
+  public_vehicle_distance_minute?: string;
+
+  has_pregnant_member?: string;
+  has_pregnancy_test?: string;
+  pregnancy_test_count?: string;
+  has_maternity_member?: string;
+  has_maternity_test?: string;
+  maternity_location?: string;
+  has_maternity_death?: string;
+  maternity_death_condition?: string;
+  child_death?: string;
+  child_death_condition?: string;
+  child_death_count?: string;
 }
 export class Household {
   id: number;
@@ -91,7 +136,29 @@ export class Household {
 
   missing_deceased_members?: IMissingDeceasedMember[];
   has_missing_deceased_member?: string;
-
+  has_foreign_member?: string;
+  foreign_members?: IForeignMember[];
+  animal_count?: string;
+  business_count?: string;
+  rent_business_count?: string;
+  annual_expense?: string;
+  festivals?: IFestivals[];
+  water_source_id?: string;
+  water_source_location?: string;
+  water_source_distance?: string;
+  public_vehicle_distance_meter?: string;
+  public_vehicle_distance_minute?: string;
+  has_pregnant_member?: string;
+  has_pregnancy_test?: string;
+  pregnancy_test_count?: string;
+  has_maternity_member?: string;
+  has_maternity_test?: string;
+  maternity_location?: string;
+  has_maternity_death?: string;
+  maternity_death_condition?: string;
+  child_death?: string;
+  child_death_condition?: string;
+  child_death_count?: string;
 
   constructor(data: IHousehold) {
     this.hoh_name = data.hoh_name;
@@ -130,6 +197,29 @@ export class Household {
     this.is_posted = data.is_posted;
     this.missing_deceased_members = data.missing_deceased_members;
     this.has_missing_deceased_member = data.has_missing_deceased_member;
+    this.has_foreign_member = data.has_foreign_member;
+    this.foreign_members = data.foreign_members;
+    this.animal_count = data.animal_count;
+    this.business_count = data.business_count;
+    this.rent_business_count = data.rent_business_count;
+    this.annual_expense = data.annual_expense;
+    this.festivals = data.festivals;
+    this.water_source_id = data.water_source_id;
+    this.water_source_distance = data.water_source_distance;
+    this.water_source_location = data.water_source_location;
+    this.public_vehicle_distance_minute = data.public_vehicle_distance_minute;
+    this.public_vehicle_distance_meter = data.public_vehicle_distance_meter;
+    this.has_pregnant_member = data.has_pregnant_member;
+    this.has_pregnancy_test = data.has_pregnancy_test;
+    this.pregnancy_test_count = data.pregnancy_test_count;
+    this.has_maternity_member = data.has_maternity_member;
+    this.has_maternity_test = data.has_maternity_test;
+    this.maternity_location = data.maternity_location;
+    this.has_maternity_death = data.has_maternity_death;
+    this.maternity_death_condition = data.maternity_death_condition;
+    this.child_death = data.child_death;
+    this.child_death_condition = data.child_death_condition;
+    this.child_death_count = data.child_death_count;
     if (data.id) this.id = data.id;
     db.households.mapToClass(Household);
   }
@@ -140,9 +230,7 @@ export class Household {
 
 export async function addNewHousehold(data: IHousehold) {
   return await db.transaction("rw", db.households, async function () {
-    return await db.households.add(
-      new Household({...data})
-    );
+    return await db.households.add(new Household({ ...data }));
   });
 }
 
@@ -159,9 +247,11 @@ export async function getHouseholdById(id: any) {
 
 export async function getPendingHouseholds(user_id: string) {
   return await db.households
-    .where("[user_id+is_posted]").equals([user_id,"0"]).toArray();
+    .where("[user_id+is_posted]")
+    .equals([user_id, "0"])
+    .toArray();
 }
 
 export async function updateHousehold(data: IHousehold) {
-  return await db.households.put({...data});
+  return await db.households.put({ ...data });
 }

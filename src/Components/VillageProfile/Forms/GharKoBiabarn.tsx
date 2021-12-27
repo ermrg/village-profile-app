@@ -1,71 +1,24 @@
 import { useEffect, useState } from "react";
 import { IBasti } from "../../../db/models/BastiModel";
-import {
-  IHousehold,
-  IMissingDeceasedMember,
-} from "../../../db/models/Household";
+import { IHousehold } from "../../../db/models/Household";
 import { IMarga } from "../../../db/models/MargaModel";
 import { IWard } from "../../../db/models/WardModel";
-import {
-  death_reasons,
-  gender_choice,
-  hoh_roles,
-  mother_tongues,
-} from "../../../enums";
+import { gender_choice, hoh_roles, mother_tongues } from "../../../enums";
 
 let initialCoords = {
   latitude: 0,
   longitude: 0,
 };
 
-let initialMissingMember = {
-  name: "",
-  reason_id: "",
-  reason: "",
-  gender: "",
-  age: "",
-} as IMissingDeceasedMember;
 export default function GharKoBiabarn(props: any) {
   let { data, bastis, wards, margas, hh, jaatis, dharmas } = props;
-  let { handleChange, handleArrayChangeInHousehold } = props;
+  let { handleChange } = props;
   const [geoLocation, setGeoLocation] = useState({ ...initialCoords } as any);
   const [household, setHousehold] = useState({ ...hh } as IHousehold);
-  const [missingMember, setMissingMember] = useState(initialMissingMember);
 
   useEffect(() => {
     setHousehold({ ...hh });
   }, [hh]);
-
-  const handleMissingChange = (e: any) => {
-    setMissingMember((missingMember) => ({
-      ...missingMember,
-      [e.target.name]: e.target.value,
-    }));
-    if (e.target.name == "reason_id") {
-      let v = death_reasons.find((s: any) => s.value == e.target.value);
-      setMissingMember((missingMember) => ({
-        ...missingMember,
-        reason: v.label,
-      }));
-    }
-  };
-
-  const saveMissing = (cmd: string, reason_id?: any) => {
-    let newMissingMember;
-    if (cmd == "add") {
-      newMissingMember = household.missing_deceased_members ?? [];
-      newMissingMember.push(missingMember);
-    } else {
-      newMissingMember = household.missing_deceased_members ?? [];
-      const index = newMissingMember.findIndex(
-        (obj: any) => obj.reason_id === reason_id
-      );
-      newMissingMember.splice(index, 1);
-    }
-    console.log(newMissingMember);
-    handleArrayChangeInHousehold("missing_deceased_members", newMissingMember);
-    setMissingMember({ ...initialMissingMember });
-  };
 
   const checkRequired = (id: number) => {
     let requiredFields = data?.requiredFields || [];
@@ -491,13 +444,8 @@ export default function GharKoBiabarn(props: any) {
             घरको जियो कोड
           </button>
         </div>
-      </div>
-      <div
-        className={`form-group ${data && checkRequired(6) ? "required" : ""}`}
-        id="6"
-      >
         <label className="label">14. बसोबासको प्रकार?</label>
-        <div className="options-horizontal">
+        <div className="options-vertical">
           <div className="radio" key={"बसोबासको प्रकार1"}>
             <label>
               <input
@@ -539,102 +487,6 @@ export default function GharKoBiabarn(props: any) {
               />
             </div>
           </>
-        )}
-
-        <label className="label">
-          15. परिवारमा कोही बेपत्ता/मृत्यु/दुर्घटना/आत्महत्या/हत्या भएको छ?
-        </label>
-        <div className="options-horizontal">
-          <select
-            className="form-control"
-            name="has_missing_deceased_member"
-            key={"स्वास्थ्य बिमा गरिएको छ.?has_missing_deceased_member"}
-            value={household.has_missing_deceased_member ? "1" : ""}
-            onChange={(e) => handleChange(e)}
-          >
-            <option value={"0"}>छैन</option>
-            <option value={"1"}>छ</option>
-          </select>
-        </div>
-
-        {household.has_missing_deceased_member == "1" && (
-          <div className="child-section">
-          {household.missing_deceased_members &&
-            household.missing_deceased_members.map((ts: any, ts_key: any) => (
-              <button
-                className="btn btn-outline-secondary btn-block"
-                key={ts_key}
-                onClick={() => saveMissing("remove", ts.reason_id)}
-              >
-                {ts.name} - {ts.reason}
-              </button>
-            ))}
-            <br/>
-            <label className="label">a. नाम?</label>
-            <div className="options-horizontal">
-              <input
-                className="form-control"
-                value={missingMember.name}
-                name="name"
-                onChange={handleMissingChange}
-              />
-            </div>
-            <label className="label">b. कारन?</label>
-            <div className="options-horizontal">
-              <select
-                className="form-control"
-                value={missingMember.reason_id}
-                name="reason_id"
-                onChange={handleMissingChange}
-              >
-                <option value={""} key={"मातृभाषासस-1"}>
-                  ---------
-                </option>
-                {death_reasons.map((option, key) => (
-                  <option value={option.value} key={"death_reasons" + key}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <label className="label">c. लिङ्ग?</label>
-            <div className="options-horizontal">
-              <select
-                className="form-control"
-                value={missingMember.gender}
-                name="gender"
-                onChange={handleMissingChange}
-              >
-                <option value={""} key={"लिङ्ग-1"}>
-                  ---------
-                </option>
-                <option value={1} key={"death_reasons"}>
-                  पुरुष
-                </option>
-                <option value={2} key={"death_reasonsमहिला"}>
-                  महिला
-                </option>
-                <option value={3} key={"death_reasonsअन्य"}>
-                  अन्य
-                </option>
-              </select>
-            </div>
-            <label className="label">d. उमेर?</label>
-            <div className="options-horizontal">
-              <input
-                className="form-control"
-                value={missingMember.age}
-                name="age"
-                onChange={handleMissingChange}
-              />
-            </div>
-            <button
-              onClick={() => saveMissing("add")}
-              className="btn btn-sm btn-success"
-            >
-              Add
-            </button>
-          </div>
         )}
       </div>
     </>

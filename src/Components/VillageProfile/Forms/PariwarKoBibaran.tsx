@@ -12,6 +12,8 @@ import {
 } from "../../../enums";
 import { NepaliDatePicker } from "nepali-datepicker-reactjs";
 import "nepali-datepicker-reactjs/dist/index.css";
+import Multiselect from "multiselect-react-dropdown";
+
 const initialTechSkill = {
   skill_id: "",
   source: "0",
@@ -22,6 +24,27 @@ const initialVehicle = {
   vehicle_type_id: "",
   count: "1",
 } as IVehicle;
+
+const socialNetworks = [
+  { name: "फेसबुक", id: "facebook" },
+  { name: "युट्युव", id: "youtube" },
+  { name: "टिकटक", id: "ticktock" },
+  { name: "भाईबर", id: "viber" },
+  { name: "ट्विटर", id: "twitter" },
+  { name: "ह्वाट्स एप", id: "whatsapp" },
+  { name: "ईमो", id: "emo" },
+  { name: "गुगल", id: "emo" },
+];
+
+const developmentOption = [
+  { name: "सडक", id: "सडक" },
+  { name: "कृषि/पशुपन्छी", id: "कृषि/पशुपन्छी" },
+  { name: "शिक्षा", id: "शिक्षा" },
+  { name: "स्वाथ्य", id: "स्वाथ्य" },
+  { name: "पर्यटन", id: "पर्यटन" },
+  { name: "खानेपानी", id: "खानेपानी" },
+  { name: "सिंचाई", id: "सिंचाई" },
+];
 export default function PariwarKoBibaran(props: any) {
   let { data, household, mems, occupations, technical_skills } = props;
   let { handleMemberChange } = props;
@@ -498,7 +521,7 @@ export default function PariwarKoBibaran(props: any) {
                   members[m].technical_skills.length &&
                   members[m].technical_skills.map((ts: any, ts_key: any) => (
                     <button
-                      className="btn btn-outline-secondary btn-block"
+                      className="btn btn-outline-secondary btn-sm btn-block"
                       key={ts_key}
                       onClick={() => saveTechSkill(m, "remove", ts.skill_name)}
                     >
@@ -1013,17 +1036,213 @@ export default function PariwarKoBibaran(props: any) {
                     }
                   >
                     <option value={""}>----------</option>
-                    <option value={"भेरोसेल(पहिलो डोज)"}>भेरोसेल (पहिलो दोस्रो)</option>
-                    <option value={"भेरोसेल(दुवै डोज)"}>भेरोसेल दुवै डोज</option>
+                    <option value={"भेरोसेल(पहिलो डोज)"}>
+                      भेरोसेल (पहिलो दोस्रो)
+                    </option>
+                    <option value={"भेरोसेल(दुवै डोज)"}>
+                      भेरोसेल दुवै डोज
+                    </option>
                     <option value={"जोनसन"}>जोनसन</option>
-                    <option value={"कोभिसिल्ड(पहिलो डोज)"}>कोभिसिल्ड ( पहिलो डोज)</option>
-                    <option value={"एस्ट्राजेनिका(पहिलो डोज)"}>एस्ट्राजेनिका ( पहिलो  डोज)</option>
-                    <option value={"कोभिसिल्ड(दुबै डोज)"}>कोभिसिल्ड(दुबै डोज)</option>
-                    <option value={"एस्ट्राजेनिका(दुबै डोज)"}>एस्ट्राजेनिका(दुबै डोज)</option>
+                    <option value={"कोभिसिल्ड(पहिलो डोज)"}>
+                      कोभिसिल्ड ( पहिलो डोज)
+                    </option>
+                    <option value={"एस्ट्राजेनिका(पहिलो डोज)"}>
+                      एस्ट्राजेनिका ( पहिलो डोज)
+                    </option>
+                    <option value={"कोभिसिल्ड(दुबै डोज)"}>
+                      कोभिसिल्ड(दुबै डोज)
+                    </option>
+                    <option value={"एस्ट्राजेनिका(दुबै डोज)"}>
+                      एस्ट्राजेनिका(दुबै डोज)
+                    </option>
                   </select>
                 </div>
               </>
             )}
+
+            <label className="label">39. तपाईको स्माट्रफोन छ ? </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="has_smartphone"
+                key={"तपाईको स्माट्रफोन छ?" + key}
+                value={
+                  members.length > m && members[m].has_smartphone
+                    ? members[m].has_smartphone.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "has_smartphone", e.target.value)
+                }
+              >
+                <option value={"0"}>छैन</option>
+                <option value={"1"}>छ</option>
+              </select>
+            </div>
+            {members.length > m && members[m].has_smartphone == "1" && (
+              <>
+                <label className="label">
+                  a. तपाईको तलको कुन कुन प्रयोग गर्नुहुन्छ?{" "}
+                </label>
+                <div className="options-vertical">
+                  <Multiselect
+                    options={socialNetworks} // Options to display in the dropdown
+                    selectedValues={
+                      members.length > m && members[m].social_networks
+                        ? members[m].social_networks
+                        : []
+                    }
+                    onSelect={(value) =>
+                      handleMemberChange(m, "social_networks", value)
+                    }
+                    onRemove={(value) =>
+                      handleMemberChange(m, "social_networks", value)
+                    }
+                    displayValue="name"
+                  />
+                </div>
+              </>
+            )}
+
+            <label className="label">40. भोटर कार्ड भएको नभएको ? </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="has_voter_card"
+                key={"भोटर कार्ड भएको नभएको ?" + key}
+                value={
+                  members.length > m && members[m].has_voter_card
+                    ? members[m].has_voter_card.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "has_voter_card", e.target.value)
+                }
+              >
+                <option value={"0"}>छैन</option>
+                <option value={"1"}>छ</option>
+              </select>
+            </div>
+
+            {members.length > m && members[m].has_voter_card == "1" && (
+              <>
+                <label className="label">a. भोटर कार्ड कुन स्थानको भएको?</label>
+                <div className="options-vertical">
+                  <select
+                    className="form-control"
+                    name="voter_card_location"
+                    key={"भोटर कार्ड भएको नभएको ?" + key}
+                    value={
+                      members.length > m && members[m].voter_card_location
+                        ? members[m].voter_card_location.toString()
+                        : "0"
+                    }
+                    onChange={(e) =>
+                      handleMemberChange(
+                        m,
+                        "voter_card_location",
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option value={"गाउँपालिका"}>गाउँपालिका</option>
+                    <option value={"गाउँपालिका बाहिर (रामेछाप जिल्ला)"}>
+                      गाउँपालिका बाहिर (रामेछाप जिल्ला)
+                    </option>
+                    <option value={"काठमान्डौ"}>काठमान्डौ</option>
+                    <option value={"अन्य जिल्ला"}>अन्य जिल्ला</option>
+                  </select>
+                </div>
+              </>
+            )}
+
+            <label className="label">
+              41. अहिलेको स्थानिय सरकारको काम कस्तो लागेको छ?
+            </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="feelings_for_local_government"
+                key={"अहिलेको स्थानिय सरकारको काम कस्तो लागेको छ?" + key}
+                value={
+                  members.length > m && members[m].feelings_for_local_government
+                    ? members[m].feelings_for_local_government.toString()
+                    : "0"
+                }
+                onChange={(e) =>
+                  handleMemberChange(
+                    m,
+                    "feelings_for_local_government",
+                    e.target.value
+                  )
+                }
+              >
+                <option value={"5"}>राम्रो</option>
+                <option value={"3"}>ठिकै सन्तोषजनक</option>
+                <option value={"1"}>नराम्रो</option>
+              </select>
+            </div>
+
+            <label className="label">
+              42. गाउँपालिकाले तिब्र विकासको लागि कुन क्षेत्रमा बढी ध्यान
+              दिनुपर्छ ?
+            </label>
+            <div className="options-vertical">
+              <Multiselect
+                key={
+                  "गाउँपालिकाले तिब्र विकासको लागि कुन क्षेत्रमा बढी ध्यान दिनुपर्छ ? "
+                }
+                options={developmentOption} // Options to display in the dropdown
+                selectedValues={
+                  members.length > m &&
+                  members[m].recommendation_for_local_level
+                    ? members[m].recommendation_for_local_level
+                    : []
+                }
+                onSelect={(value) =>
+                  handleMemberChange(m, "recommendation_for_local_level", value)
+                }
+                onRemove={(value) =>
+                  handleMemberChange(m, "recommendation_for_local_level", value)
+                }
+                displayValue="name"
+                selectionLimit={2}
+              />
+            </div>
+
+            <label className="label">43. तपाइँको गाउँपालिका भित्रको घरको संख्या?</label>
+            <div className="options-verical">
+              <input
+                onChange={(e) =>
+                  handleMemberChange(m, "house_count", e.target.value)
+                }
+                type="text"
+                className="form-control"
+                value={
+                  members.length > m && members[m].house_count
+                    ? members[m].house_count.toString()
+                    : 0
+                }
+                name="house_count"
+              />
+            </div>
+
+            <label className="label">44. जग्गा जमिनको संख्या?</label>
+            <div className="options-verical">
+              <input
+                onChange={(e) =>
+                  handleMemberChange(m, "land_count", e.target.value)
+                }
+                type="text"
+                className="form-control"
+                value={
+                  members.length > m && members[m].land_count
+                    ? members[m].land_count.toString()
+                    : 0
+                }
+                name="land_count"
+              />
+            </div>
           </div>
         </>
       ))}

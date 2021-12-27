@@ -62,6 +62,16 @@ export interface IMember {
   has_covid_vaccine?: string;
   covid_vaccine_status?: string;
   covid_infection_status?: string;
+  has_smartphone?: string;
+  has_voter_card?: string;
+  voter_card_location?: string;
+  recommendation_for_local_level?: string[];
+  social_networks?: string[];
+  feelings_for_local_government?: string;
+  house_count?: string;
+  land_count?: string;
+
+
   vaccine_name?: String;
   foreign_reason?: String;
   disease_name?: String;
@@ -120,6 +130,14 @@ export class Member {
   has_covid_vaccine?: string;
   covid_vaccine_status?: string;
   covid_infection_status?: string;
+  has_smartphone?: string;
+  has_voter_card?: string;
+  voter_card_location?: string;
+  recommendation_for_local_level?: string[];
+  social_networks?: string[];
+  feelings_for_local_government?: string;
+  house_count?: string;
+  land_count?: string;
 
   vaccine_name?: String;
   foreign_reason?: String;
@@ -179,6 +197,14 @@ export class Member {
     this.covid_infection_status = data.covid_infection_status;
     this.covid_vaccine_status = data.covid_vaccine_status;
     this.has_covid_vaccine = data.has_covid_vaccine;
+    this.has_smartphone = data.has_smartphone;
+    this.has_voter_card = data.has_voter_card;
+    this.voter_card_location = data.voter_card_location;
+    this.feelings_for_local_government = data.feelings_for_local_government;
+    this.recommendation_for_local_level = data.recommendation_for_local_level;
+    this.social_networks = data.social_networks;
+    this.house_count = data.house_count;
+    this.land_count = data.land_count;
 
     this.vaccine_name = data.vaccine_name;
     this.foreign_reason = data.foreign_reason;

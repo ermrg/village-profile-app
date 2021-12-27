@@ -358,6 +358,74 @@ const death_reasons = [
   { value: "7", label: "हराएको" },
   { value: "8", label: "बेपत्ता पारिएको" },
 ];
+
+const countries = [
+  { value: "1", label: "AUSTRALIA" },
+  { value: "2", label: "BAHARAIN" },
+  { value: "3", label: "BANGLADESH" },
+  { value: "4", label: "CHINA" },
+  { value: "5", label: "SOUTH KOREA" },
+  { value: "6", label: "DENMARK" },
+  { value: "7", label: "DUBAI" },
+  { value: "8", label: "GERMANY" },
+  { value: "9", label: "INDIA" },
+  { value: "10", label: "VIETNAM" },
+  { value: "11", label: "SINGAPORE" },
+  { value: "12", label: "BELGIUM" },
+  { value: "13", label: "FRANCE" },
+  { value: "14", label: "IRE-LAND" },
+  { value: "15", label: "NEW-ZEALAND" },
+  { value: "16", label: "CANADA" },
+  { value: "17", label: "IRAQ" },
+  { value: "18", label: "ISRAEL" },
+  { value: "19", label: "JAPAN" },
+  { value: "20", label: "KUWAIT" },
+  { value: "21", label: "LIBIA" },
+  { value: "22", label: "MALDIVES" },
+  { value: "23", label: "MALAYSIA" },
+  { value: "24", label: "PHILIPPINES" },
+  { value: "25", label: "POLAND" },
+];
+
+const foreign_reasons = [
+  { value: "1", label: "रोजगारी" },
+  { value: "2", label: "ब्यापार" },
+  { value: "3", label: "अध्ययन" },
+  { value: "4", label: "आप्रबास" },
+  { value: "5", label: "अन्य" },
+];
+
+const festivals = [
+  { id: "1", name: "एकादशी ब्रत" },
+  { id: "2", name: "ल्होसार" },
+  { id: "3", name: "तिहार" },
+  { id: "4", name: "इद" },
+  { id: "5", name: "क्रिसमस" },
+  { id: "6", name: "रमजान" },
+  { id: "7", name: "दशैँ" },
+  { id: "8", name: "चैते दशैँ" },
+  { id: "9", name: "राम नवमी" },
+  { id: "10", name: "कृष्ण जन्माष्टमी" },
+  { id: "11", name: "जनै पुर्णिमा" },
+  { id: "12", name: "पाहांचर्हे" },
+  { id: "13", name: "सिथिनख:" },
+  { id: "14", name: "गाइजात्रा" },
+  { id: "15", name: "गुरु पुर्णिमा" },
+  { id: "16", name: "नयाँ वर्ष" },
+  { id: "17", name: "न्हुँ दं नेपाल सम्बत" },
+  { id: "18", name: "इन्द्रजात्रा" },
+  { id: "19", name: "माघे संक्रान्ती" },
+  { id: "20", name: "छठ" },
+];
+
+const water_sources = [
+  { value: "1", label: "मुलको धारा" },
+  { value: "6", label: "लिफ्टको धारा" },
+  { value: "2", label: "कुवा" },
+  { value: "3", label: "मूल" },
+  { value: "4", label: "खोला" },
+  { value: "7", label: "अन्य" },
+];
 export {
   hoh_roles,
   gender_choice,
@@ -371,4 +439,8 @@ export {
   disability_card_types,
   disease_names,
   death_reasons,
+  countries,
+  foreign_reasons,
+  festivals,
+  water_sources,
 };

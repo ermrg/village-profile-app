@@ -20,6 +20,7 @@ import { getAllTechnicalSkills, ITechnicalSkill } from "../../db/models/Technica
 import { getAllUsers, IUser } from "../../db/models/UserModel";
 import { getAllWards, IWard } from "../../db/models/WardModel";
 import GharKoBiabarn from "./Forms/GharKoBiabarn";
+import GharKoDetailBiabarn from "./Forms/GharKoDetailBiabarn";
 import PariwarKoBibaran from "./Forms/PariwarKoBibaran";
 const requiredFields = [1, 2];
 
@@ -214,6 +215,12 @@ export default function AddNewData(props: any) {
           saveHousehold={saveHousehold}
           occupations={occupations}
           technical_skills={technical_skills}
+        />
+        <GharKoDetailBiabarn
+          hh={household}
+          handleChange={handleChange}
+          members={members}
+          handleArrayChangeInHousehold={handleArrayChangeInHousehold}
         />
         <div className="form-group" style={{height: '50vh'}}>
           <div className="vp-home">Complete. <br/>Please Click 'Save & Exit'</div>;
