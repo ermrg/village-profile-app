@@ -46,7 +46,7 @@ export interface IForeignMember {
   country_id: string;
   visited_year_bs?: string;
   return_year_bs?: string;
-  monthly_income?: number;
+  monthly_income?: string;
 }
 export interface IHousehold {
   id?: number;

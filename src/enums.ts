@@ -469,6 +469,27 @@ const land_types = [
   { id: "5", name: "पाखा-बारी" },
   { id: "6", name: "खेत सिम" },
 ];
+
+const socialNetworks = [
+  { name: "फेसबुक", id: "facebook" },
+  { name: "युट्युव", id: "youtube" },
+  { name: "टिकटक", id: "ticktock" },
+  { name: "भाईबर", id: "viber" },
+  { name: "ट्विटर", id: "twitter" },
+  { name: "ह्वाट्स एप", id: "whatsapp" },
+  { name: "ईमो", id: "emo" },
+  { name: "गुगल", id: "emo" },
+];
+
+const developmentOption = [
+  { name: "सडक", id: "सडक" },
+  { name: "कृषि/पशुपन्छी", id: "कृषि/पशुपन्छी" },
+  { name: "शिक्षा", id: "शिक्षा" },
+  { name: "स्वाथ्य", id: "स्वाथ्य" },
+  { name: "पर्यटन", id: "पर्यटन" },
+  { name: "खानेपानी", id: "खानेपानी" },
+  { name: "सिंचाई", id: "सिंचाई" },
+];
 export {
   hoh_roles,
   gender_choice,
@@ -491,4 +512,6 @@ export {
   toilet_types,
   animal_types,
   land_types,
+  socialNetworks,
+  developmentOption
 };

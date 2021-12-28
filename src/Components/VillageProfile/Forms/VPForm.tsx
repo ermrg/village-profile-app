@@ -1,31 +1,32 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getBastiByWardId, IBasti } from "../../db/models/BastiModel";
-import { getAllDharmas, IDharma } from "../../db/models/DharmaModel";
+import { getBastiByWardId, IBasti } from "../../../db/models/BastiModel";
+import { getAllDharmas, IDharma } from "../../../db/models/DharmaModel";
 import {
   addNewHousehold,
   IHousehold,
   updateHousehold,
-} from "../../db/models/Household";
-import { getAllJaatis, IJaati } from "../../db/models/JaatiModel";
-import { getMargaByBastiId, IMarga } from "../../db/models/MargaModel";
+} from "../../../db/models/Household";
+import { getAllJaatis, IJaati } from "../../../db/models/JaatiModel";
+import { getMargaByBastiId, IMarga } from "../../../db/models/MargaModel";
 import {
   addNewMember,
   getMembersbyHousehold,
   IMember,
   updateMember,
-} from "../../db/models/Member";
-import { getAllOccupations, IOccupation } from "../../db/models/Occupation";
-import { getAllTechnicalSkills, ITechnicalSkill } from "../../db/models/TechnicalSkill";
-import { getAllUsers, IUser } from "../../db/models/UserModel";
-import { getAllWards, IWard } from "../../db/models/WardModel";
-import GharKoBiabarn from "./Forms/GharKoBiabarn";
-import GharKoDetailBiabarn from "./Forms/GharKoDetailBiabarn";
-import PariwarKoBibaran from "./Forms/PariwarKoBibaran";
-const requiredFields = [1, 2];
+} from "../../../db/models/Member";
+import { getAllOccupations, IOccupation } from "../../../db/models/Occupation";
+import {
+  getAllTechnicalSkills,
+  ITechnicalSkill,
+} from "../../../db/models/TechnicalSkill";
+import { getAllUsers, IUser } from "../../../db/models/UserModel";
+import { getAllWards, IWard } from "../../../db/models/WardModel";
+import GharKoBiabarn from "./GharKoBiabarn";
+import GharKoDetailBiabarn from "./GharKoDetailBiabarn";
+import PariwarKoBibaran from "./PariwarKoBibaran";
 
-export default function AddNewData(props: any) {
-  // To edit send data.household
+export default function VPForm(props: any) {
   const history = useHistory();
   let { data } = props;
 
@@ -38,8 +39,9 @@ export default function AddNewData(props: any) {
   const [household, setHousehold] = useState({} as IHousehold);
   const [members, setMembers] = useState([] as IMember[]);
   const [occupations, setOccupations] = useState([] as IOccupation[]);
-  const [technical_skills, setTechnicalSkills] = useState([] as ITechnicalSkill[]);
-  data.requiredFields = requiredFields;
+  const [technical_skills, setTechnicalSkills] = useState(
+    [] as ITechnicalSkill[]
+  );
   useEffect(() => {
     checkUser();
     loadAllWada();
@@ -80,9 +82,9 @@ export default function AddNewData(props: any) {
     let dharmas_ = await getAllDharmas();
     setDharmas([...dharmas_]);
     let occupations_ = await getAllOccupations();
-    setOccupations([...occupations_])
+    setOccupations([...occupations_]);
     let ts = await getAllTechnicalSkills();
-    setTechnicalSkills([...ts])
+    setTechnicalSkills([...ts]);
   };
 
   const saveAndExitHousehold = async () => {
@@ -187,17 +189,22 @@ export default function AddNewData(props: any) {
     newMemberList[index] = mem;
     setMembers([...newMemberList]);
     console.log(name, value);
-
   };
   return (
     <div className="vp-form-wrapper">
       <div className="save-btns">
-        <button onClick={saveHousehold}>Save</button>
-        <button onClick={saveAndExitHousehold}>Save & Exit</button>
+        <button className="btn btn-sm btn-primary" onClick={saveHousehold}>
+          Save
+        </button>
+        <button
+          className="btn btn-sm btn-secondary"
+          onClick={saveAndExitHousehold}
+        >
+          Save & Exit
+        </button>
       </div>
       <div className="vp-form">
         <GharKoBiabarn
-          data={data}
           hh={household}
           handleChange={handleChange}
           wards={wards}
@@ -208,7 +215,6 @@ export default function AddNewData(props: any) {
           handleArrayChangeInHousehold={handleArrayChangeInHousehold}
         />
         <PariwarKoBibaran
-          data={data}
           household={household}
           mems={members}
           handleMemberChange={handleMemberChange}
@@ -223,8 +229,11 @@ export default function AddNewData(props: any) {
           wards={wards}
           handleArrayChangeInHousehold={handleArrayChangeInHousehold}
         />
-        <div className="form-group" style={{height: '50vh'}}>
-          <div className="vp-home">Complete. <br/>Please Click 'Save & Exit'</div>;
+        <div className="form-group" style={{ height: "50vh" }}>
+          <div className="vp-home">
+            <div className="btn btn-success">Complete</div>
+          </div>
+          ;
         </div>
       </div>
     </div>

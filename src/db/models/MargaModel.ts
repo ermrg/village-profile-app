@@ -1,5 +1,4 @@
 import { db } from "../db";
-import { IBasti } from "./BastiModel";
 
 export interface IMarga {
   id?: number;

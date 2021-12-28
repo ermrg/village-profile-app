@@ -1,8 +1,7 @@
-import { getHashes } from "crypto";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getHouseholdById, IHousehold } from "../../db/models/Household";
-import AddNewData from "./AddNewData";
+import VPForm from "./Forms/VPForm";
 
 export default function EditHousehold() {
   let { id } = useParams<{ id: any }>();
@@ -10,14 +9,14 @@ export default function EditHousehold() {
   useEffect(() => {
     getHousehold();
   }, []);
-  
+
   const getHousehold = async () => {
     let hh = await getHouseholdById(id);
     setHousehold({ ...hh });
   };
-  if(household){
-    return <AddNewData data={{household: household}} />;
-  }else{
+  if (household) {
+    return <VPForm data={{ household: household }} />;
+  } else {
     return <div className="vp-home">Server Loading...</div>;
   }
 }

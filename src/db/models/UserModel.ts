@@ -1,5 +1,4 @@
 import { db } from "../db";
-import { IHousehold } from "./Household";
 
 export interface IUser {
   id?: number;

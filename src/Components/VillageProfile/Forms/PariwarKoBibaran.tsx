@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IMember, ITrainingDetail, IVehicle } from "../../../db/models/Member";
 import {
+  developmentOption,
   disability_card_types,
   disability_types,
   disease_names,
@@ -8,6 +9,7 @@ import {
   education_statuses,
   marital_statuses,
   relations,
+  socialNetworks,
   vehicle_types,
 } from "../../../enums";
 import { NepaliDatePicker } from "nepali-datepicker-reactjs";
@@ -25,28 +27,8 @@ const initialVehicle = {
   count: "1",
 } as IVehicle;
 
-const socialNetworks = [
-  { name: "फेसबुक", id: "facebook" },
-  { name: "युट्युव", id: "youtube" },
-  { name: "टिकटक", id: "ticktock" },
-  { name: "भाईबर", id: "viber" },
-  { name: "ट्विटर", id: "twitter" },
-  { name: "ह्वाट्स एप", id: "whatsapp" },
-  { name: "ईमो", id: "emo" },
-  { name: "गुगल", id: "emo" },
-];
-
-const developmentOption = [
-  { name: "सडक", id: "सडक" },
-  { name: "कृषि/पशुपन्छी", id: "कृषि/पशुपन्छी" },
-  { name: "शिक्षा", id: "शिक्षा" },
-  { name: "स्वाथ्य", id: "स्वाथ्य" },
-  { name: "पर्यटन", id: "पर्यटन" },
-  { name: "खानेपानी", id: "खानेपानी" },
-  { name: "सिंचाई", id: "सिंचाई" },
-];
 export default function PariwarKoBibaran(props: any) {
-  let { data, household, mems, occupations, technical_skills } = props;
+  let { household, mems, occupations, technical_skills } = props;
   let { handleMemberChange } = props;
   const [members, setMembers] = useState([] as IMember[]);
   const [techSkill, setTechSkill] = useState(initialTechSkill);
@@ -56,10 +38,6 @@ export default function PariwarKoBibaran(props: any) {
     setMembers([...mems]);
   }, [mems]);
 
-  const checkRequired = (id: number) => {
-    let requiredFields = data?.requiredFields || [];
-    return requiredFields.indexOf(id) > -1;
-  };
   if (household.num_of_member) {
     member_counts = Array.from(
       new Array(parseInt(household.num_of_member)),
@@ -132,14 +110,8 @@ export default function PariwarKoBibaran(props: any) {
     <>
       {member_counts.map((m: any, key: any) => (
         <>
-          <div
-            className={`form-group ${
-              data && checkRequired(14 + 1 + m) ? "required" : ""
-            }`}
-            id={14 + 1 + m}
-            key={"member" + key}
-          >
-            <h5>Member: {m + 1}</h5>
+          <div className={`form-group`} id={14 + 1 + m} key={"member-detail" + key}>
+            <h5>Member: {m + 1} *</h5>
             <label className="label">15. सदस्यको नामथर:</label>
             <div className="options-verical">
               <input
@@ -293,6 +265,7 @@ export default function PariwarKoBibaran(props: any) {
                   )
                 }
               >
+                <option value={""}>------ अनौपचारिक शिक्षा ------</option>
                 <option value={"1"}>लिएको</option>
                 <option value={"0"}>नलिएको</option>
               </select>
@@ -364,128 +337,14 @@ export default function PariwarKoBibaran(props: any) {
                     : ""
                 }
                 name="monthly_income"
+                placeholder="मासिक आय"
               />
             </div>
           </div>
 
-          <div
-            className={`form-group ${
-              data && checkRequired(14 + 1 + m) ? "required" : ""
-            }`}
-            id={14 + 1 + m}
-            key={"member-2-" + key}
-          >
-            <h5>Member: {m + 1} ..</h5>
-            <label className="label">26. बसोबास गर्ने ठाउः</label>
-            <div className="options-vertical">
-              <select
-                className="form-control"
-                name="resident_place"
-                key={"बसोबास गर्ने ठाउः" + key}
-                value={
-                  members.length > m && members[m].resident_place
-                    ? members[m].resident_place.toString()
-                    : ""
-                }
-                onChange={(e) =>
-                  handleMemberChange(m, "resident_place", e.target.value)
-                }
-              >
-                <option value={"गाउँ"}>पुर्ण गाउँ</option>
-                <option value={"काठमान्डौ"}>काठमान्डौ</option>
-                <option value={"गाउँ/शहर"}>गाउँ/शहर</option>
-                <option value={"बिदेश"}>बिदेश</option>
-                <option value={"अन्य"}>अन्य</option>
-              </select>
-            </div>
-
-            <label className="label">27. वैवाविक स्थितिः </label>
-            <div className="options-vertical">
-              <select
-                className="form-control"
-                name="is_married"
-                key={"वैवाविक स्थितिः" + key}
-                value={
-                  members.length > m && members[m].is_married
-                    ? members[m].is_married.toString()
-                    : ""
-                }
-                onChange={(e) =>
-                  handleMemberChange(m, "is_married", e.target.value)
-                }
-              >
-                <option value={"0"}>अबिवाहित</option>
-                <option value={"1"}>विवाहित</option>
-              </select>
-            </div>
-            {members.length > m && members[m].is_married == "1" && (
-              <>
-                <label className="label">27.1. विवाहित भएमाः </label>
-                <div className="options-vertical">
-                  <select
-                    className="form-control"
-                    name="marital_status_id"
-                    key={"वैवाविक स्थितिः" + key}
-                    value={
-                      members.length > m && members[m].marital_status_id
-                        ? members[m].marital_status_id.toString()
-                        : ""
-                    }
-                    onChange={(e) =>
-                      handleMemberChange(m, "marital_status_id", e.target.value)
-                    }
-                  >
-                    {marital_statuses.map((ms, keym) => (
-                      <option
-                        value={ms.value}
-                        key={"वैवाविक स्थितिःoption" + keym}
-                      >
-                        {ms.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <label className="label">27.2. विवाह भएको सालः </label>
-                <div className="options-vertical">
-                  <input
-                    type="number"
-                    className="form-control"
-                    name="marriage_year"
-                    key={"वैवाविक स्थितिः" + key}
-                    value={
-                      members.length > m && members[m].marriage_year
-                        ? members[m].marriage_year.toString()
-                        : ""
-                    }
-                    onChange={(e) =>
-                      handleMemberChange(m, "marriage_year", e.target.value)
-                    }
-                    placeholder="Ex: 2077"
-                  />
-                </div>
-
-                <label className="label">27.3. विबाह हुँदाको उमेर </label>
-                <div className="options-vertical">
-                  <input
-                    type="number"
-                    className="form-control"
-                    name="age_on_marriage"
-                    key={"विबाह हुँदाको उमेर" + key}
-                    value={
-                      members.length > m && members[m].age_on_marriage
-                        ? members[m].age_on_marriage.toString()
-                        : ""
-                    }
-                    onChange={(e) =>
-                      handleMemberChange(m, "age_on_marriage", e.target.value)
-                    }
-                    placeholder="Ex: 26"
-                  />
-                </div>
-              </>
-            )}
-            <label className="label">28. प्राविधिक सिप </label>
+          <div className={`form-group`} id={14 + 2 + m} key={"प्राविधिक-member-" + key}>
+            <h5>Member: {m + 1} **</h5>
+            <label className="label">26. प्राविधिक सिप </label>
             <div className="options-vertical">
               <select
                 className="form-control"
@@ -510,25 +369,24 @@ export default function PariwarKoBibaran(props: any) {
             </div>
 
             {members.length > m && members[m].has_technical_training == "1" && (
-              <div
-                style={{
-                  background: "#bbbbbb73",
-                  margin: "10px",
-                  padding: "0 10px 15px 10px",
-                }}
-              >
+              <div className="child-section">
                 {members[m].technical_skills &&
                   members[m].technical_skills.length &&
                   members[m].technical_skills.map((ts: any, ts_key: any) => (
-                    <button
-                      className="btn btn-outline-secondary btn-sm btn-block"
-                      key={ts_key}
-                      onClick={() => saveTechSkill(m, "remove", ts.skill_name)}
-                    >
-                      {ts.skill_name} - {ts.duration}
-                    </button>
+                    <>
+                      <button
+                        className="btn btn-outline-secondary btn-sm btn-block"
+                        key={'technical_skills'+ ts_key}
+                        onClick={() =>
+                          saveTechSkill(m, "remove", ts.skill_name)
+                        }
+                      >
+                        {ts.skill_name} - {ts.duration}
+                      </button>
+                      <br />
+                    </>
                   ))}
-                <br />
+
                 <label className="label">a. सिपको नामः </label>
                 <div className="options-vertical">
                   <select
@@ -559,13 +417,13 @@ export default function PariwarKoBibaran(props: any) {
                       value={techSkill.source}
                       onChange={handleTechSkillChange}
                     >
-                      <option value={""} key={"29.0 सिप हासिलःoption1"}>
+                      <option value={""} key={"29.0 सिप हासिलःoption-1"+key}>
                         ------ सिप हासिल ------
                       </option>
-                      <option value={"0"} key={"29.1 सिप हासिलःoption1"}>
+                      <option value={"0"} key={"29.1 सिप हासिलःoption1"+key}>
                         स्वज्ञान
                       </option>
-                      <option value={"1"} key={"29.1 सिप हासिलःoption2"}>
+                      <option value={"1"} key={"29.1 सिप हासिलःoption2"+key}>
                         तालिम
                       </option>
                     </select>
@@ -595,7 +453,120 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               </div>
             )}
+            <label className="label">27. वैवाविक स्थितिः </label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="is_married"
+                key={"वैवाविक स्थितिः" + key}
+                value={
+                  members.length > m && members[m].is_married
+                    ? members[m].is_married.toString()
+                    : ""
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "is_married", e.target.value)
+                }
+              >
+                <option value={""}>----- वैवाविक स्थिति ------</option>
 
+                <option value={"0"}>अबिवाहित</option>
+                <option value={"1"}>विवाहित</option>
+              </select>
+            </div>
+            {members.length > m && members[m].is_married == "1" && (
+              <div className="child-section">
+                <label className="label">a. स्थिति </label>
+                <div className="options-vertical">
+                  <select
+                    className="form-control"
+                    name="marital_status_id"
+                    key={"वैवाविक स्थितिः" + key}
+                    value={
+                      members.length > m && members[m].marital_status_id
+                        ? members[m].marital_status_id.toString()
+                        : ""
+                    }
+                    onChange={(e) =>
+                      handleMemberChange(m, "marital_status_id", e.target.value)
+                    }
+                  >
+                    {marital_statuses.map((ms, keym) => (
+                      <option
+                        value={ms.value}
+                        key={"वैवाविक स्थितिःoption" + keym}
+                      >
+                        {ms.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <label className="label">b. विवाह भएको सालः </label>
+                <div className="options-vertical">
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="marriage_year"
+                    key={"वैवाविक स्थितिः" + key}
+                    value={
+                      members.length > m && members[m].marriage_year
+                        ? members[m].marriage_year.toString()
+                        : ""
+                    }
+                    onChange={(e) =>
+                      handleMemberChange(m, "marriage_year", e.target.value)
+                    }
+                    placeholder="Ex: 2077"
+                  />
+                </div>
+
+                <label className="label">c. विबाह हुँदाको उमेर </label>
+                <div className="options-vertical">
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="age_on_marriage"
+                    key={"विबाह हुँदाको उमेर" + key}
+                    value={
+                      members.length > m && members[m].age_on_marriage
+                        ? members[m].age_on_marriage.toString()
+                        : ""
+                    }
+                    onChange={(e) =>
+                      handleMemberChange(m, "age_on_marriage", e.target.value)
+                    }
+                    placeholder="Ex: 26"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          <div className={`form-group`} id={14 + 2 + m} key={"member-residence-2-" + key}>
+            <h5>Member: {m + 1} ***</h5>
+            <label className="label">28. बसोबास गर्ने ठाउः</label>
+            <div className="options-vertical">
+              <select
+                className="form-control"
+                name="resident_place"
+                key={"बसोबास गर्ने ठाउः" + key}
+                value={
+                  members.length > m && members[m].resident_place
+                    ? members[m].resident_place.toString()
+                    : ""
+                }
+                onChange={(e) =>
+                  handleMemberChange(m, "resident_place", e.target.value)
+                }
+              >
+                <option value={""}>----- बसोबास गर्ने ठाउ ------</option>
+                <option value={"गाउँ"}>पुर्ण गाउँ</option>
+                <option value={"काठमान्डौ"}>काठमान्डौ</option>
+                <option value={"गाउँ/शहर"}>गाउँ/शहर</option>
+                <option value={"बिदेश"}>बिदेश</option>
+                <option value={"अन्य"}>अन्य</option>
+              </select>
+            </div>
             <label className="label">29. सवारी साधन ? </label>
             <div className="options-vertical">
               <select
@@ -617,19 +588,13 @@ export default function PariwarKoBibaran(props: any) {
             </div>
 
             {members.length > m && members[m].has_vehicle == "1" && (
-              <div
-                style={{
-                  background: "#bbbbbb73",
-                  margin: "10px",
-                  padding: "0 10px 15px 10px",
-                }}
-              >
+              <div className="child-section">
                 {members[m].vehicles &&
                   members[m].vehicles.length &&
                   members[m].vehicles.map((v: any, ts_key: any) => (
                     <button
                       className="btn btn-outline-success btn-block"
-                      key={ts_key}
+                      key={'vehicles' + ts_key}
                       onClick={() =>
                         saveVehicle(m, "remove", v.vehicle_type_name)
                       }
@@ -647,7 +612,7 @@ export default function PariwarKoBibaran(props: any) {
                     value={vehicle.vehicle_type_id}
                     onChange={handleVehicleChange}
                   >
-                    <option value={""} key={"29.0 सिप सवारी साधनको नामः"}>
+                    <option value={""} key={"29.0 सिप सवारी साधनको नामः" + key}>
                       ------ सवारी साधनको नाम ------
                     </option>
                     {vehicle_types.map((ms: any, keyv: any) => (
@@ -803,7 +768,6 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               </>
             )}
-
             <label className="label">35. अपाङ्ता छ? </label>
             <div className="options-vertical">
               <select
@@ -825,7 +789,7 @@ export default function PariwarKoBibaran(props: any) {
             </div>
 
             {members.length > m && members[m].has_disability == "1" && (
-              <>
+              <div className="child-section">
                 <label className="label">a. अपाङ्गताको प्रकार: </label>
                 <div className="options-vertical">
                   <select
@@ -845,11 +809,11 @@ export default function PariwarKoBibaran(props: any) {
                       )
                     }
                   >
-                    <option value={""}>----------</option>
+                    <option value={""} key={"disability_type_id - 1" + key}>----------</option>
                     {disability_types.map((dt: any, keydt: any) => (
                       <option
                         value={dt.value}
-                        key={keydt + "disability_type_id कार्डः"}
+                        key={key + "disability_type_id कार्डः"}
                       >
                         {dt.label}
                       </option>
@@ -880,15 +844,18 @@ export default function PariwarKoBibaran(props: any) {
                     {disability_card_types.map((dt: any, keydt: any) => (
                       <option
                         value={dt.value}
-                        key={keydt + "अपाङ्गताको कार्डः"}
+                        key={key + "अपाङ्गताको कार्डः"}
                       >
                         {dt.label}
                       </option>
                     ))}
                   </select>
                 </div>
-              </>
+              </div>
             )}
+          </div>
+          <div className={`form-group`} id={14 + 2 + m} key={"member-health-2-" + key}>
+            <h5>Member: {m + 1} ****</h5>
 
             <label className="label">36. रोग छ? </label>
             <div className="options-vertical">
@@ -911,7 +878,7 @@ export default function PariwarKoBibaran(props: any) {
             </div>
 
             {members.length > m && members[m].has_chronic_disease == "1" && (
-              <>
+              <div className="child-section">
                 <label className="label">a. रोगको नाम: </label>
                 <div className="options-vertical">
                   <select
@@ -931,7 +898,7 @@ export default function PariwarKoBibaran(props: any) {
                     {disease_names.map((dt: any, keydt: any) => (
                       <option
                         value={dt.value}
-                        key={keydt + "disability_type_id disease_name"}
+                        key={key + "disability_type_id disease_name"}
                       >
                         {dt.label}
                       </option>
@@ -964,7 +931,7 @@ export default function PariwarKoBibaran(props: any) {
                     <option value={"छाडेको"}>छाडेको</option>
                   </select>
                 </div>
-              </>
+              </div>
             )}
 
             <label className="label">
@@ -1015,7 +982,7 @@ export default function PariwarKoBibaran(props: any) {
             </div>
 
             {members.length > m && members[m].has_covid_vaccine == "1" && (
-              <>
+              <div className="child-section">
                 <label className="label">a. कुन भ्याक्सिन? </label>
                 <div className="options-vertical">
                   <select
@@ -1057,7 +1024,7 @@ export default function PariwarKoBibaran(props: any) {
                     </option>
                   </select>
                 </div>
-              </>
+              </div>
             )}
 
             <label className="label">39. तपाईको स्माट्रफोन छ ? </label>
@@ -1080,7 +1047,7 @@ export default function PariwarKoBibaran(props: any) {
               </select>
             </div>
             {members.length > m && members[m].has_smartphone == "1" && (
-              <>
+              <div className="child-section">
                 <label className="label">
                   a. तपाईको तलको कुन कुन प्रयोग गर्नुहुन्छ?{" "}
                 </label>
@@ -1101,7 +1068,7 @@ export default function PariwarKoBibaran(props: any) {
                     displayValue="name"
                   />
                 </div>
-              </>
+              </div>
             )}
 
             <label className="label">40. भोटर कार्ड भएको नभएको ? </label>
@@ -1125,7 +1092,7 @@ export default function PariwarKoBibaran(props: any) {
             </div>
 
             {members.length > m && members[m].has_voter_card == "1" && (
-              <>
+              <div className="child-section">
                 <label className="label">a. भोटर कार्ड कुन स्थानको भएको?</label>
                 <div className="options-vertical">
                   <select
@@ -1153,7 +1120,7 @@ export default function PariwarKoBibaran(props: any) {
                     <option value={"अन्य जिल्ला"}>अन्य जिल्ला</option>
                   </select>
                 </div>
-              </>
+              </div>
             )}
 
             <label className="label">
@@ -1189,8 +1156,7 @@ export default function PariwarKoBibaran(props: any) {
             </label>
             <div className="options-vertical">
               <Multiselect
-                key={
-                  "गाउँपालिकाले तिब्र विकासको लागि कुन क्षेत्रमा बढी ध्यान दिनुपर्छ ? "
+                key={"कुन क्षेत्रमा बढी ध्यान दिनुपर्छ ? " + key
                 }
                 options={developmentOption} // Options to display in the dropdown
                 selectedValues={
@@ -1210,7 +1176,9 @@ export default function PariwarKoBibaran(props: any) {
               />
             </div>
 
-            <label className="label">43. तपाइँको गाउँपालिका भित्रको घरको संख्या?</label>
+            <label className="label">
+              43. तपाइँको गाउँपालिका भित्रको घरको संख्या?
+            </label>
             <div className="options-verical">
               <input
                 onChange={(e) =>
@@ -1221,9 +1189,10 @@ export default function PariwarKoBibaran(props: any) {
                 value={
                   members.length > m && members[m].house_count
                     ? members[m].house_count.toString()
-                    : 0
+                    : ''
                 }
                 name="house_count"
+                placeholder="घरको संख्या"
               />
             </div>
 
@@ -1238,9 +1207,10 @@ export default function PariwarKoBibaran(props: any) {
                 value={
                   members.length > m && members[m].land_count
                     ? members[m].land_count.toString()
-                    : 0
+                    : ''
                 }
                 name="land_count"
+                placeholder="जमिनको संख्या"
               />
             </div>
           </div>

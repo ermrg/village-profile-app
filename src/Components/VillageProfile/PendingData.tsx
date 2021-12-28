@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../../Api/api";
-import {
-  getPendingHouseholds,
-  IHousehold,
-  updateHousehold,
-} from "../../db/models/Household";
+import { getPendingHouseholds, IHousehold } from "../../db/models/Household";
 import { getMembersbyHousehold } from "../../db/models/Member";
 import { getAllUsers, IUser } from "../../db/models/UserModel";
-import AddNewData from "./AddNewData";
 
 export default function AllData() {
   const [households, setHousholds] = useState([] as IHousehold[]);
@@ -27,7 +22,7 @@ export default function AllData() {
   };
   const postHousehold = async (hh: any) => {
     if (window.navigator.onLine) {
-      hh['members'] = await getMembersbyHousehold(hh.id);
+      hh["members"] = await getMembersbyHousehold(hh.id);
       console.log(hh);
       let res = await api.postHousehold(hh);
       if (res.status === 200) {
