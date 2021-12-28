@@ -426,6 +426,49 @@ const water_sources = [
   { value: "4", label: "खोला" },
   { value: "7", label: "अन्य" },
 ];
+
+const cooking_fuels = [
+  { id: "1", name: "बिद्युत" },
+  { id: "2", name: "एलपी ग्याँस" },
+  { id: "3", name: "गोबर ग्याँस" },
+  { id: "4", name: "दाउरा" },
+  { id: "5", name: "अन्य" },
+];
+
+const light_fuels = [
+  { id: "1", name: "रास्टिय बिदयुत" },
+  { id: "2", name: "स्थानीय बिदयुत" },
+  { id: "3", name: "सोलार" },
+  { id: "4", name: "मट्टितेल" },
+  { id: "5", name: "दाउरा" },
+  { id: "6", name: "अन्य" },
+];
+
+const toilet_types = [
+  { value: "1", label: "पक्की" },
+  { value: "2", label: "कच्ची" },
+  { value: "3", label: "नभएको" },
+];
+
+const animal_types = [
+  { id: "1", name: "गाइ/गोरु, बाच्छा/बाच्छी" },
+  { id: "2", name: "राँगा/भैंसी, पाडा/पाडी" },
+  { id: "3", name: "याक / चौरी" },
+  { id: "4", name: "बाख्रा/भेंडा, खसी/बोका" },
+  { id: "5", name: "सुँगुर / बंगुर" },
+  { id: "6", name: "कुखुरा / हाँस / परेवा" },
+  { id: "7", name: "अष्ट्रीच" },
+  { id: "8", name: "कुकुर/ बिरालो /खरायो" },
+];
+
+const land_types = [
+  { id: "1", name: "खेत-आयम" },
+  { id: "2", name: "खेत-दोयम" },
+  { id: "3", name: "बारी" },
+  { id: "4", name: "घडेरी" },
+  { id: "5", name: "पाखा-बारी" },
+  { id: "6", name: "खेत सिम" },
+];
 export {
   hoh_roles,
   gender_choice,
@@ -443,4 +486,9 @@ export {
   foreign_reasons,
   festivals,
   water_sources,
+  cooking_fuels,
+  light_fuels,
+  toilet_types,
+  animal_types,
+  land_types,
 };

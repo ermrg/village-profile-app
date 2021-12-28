@@ -12,6 +12,26 @@ export interface IFestivals {
   id: string;
   name: string;
 }
+export interface ILand {
+  land_type_id: string;
+  land_type: string;
+  location?: string;
+  total_area?: string;
+  area_unit?: string;
+  irrigation?: string;
+  kitta_no?: string;
+  ward_id?: string;
+  remarks?: string;
+}
+export interface IFule {
+  id: string;
+  name: string;
+}
+export interface IAnimal {
+  animal_type_id: string;
+  animal: string;
+  count: string;
+}
 
 export interface IWaterSource {
   water_source_id: string;
@@ -32,6 +52,7 @@ export interface IHousehold {
   id?: number;
   id_string?: string;
   hoh_name?: string;
+  hoh_image?: string;
   hoh_role?: string;
   hoh_gender?: string;
   hoh?: string;
@@ -96,10 +117,25 @@ export interface IHousehold {
   child_death?: string;
   child_death_condition?: string;
   child_death_count?: string;
+  hospital_distance_meter?: string;
+  hospital_distance_minute?: string;
+  cooking_fuels?: IFule[];
+  light_fuels?: IFule[];
+  higher_secondary_distance?: string;
+  secondary_distance?: string;
+  primary_distance?: string;
+  toilet_type_id?: string;
+  earthquake_house_relief_status?: string;
+  earthquake_house_damage_count?: string;
+  has_earthquake_relief_plan?: string;
+  map_pass?: string;
+  animals?: IAnimal[];
+  lands?: ILand[];
 }
 export class Household {
   id: number;
   hoh_name?: string;
+  hoh_image?: string;
   hoh_role?: string;
   hoh_gender?: string;
   hoh?: string;
@@ -159,9 +195,24 @@ export class Household {
   child_death?: string;
   child_death_condition?: string;
   child_death_count?: string;
+  hospital_distance_meter?: string;
+  hospital_distance_minute?: string;
+  cooking_fuels?: IFule[];
+  light_fuels?: IFule[];
+  higher_secondary_distance?: string;
+  secondary_distance?: string;
+  primary_distance?: string;
+  toilet_type_id?: string;
+  earthquake_house_relief_status?: string;
+  earthquake_house_damage_count?: string;
+  has_earthquake_relief_plan?: string;
+  map_pass?: string;
+  animals?: IAnimal[];
+  lands?: ILand[];
 
   constructor(data: IHousehold) {
     this.hoh_name = data.hoh_name;
+    this.hoh_image = data.hoh_image;
     this.hoh_role = data.hoh_role;
     this.hoh_gender = data.hoh_gender;
     this.hoh = data.hoh;
@@ -220,6 +271,22 @@ export class Household {
     this.child_death = data.child_death;
     this.child_death_condition = data.child_death_condition;
     this.child_death_count = data.child_death_count;
+    
+    this.hospital_distance_meter = data.hospital_distance_meter;
+    this.hospital_distance_minute = data.hospital_distance_minute;
+    this.light_fuels = data.light_fuels;
+    this.cooking_fuels = data.cooking_fuels;
+    this.higher_secondary_distance = data.higher_secondary_distance;
+    this.secondary_distance = data.secondary_distance;
+    this.primary_distance = data.primary_distance;
+    this.toilet_type_id = data.toilet_type_id;
+    this.earthquake_house_damage_count = data.earthquake_house_damage_count;
+    this.earthquake_house_relief_status = data.earthquake_house_relief_status;
+    this.has_earthquake_relief_plan = data.has_earthquake_relief_plan;
+    this.map_pass = data.map_pass;
+    this.animals = data.animals;
+    this.lands = data.lands;
+
     if (data.id) this.id = data.id;
     db.households.mapToClass(Household);
   }

@@ -12,8 +12,7 @@ let initialCoords = {
 
 export default function GharKoBiabarn(props: any) {
   let { data, bastis, wards, margas, hh, jaatis, dharmas } = props;
-  let { handleChange } = props;
-  const [geoLocation, setGeoLocation] = useState({ ...initialCoords } as any);
+  let { handleChange, handleArrayChangeInHousehold } = props;
   const [household, setHousehold] = useState({ ...hh } as IHousehold);
 
   useEffect(() => {
@@ -28,27 +27,8 @@ export default function GharKoBiabarn(props: any) {
   const checkGeoLocation = async () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async (positions: any) => {
-        console.log(positions);
-        setGeoLocation((geoLocation: any) => ({
-          ...geoLocation,
-          latitude: positions.coords.latitude,
-          longitude: positions.coords.longitude,
-        }));
-        let lat = document.querySelector(
-          ".geo-field-add-lat"
-        ) as HTMLInputElement;
-        let longi = document.querySelector(
-          ".geo-field-add-long"
-        ) as HTMLInputElement;
-        lat.value = positions.coords.latitude;
-        longi.value = positions.coords.longitude;
-        const event = new Event("input", { bubbles: false });
-        // const event2 = new Event("input", { bubbles: false });
-        lat.dispatchEvent(event);
-        await handleChange(event);
-        longi.dispatchEvent(event);
-        await handleChange(event);
-        // console.log(event2);
+        handleArrayChangeInHousehold("latitude", positions.coords.latitude);
+        handleArrayChangeInHousehold("longitude", positions.coords.longitude);
       });
     } else {
       console.log("Geolocation is not supported by this browser.");
@@ -60,7 +40,7 @@ export default function GharKoBiabarn(props: any) {
       "mediaDevices" in navigator &&
       "getUserMedia" in navigator.mediaDevices
     ) {
-      let video = document.querySelector("#video") as HTMLVideoElement;
+      let video = document.querySelector("#hoh_imagevideo") as HTMLVideoElement;
       let stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: false,
@@ -68,7 +48,7 @@ export default function GharKoBiabarn(props: any) {
       video!.srcObject = stream;
 
       let click_photo = document.querySelector(
-        "#click-photo"
+        "#hoh_imageclick-photo"
       ) as HTMLButtonElement;
 
       video.style.display = "block";
@@ -77,8 +57,8 @@ export default function GharKoBiabarn(props: any) {
   };
 
   const clickPhoto = async () => {
-    let video = document.querySelector("#video") as HTMLVideoElement;
-    let canvas = document.querySelector("#canvas") as HTMLCanvasElement;
+    let video = document.querySelector("#hoh_imagevideo") as HTMLVideoElement;
+    let canvas = document.querySelector("#hoh_imagecanvas") as HTMLCanvasElement;
     canvas!
       .getContext("2d")
       .drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -87,19 +67,12 @@ export default function GharKoBiabarn(props: any) {
     video.style.display = "none";
     canvas.style.display = "block";
     let click_photo = document.querySelector(
-      "#click-photo"
+      "#hoh_imageclick-photo"
     ) as HTMLButtonElement;
-    let reset = document.querySelector("#reset-photo") as HTMLButtonElement;
+    let reset = document.querySelector("#hoh_imagereset-photo") as HTMLButtonElement;
     click_photo.style.display = "none";
     reset.style.display = "block";
-
-    let responder_image_input = document.getElementById(
-      "responder_image"
-    ) as HTMLInputElement;
-    responder_image_input.value = image_data_url;
-    const event = new Event("input", { bubbles: false });
-    responder_image_input.dispatchEvent(event);
-    await handleChange(event);
+    handleArrayChangeInHousehold("hoh_image", image_data_url);
   };
 
   const resetPhoto = async () => {
@@ -363,7 +336,7 @@ export default function GharKoBiabarn(props: any) {
         <label className="label">12. घरमूलीको फोटोः</label>
         <div className="options-verical">
           <video
-            id="video"
+            id="hoh_imagevideo"
             width="320"
             height="240"
             autoPlay
@@ -371,13 +344,13 @@ export default function GharKoBiabarn(props: any) {
           ></video>
 
           <canvas
-            id="canvas"
+            id="hoh_imagecanvas"
             width="320"
             height="240"
             style={{ display: "none" }}
           ></canvas>
           <button
-            id="click-photo"
+            id="hoh_imageclick-photo"
             className="btn btn-sm btn-success"
             onClick={clickPhoto}
             style={{ display: "none" }}
@@ -385,7 +358,7 @@ export default function GharKoBiabarn(props: any) {
             Click Photo
           </button>
           <button
-            id="reset-photo"
+            id="hoh_imagereset-photo"
             className="btn btn-sm btn-danger"
             onClick={resetPhoto}
             style={{ display: "none" }}
@@ -395,7 +368,7 @@ export default function GharKoBiabarn(props: any) {
           <input
             type="hidden"
             name="responder_image"
-            id="responder_image"
+            id="hoh_imageresponder_image"
             onChange={(e) => handleChange(e)}
           />
           <button className="btn btn-secondary" onClick={getHohPhoto}>
@@ -428,14 +401,14 @@ export default function GharKoBiabarn(props: any) {
                 onChange={null}
                 type="text"
                 className="form-control geo-field-add-lat"
-                defaultValue={geoLocation.latitude}
+                defaultValue={household.latitude}
                 name="latitude"
               />
               <input
                 onChange={null}
                 type="text"
                 className="form-control geo-field-add-long"
-                defaultValue={geoLocation.longitude}
+                defaultValue={household.longitude}
                 name="longitude"
               />
             </>

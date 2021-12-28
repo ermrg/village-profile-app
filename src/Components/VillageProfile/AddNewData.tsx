@@ -220,6 +220,7 @@ export default function AddNewData(props: any) {
           hh={household}
           handleChange={handleChange}
           members={members}
+          wards={wards}
           handleArrayChangeInHousehold={handleArrayChangeInHousehold}
         />
         <div className="form-group" style={{height: '50vh'}}>

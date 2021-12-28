@@ -1,17 +1,25 @@
 import { useEffect, useState } from "react";
 import {
+  IAnimal,
   IForeignMember,
   IHousehold,
+  ILand,
   IMissingDeceasedMember,
 } from "../../../db/models/Household";
 import {
+  animal_types,
+  cooking_fuels,
   countries,
   death_reasons,
   festivals,
   foreign_reasons,
+  land_types,
+  light_fuels,
+  toilet_types,
   water_sources,
 } from "../../../enums";
 import Multiselect from "multiselect-react-dropdown";
+import { IWard } from "../../../db/models/WardModel";
 
 let initialForeignMember = {
   member_name: "",
@@ -30,12 +38,30 @@ let initialMissingMember = {
   gender: "",
   age: "",
 } as IMissingDeceasedMember;
+let initialAnimal = {
+  animal: "",
+  animal_type_id: "",
+  count: "1",
+} as IAnimal;
+let initialLand = {
+  land_type_id: "",
+  land_type: "",
+  location: "",
+  total_area: "",
+  area_unit: "",
+  irrigation: "",
+  kitta_no: "",
+  ward_id: "",
+  remarks: "",
+} as ILand;
 export default function GharKoDetailBiabarn(props: any) {
-  let { hh, members } = props;
+  let { hh, members, wards } = props;
   let { handleChange, handleArrayChangeInHousehold } = props;
   const [household, setHousehold] = useState({ ...hh } as IHousehold);
   const [foreignMember, setForeignMember] = useState(initialForeignMember);
   const [missingMember, setMissingMember] = useState(initialMissingMember);
+  const [animal, setAnimal] = useState(initialAnimal);
+  const [land, setLand] = useState(initialLand);
 
   useEffect(() => {
     setHousehold({ ...hh });
@@ -107,9 +133,112 @@ export default function GharKoDetailBiabarn(props: any) {
       );
       newMissingMember.splice(index, 1);
     }
-    console.log(newMissingMember);
     handleArrayChangeInHousehold("missing_deceased_members", newMissingMember);
     setMissingMember({ ...initialMissingMember });
+  };
+
+  const handleAnimalChange = (e: any) => {
+    setAnimal((animal) => ({
+      ...animal,
+      [e.target.name]: e.target.value,
+    }));
+    if (e.target.name == "animal_type_id") {
+      let v = animal_types.find((s: any) => s.id == e.target.value);
+      setAnimal((animal) => ({
+        ...animal,
+        animal: v.name,
+      }));
+    }
+  };
+
+  const saveAnimal = (cmd: string, animal_type_id?: any) => {
+    let newAnimal;
+    if (cmd == "add") {
+      newAnimal = household.animals ?? [];
+      newAnimal.push(animal);
+    } else {
+      newAnimal = household.animals ?? [];
+      const index = newAnimal.findIndex(
+        (obj: any) => obj.animal_type_id === animal_type_id
+      );
+      newAnimal.splice(index, 1);
+    }
+    handleArrayChangeInHousehold("animals", newAnimal);
+    setAnimal({ ...initialAnimal });
+  };
+
+  const handleLandChange = (e: any) => {
+    setLand((land) => ({
+      ...land,
+      [e.target.name]: e.target.value,
+    }));
+    if (e.target.name == "land_type_id") {
+      let v = land_types.find((s: any) => s.id == e.target.value);
+      setLand((land) => ({
+        ...land,
+        land_type: v.name,
+      }));
+    }
+  };
+
+  const saveLand = (cmd: string, index?: any) => {
+    let newLand;
+    newLand = household.lands ?? [];
+    if (cmd == "add") {
+      newLand.push(land);
+    } else {
+      newLand.splice(index, 1);
+    }
+    handleArrayChangeInHousehold("lands", newLand);
+    setLand({ ...initialLand });
+  };
+
+  const getHohPhoto = async () => {
+    if (
+      "mediaDevices" in navigator &&
+      "getUserMedia" in navigator.mediaDevices
+    ) {
+      let video = document.querySelector("#video") as HTMLVideoElement;
+      let stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: false,
+      });
+      video!.srcObject = stream;
+
+      let click_photo = document.querySelector(
+        "#click-photo"
+      ) as HTMLButtonElement;
+
+      video.style.display = "block";
+      click_photo.style.display = "block";
+    }
+  };
+
+  const clickPhoto = async () => {
+    let video = document.querySelector("#video") as HTMLVideoElement;
+    let canvas = document.querySelector("#canvas") as HTMLCanvasElement;
+    canvas!
+      .getContext("2d")
+      .drawImage(video, 0, 0, canvas.width, canvas.height);
+    let image_data_url = canvas.toDataURL("image/jpeg");
+    console.log(image_data_url);
+    video.style.display = "none";
+    canvas.style.display = "block";
+    let click_photo = document.querySelector(
+      "#click-photo"
+    ) as HTMLButtonElement;
+    let reset = document.querySelector("#reset-photo") as HTMLButtonElement;
+    click_photo.style.display = "none";
+    reset.style.display = "block";
+    handleArrayChangeInHousehold("responder_image", image_data_url);
+  };
+
+  const resetPhoto = async () => {
+    let canvas = document.querySelector("#canvas") as HTMLCanvasElement;
+    let reset = document.querySelector("#reset-photo") as HTMLButtonElement;
+    reset.style.display = "none";
+    canvas.style.display = "none";
+    getHohPhoto();
   };
 
   return (
@@ -404,80 +533,6 @@ export default function GharKoDetailBiabarn(props: any) {
             selectionLimit={5}
           />
         </div>
-
-        <label className="label">45. खानेपानीको मुख्य श्रोत</label>
-        <div className="options-horizontal">
-          <select
-            className="form-control"
-            value={household.water_source_id ?? ""}
-            name="water_source_id"
-            onChange={handleChange}
-          >
-            <option value={""} key={"श्रोत-1"}>
-              ---- श्रोत -----
-            </option>
-            {water_sources.map((option, key) => (
-              <option value={option.value} key={"water_source_id" + key}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        {(household.water_source_id == "1" ||
-          household.water_source_id == "6") && (
-          <>
-            <label className="label">a. घरमा कि साझा ?</label>
-
-            <div className="options-horizontal">
-              <select
-                className="form-control"
-                value={household.water_source_location ?? "घरमा"}
-                name="water_source_location"
-                onChange={handleChange}
-              >
-                <option value={"घरमा"} key={"घरमा121"}>
-                  घरमा
-                </option>
-                <option value={"साझा"} key={"घरमा"}>
-                  साझा
-                </option>
-              </select>
-            </div>
-          </>
-        )}
-        {household.water_source_location == "साझा" && (
-          <>
-            <label className="label">b. लाग्ने समय ? (मिनेट)</label>
-            <div className="options-horizontal">
-              <input
-                className="form-control"
-                value={household.water_source_distance ?? ""}
-                name="water_source_distance"
-                onChange={handleChange}
-                placeholder="दुरी (मिनेट)"
-              />
-            </div>
-          </>
-        )}
-        <label className="label">
-          46. सार्वजनिक यातायात चल्ने सम्मको दुरी ? (मिटर/मिनेट)
-        </label>
-        <div className="options-horizontal">
-          <input
-            className="form-control"
-            value={household.public_vehicle_distance_meter ?? ""}
-            name="public_vehicle_distance_meter"
-            onChange={handleChange}
-            placeholder="दुरी (मिटरमा)"
-          />
-          <input
-            className="form-control"
-            value={household.public_vehicle_distance_minute ?? ""}
-            name="public_vehicle_distance_minute"
-            onChange={handleChange}
-            placeholder="दुरी (मिनेट)"
-          />
-        </div>
       </div>
 
       <div className={`form-group`} id="17">
@@ -600,7 +655,11 @@ export default function GharKoDetailBiabarn(props: any) {
                 className="form-control"
                 name="maternity_death_condition"
                 key={"गर्भाअवस्था/ ४५ दिनभितत्रको सुत्केरी?"}
-                value={household.maternity_death_condition ? household.maternity_death_condition : "गर्भाअवस्था"}
+                value={
+                  household.maternity_death_condition
+                    ? household.maternity_death_condition
+                    : "गर्भाअवस्था"
+                }
                 onChange={(e) => handleChange(e)}
               >
                 <option value={"गर्भाअवस्था"}>गर्भाअवस्था</option>
@@ -633,7 +692,11 @@ export default function GharKoDetailBiabarn(props: any) {
                 className="form-control"
                 name="child_death_condition"
                 key={"नवशिशु / शिशु/ बाल मृत्यु भएको छ?"}
-                value={household.child_death_condition ? household.child_death_condition : "नवशिशु"}
+                value={
+                  household.child_death_condition
+                    ? household.child_death_condition
+                    : "नवशिशु"
+                }
                 onChange={(e) => handleChange(e)}
               >
                 <option value={"नवशिशु"}>नवशिशु</option>
@@ -643,7 +706,7 @@ export default function GharKoDetailBiabarn(props: any) {
             </div>
             <label className="label">b. कतिजना?</label>
             <div className="options-horizontal">
-            <input
+              <input
                 className="form-control"
                 value={household.child_death_count ?? ""}
                 name="child_death_count"
@@ -652,6 +715,531 @@ export default function GharKoDetailBiabarn(props: any) {
             </div>
           </>
         )}
+      </div>
+
+      <div className={`form-group`} id="17">
+        <label className="label">52. खानेपानीको मुख्य श्रोत</label>
+        <div className="options-horizontal">
+          <select
+            className="form-control"
+            value={household.water_source_id ?? ""}
+            name="water_source_id"
+            onChange={handleChange}
+          >
+            <option value={""} key={"श्रोत-1"}>
+              ---- श्रोत -----
+            </option>
+            {water_sources.map((option, key) => (
+              <option value={option.value} key={"water_source_id" + key}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        {(household.water_source_id == "1" ||
+          household.water_source_id == "6") && (
+          <>
+            <label className="label">a. घरमा कि साझा ?</label>
+
+            <div className="options-horizontal">
+              <select
+                className="form-control"
+                value={household.water_source_location ?? "घरमा"}
+                name="water_source_location"
+                onChange={handleChange}
+              >
+                <option value={"घरमा"} key={"घरमा121"}>
+                  घरमा
+                </option>
+                <option value={"साझा"} key={"घरमा"}>
+                  साझा
+                </option>
+              </select>
+            </div>
+          </>
+        )}
+        {household.water_source_location == "साझा" && (
+          <>
+            <label className="label">b. लाग्ने समय ? (मिनेट)</label>
+            <div className="options-horizontal">
+              <input
+                className="form-control"
+                value={household.water_source_distance ?? ""}
+                name="water_source_distance"
+                onChange={handleChange}
+                placeholder="दुरी (मिनेट)"
+              />
+            </div>
+          </>
+        )}
+
+        <label className="label">53. खाना पकाउन</label>
+        <div className="options-horizontal">
+          <Multiselect
+            options={cooking_fuels}
+            selectedValues={household.cooking_fuels}
+            onSelect={(value) =>
+              handleArrayChangeInHousehold("cooking_fuels", value)
+            }
+            onRemove={(value) =>
+              handleArrayChangeInHousehold("cooking_fuels", value)
+            }
+            displayValue="name"
+            selectionLimit={5}
+          />
+        </div>
+
+        <label className="label">54. बत्ति बाल्न</label>
+        <div className="options-horizontal">
+          <Multiselect
+            options={light_fuels}
+            selectedValues={household.light_fuels}
+            onSelect={(value) =>
+              handleArrayChangeInHousehold("light_fuels", value)
+            }
+            onRemove={(value) =>
+              handleArrayChangeInHousehold("light_fuels", value)
+            }
+            displayValue="name"
+            selectionLimit={5}
+          />
+        </div>
+
+        <label className="label">
+          55. सार्वजनिक यातायात चल्ने सम्मको दुरी ? (मिटर/मिनेट)
+        </label>
+        <div className="options-horizontal">
+          <input
+            className="form-control"
+            value={household.public_vehicle_distance_meter ?? ""}
+            name="public_vehicle_distance_meter"
+            onChange={handleChange}
+            placeholder="दुरी (मिटरमा)"
+          />
+          <input
+            className="form-control"
+            value={household.public_vehicle_distance_minute ?? ""}
+            name="public_vehicle_distance_minute"
+            onChange={handleChange}
+            placeholder="दुरी (मिनेट)"
+          />
+        </div>
+        <label className="label">
+          56. स्वास्थ्य चौकी वा अस्पताल सम्म लाग्ने दुरी? (मिटर/मिनेट)
+        </label>
+        <div className="options-horizontal">
+          <input
+            className="form-control"
+            value={household.hospital_distance_meter ?? ""}
+            name="hospital_distance_meter"
+            onChange={handleChange}
+            placeholder="दुरी (मिटरमा)"
+          />
+          <input
+            className="form-control"
+            value={household.hospital_distance_minute ?? ""}
+            name="hospital_distance_minute"
+            onChange={handleChange}
+            placeholder="दुरी (मिनेट)"
+          />
+        </div>
+        <label className="label">57. आधारभुत विद्यालय सम्म लाग्ने समय</label>
+        <div className="options-horizontal">
+          <input
+            className="form-control"
+            value={household.primary_distance ?? ""}
+            name="primary_distance"
+            onChange={handleChange}
+            placeholder="दुरी (मिनेट)"
+          />
+        </div>
+        <label className="label">58. माध्यमिक विद्यालय सम्म लाग्ने समय</label>
+        <div className="options-horizontal">
+          <input
+            className="form-control"
+            value={household.secondary_distance ?? ""}
+            name="secondary_distance"
+            onChange={handleChange}
+            placeholder="दुरी (मिनेट)"
+          />
+        </div>
+        <label className="label">59. माध्यमिक विद्यालय सम्म लाग्ने समय</label>
+        <div className="options-horizontal">
+          <input
+            className="form-control"
+            value={household.higher_secondary_distance ?? ""}
+            name="higher_secondary_distance"
+            onChange={handleChange}
+            placeholder="दुरी (मिनेट)"
+          />
+        </div>
+      </div>
+
+      <div className={`form-group`} id="18">
+        <label className="label">60. सौचालयको प्रकार</label>
+        <div className="options-horizontal">
+          <select
+            className="form-control"
+            value={household.toilet_type_id ?? ""}
+            name="toilet_type_id"
+            onChange={handleChange}
+          >
+            <option value={""} key={"सौचालयको प्रकार-1"}>
+              ---- प्रकार -----
+            </option>
+            {toilet_types.map((option, key) => (
+              <option value={option.value} key={"सौचालयको प्रकार" + key}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <label className="label">61. भुकम्पमा घर पुननिर्माणमा परेको छ?</label>
+        <div className="options-horizontal">
+          <div className="radio" key={"has_earthquake_relief_plan1"}>
+            <label>
+              <input
+                type="radio"
+                value={"1"}
+                name="has_earthquake_relief_plan"
+                checked={household.has_earthquake_relief_plan == "1"}
+                onChange={(e) => handleChange(e)}
+              />
+              छ
+            </label>
+          </div>
+          <div className="radio" key={"has_earthquake_relief_plan2"}>
+            <label>
+              <input
+                type="radio"
+                value={"0"}
+                name="has_earthquake_relief_plan"
+                checked={household.has_earthquake_relief_plan == "0"}
+                onChange={(e) => handleChange(e)}
+              />
+              छैन
+            </label>
+          </div>
+        </div>
+        {household.has_earthquake_relief_plan == "1" && (
+          <>
+            <label className="label">a. कतिवटा परेको ?</label>
+            <div className="options-horizontal">
+              <input
+                className="form-control"
+                value={household.earthquake_house_damage_count ?? ""}
+                name="earthquake_house_damage_count"
+                onChange={handleChange}
+              />
+            </div>
+
+            <label className="label">b. निर्माण अवस्था ?</label>
+            <div className="options-horizontal">
+              <select
+                className="form-control"
+                name="earthquake_house_relief_status"
+                key={"मातृ मृत्यु भएको छ/ छैन?"}
+                value={
+                  household.earthquake_house_relief_status == "1" ? "1" : "0"
+                }
+                onChange={(e) => handleChange(e)}
+              >
+                <option value={"सम्झौता मात्र गरेको"}>
+                  सम्झौता मात्र गरेको
+                </option>
+                <option value={"घर निर्माणधीन"}>घर निर्माणधीन</option>
+                <option value={"घर निर्माण सम्पन्न"}>घर निर्माण सम्पन्न</option>
+              </select>
+            </div>
+          </>
+        )}
+        <label className="label">62. घरको नक्सापास गरेको छ?</label>
+        <div className="options-horizontal">
+          <div className="radio" key={"घरको नक्सापास गरेको छ1"}>
+            <label>
+              <input
+                type="radio"
+                value={"1"}
+                name="map_pass"
+                checked={household.map_pass == "1"}
+                onChange={(e) => handleChange(e)}
+              />
+              छ
+            </label>
+          </div>
+          <div className="radio" key={"घरको नक्सापास गरेको छ2"}>
+            <label>
+              <input
+                type="radio"
+                value={"0"}
+                name="map_pass"
+                checked={household.map_pass == "0"}
+                onChange={(e) => handleChange(e)}
+              />
+              छैन
+            </label>
+          </div>
+        </div>
+        <label className="label">63. पशुपन्छीको संख्या? </label>
+        <div className="options-horizontal">
+          <div className="child-section">
+            {household.animals &&
+              household.animals.map((an: any, an_key: any) => (
+                <button
+                  className="btn btn-outline-info btn-sm btn-block"
+                  key={an_key}
+                  onClick={() => saveAnimal("remove", an.animal_type_id)}
+                >
+                  {an.animal} - {an.count}
+                </button>
+              ))}
+            <br />
+
+            <div className="options-horizontal">
+              <select
+                className="form-control"
+                value={animal.animal_type_id}
+                name="animal_type_id"
+                onChange={handleAnimalChange}
+              >
+                <option value={""} key={"कारन-1"}>
+                  ---- पशुपन्छी -----
+                </option>
+                {animal_types.map((option, key) => (
+                  <option value={option.id} key={"death_reasons" + key}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="options-horizontal">
+              <input
+                type="number"
+                className="form-control"
+                value={animal.count ?? ""}
+                name="count"
+                onChange={handleAnimalChange}
+                placeholder="विदेशबाट आउने रकम (मासिक)"
+              />
+            </div>
+
+            <button
+              onClick={() => saveAnimal("add")}
+              className="btn btn-sm btn-success"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className={`form-group`} id="19">
+        <label className="label">64. जग्गा सम्बन्धी </label>
+        <div className="options-horizontal">
+          <div className="child-section">
+            {household.lands &&
+              household.lands.map((an: any, an_key: any) => (
+                <button
+                  className="btn btn-outline-info btn-sm btn-block"
+                  key={an_key}
+                  onClick={() => saveLand("remove", an_key)}
+                >
+                  {an.location} - {an.total_area} {an.area_unit}
+                </button>
+              ))}
+            <br />
+            <label className="label">a. जग्गाको स्थान</label>
+
+            <div className="options-horizontal">
+              <select
+                className="form-control"
+                value={land.location}
+                name="location"
+                onChange={handleLandChange}
+              >
+                <option value={""} key={"जग्गाको स्थान"}>
+                  ---- स्थान -----
+                </option>
+
+                <option value={"गाउँपालिका"}>गाउँपालिका</option>
+                <option value={"जिल्ला"}>जिल्ला</option>
+                <option value={"काठमान्डौ"}>काठमान्डौ</option>
+                <option value={"अन्य"}>अन्य</option>
+              </select>
+            </div>
+            {land.location == "गाउँपालिका" && (
+              <>
+                <select
+                  className="form-control"
+                  value={land.ward_id}
+                  name="ward_id"
+                  onChange={handleLandChange}
+                >
+                  <option value={""} key={"जग्गाको वडा नं"}>
+                    ---- वडा नं -----
+                  </option>
+                  {wards.map((w: IWard, keyw: any) => (
+                    <option value={w.id} key={keyw}>
+                      {w.name}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
+            <label className="label">b. जग्गाको प्रकार</label>
+            <div className="options-verticle">
+              <select
+                className="form-control"
+                value={land.land_type_id}
+                name="land_type_id"
+                onChange={handleLandChange}
+              >
+                <option value={""} key={"जग्गाको प्रकारः"}>
+                  ---- जग्गाको प्रकार -----
+                </option>
+                {land_types.map((option, key) => (
+                  <option value={option.id} key={"जग्गाको प्रकारः" + key}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* <label className="label">c. क्षेत्रफल</label> */}
+            <div className="options-horizontal">
+              <input
+                type="number"
+                className="form-control"
+                value={land.total_area ?? ""}
+                name="total_area"
+                onChange={handleLandChange}
+                placeholder="क्षेत्रफल"
+              />
+              <select
+                className="form-control"
+                value={land.area_unit}
+                name="area_unit"
+                onChange={handleLandChange}
+              >
+                <option value={""} key={"जग्गाको क्षेत्रफल"}>
+                  ---- क्षेत्रफल -----
+                </option>
+
+                <option value={"रोपनी"}>रोपनी</option>
+                <option value={"आना"}>आना</option>
+                <option value={"दाम"}>दाम</option>
+              </select>
+            </div>
+            <label className="label">d. कित्ता नं</label>
+            <div className="options-verticle">
+              <input
+                className="form-control"
+                value={land.kitta_no ?? ""}
+                name="kitta_no"
+                onChange={handleLandChange}
+                placeholder="कित्ता नं"
+              />
+            </div>
+            <label className="label">e. सिचाई सुविधा</label>
+            <div className="options-horizontal">
+              <div className="radio" key={"irrigation"}>
+                <label>
+                  <input
+                    type="radio"
+                    value={"1"}
+                    name="irrigation"
+                    checked={land.irrigation == "1"}
+                    onChange={handleLandChange}
+                  />
+                  छ
+                </label>
+              </div>
+              <div className="radio" key={"irrigation2"}>
+                <label>
+                  <input
+                    type="radio"
+                    value={"0"}
+                    name="irrigation"
+                    checked={land.irrigation == "0"}
+                    onChange={handleLandChange}
+                  />
+                  छैन
+                </label>
+              </div>
+            </div>
+            <div className="options-horizontal">
+              <input
+                type="number"
+                className="form-control"
+                value={land.remarks ?? ""}
+                name="remarks"
+                onChange={handleLandChange}
+                placeholder="कैफियत"
+              />
+            </div>
+            <button
+              onClick={() => saveLand("add")}
+              className="btn btn-sm btn-success"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className={`form-group`} id="20">
+        <label className="label">65. उत्तरदाताको नाम</label>
+        <div className="options-horizontal">
+          <input
+            className="form-control"
+            value={household.responder_name ?? ""}
+            name="responder_name"
+            onChange={handleChange}
+          />
+        </div>
+        <label className="label">66. उत्तरदाताको फोटोः</label>
+        <div className="options-verical">
+          <video
+            id="video"
+            width="320"
+            height="240"
+            autoPlay
+            style={{ display: "none" }}
+          ></video>
+
+          <canvas
+            id="canvas"
+            width="320"
+            height="240"
+            style={{ display: "none" }}
+          ></canvas>
+          <button
+            id="click-photo"
+            className="btn btn-sm btn-success"
+            onClick={clickPhoto}
+            style={{ display: "none" }}
+          >
+            Click Photo
+          </button>
+          <button
+            id="reset-photo"
+            className="btn btn-sm btn-danger"
+            onClick={resetPhoto}
+            style={{ display: "none" }}
+          >
+            Reset
+          </button>
+          <input
+            type="hidden"
+            name="responder_image"
+            id="responder_image"
+            onChange={(e) => handleChange(e)}
+          />
+          <button className="btn btn-secondary" onClick={getHohPhoto}>
+            उत्तरदाताको फोटो
+          </button>
+        </div>
       </div>
     </>
   );
