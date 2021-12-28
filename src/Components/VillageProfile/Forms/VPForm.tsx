@@ -188,7 +188,6 @@ export default function VPForm(props: any) {
     let newMemberList = members;
     newMemberList[index] = mem;
     setMembers([...newMemberList]);
-    console.log(name, value);
   };
   return (
     <div className="vp-form-wrapper">
