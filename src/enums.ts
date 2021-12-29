@@ -1,398 +1,218 @@
 const hoh_roles = [
-  {
-    label: "बाबु",
-    value: "father",
-  },
-  {
-    label: "आमा",
-    value: "mother",
-  },
-  {
-    label: "जेठो दाई",
-    value: "eldest_son",
-  },
+  { name: "बाबु", id: "father" },
+  { name: "आमा", id: "mother" },
+  { name: "जेठो दाई", id: "eldest_son" },
 ];
 const gender_choice = [
-  {
-    label: "पुरष",
-    value: "male",
-  },
-  {
-    label: "महिला",
-    value: "female",
-  },
-  {
-    label: "अन्य",
-    value: "other",
-  },
+  { name: "पुरष", id: "male" },
+  { name: "महिला", id: "female" },
+  { name: "अन्य", id: "other" },
 ];
 
 const relations = [
-  {
-    value: "1",
-    label: "आफै",
-  },
-  {
-    value: "2",
-    label: "श्रीमती",
-  },
-  {
-    value: "3",
-    label: "श्रीमान",
-  },
-  {
-    value: "4",
-    label: "बुबा",
-  },
-  {
-    value: "4",
-    label: "बुबा",
-  },
-  {
-    value: "5",
-    label: "आमा",
-  },
-  {
-    value: "6",
-    label: "छोरा",
-  },
-  {
-    value: "7",
-    label: "छोरी",
-  },
-  {
-    value: "8",
-    label: "हजुर आमा",
-  },
-  {
-    value: "9",
-    label: "हजुर बुबा",
-  },
-  {
-    value: "10",
-    label: "दाजु",
-  },
-  {
-    value: "11",
-    label: "दिदी",
-  },
-  {
-    value: "12",
-    label: "भाई",
-  },
-  {
-    value: "13",
-    label: "बहिनी",
-  },
-  {
-    value: "14",
-    label: "नन्द",
-  },
-  {
-    value: "15",
-    label: "बुहारी",
-  },
-  {
-    value: "16",
-    label: "काका",
-  },
-  {
-    value: "17",
-    label: "काकी",
-  },
-  {
-    value: "18",
-    label: "भतिज",
-  },
-  {
-    value: "19",
-    label: "भाउजु",
-  },
-  {
-    value: "20",
-    label: "नातिनी",
-  },
-  {
-    value: "21",
-    label: "नाती",
-  },
-  {
-    value: "22",
-    label: "फुफु",
-  },
-  {
-    value: "23",
-    label: "भान्जा",
-  },
+  { id: "1", name: "आफै" },
+  { id: "2", name: "श्रीमती" },
+  { id: "3", name: "श्रीमान" },
+  { id: "4", name: "बुबा" },
+  { id: "4", name: "बुबा" },
+  { id: "5", name: "आमा" },
+  { id: "6", name: "छोरा" },
+  { id: "7", name: "छोरी" },
+  { id: "8", name: "हजुर आमा" },
+  { id: "9", name: "हजुर बुबा" },
+  { id: "10", name: "दाजु" },
+  { id: "11", name: "दिदी" },
+  { id: "12", name: "भाई" },
+  { id: "13", name: "बहिनी" },
+  { id: "14", name: "नन्द" },
+  { id: "15", name: "बुहारी" },
+  { id: "16", name: "काका" },
+  { id: "17", name: "काकी" },
+  { id: "18", name: "भतिज" },
+  { id: "19", name: "भाउजु" },
+  { id: "20", name: "नातिनी" },
+  { id: "21", name: "नाती" },
+  { id: "22", name: "फुफु" },
+  { id: "23", name: "भान्जा" },
 ];
 
 const mother_tongues = [
-  {
-    value: "1",
-    label: "नेपाली",
-  },
+  { id: "1", name: "नेपाली" },
   // {
-  //   value: "2",
-  //   label: "मैथिली",
+  //   id: "2",
+  //   name: "मैथिली",
   // },
   // {
-  //   value: "3",
-  //   label: "थारु",
+  //   id: "3",
+  //   name: "थारु",
   // },
-  {
-    value: "4",
-    label: "तामाङ",
-  },
+  { id: "4", name: "तामाङ" },
   // {
-  //   value: "5",
-  //   label: "नेपालभाषा",
+  //   id: "5",
+  //   name: "नेपालभाषा",
   // },
   // {
-  //   value: "6",
-  //   label: "बज्जीका",
+  //   id: "6",
+  //   name: "बज्जीका",
   // },
-  {
-    value: "7",
-    label: "मगर",
-  },
+  { id: "7", name: "मगर" },
   // {
-  //   value: "8",
-  //   label: "डोटली",
+  //   id: "8",
+  //   name: "डोटली",
   // },
   // {
-  //   value: "9",
-  //   label: "उर्दु",
+  //   id: "9",
+  //   name: "उर्दु",
   // },
   // {
-  //   value: "10",
-  //   label: "अवधी",
+  //   id: "10",
+  //   name: "अवधी",
   // },
-  {
-    value: "11",
-    label: "लिम्बु",
-  },
-  {
-    value: "12",
-    label: "गुरुङ",
-  },
+  { id: "11", name: "लिम्बु" },
+  { id: "12", name: "गुरुङ" },
   // {
-  //   value: "13",
-  //   label: "बैतडेली",
+  //   id: "13",
+  //   name: "बैतडेली",
   // },
-  {
-    value: "14",
-    label: "राई",
-  },
+  { id: "14", name: "राई" },
   // {
-  //   value: "15",
-  //   label: "अछामी",
+  //   id: "15",
+  //   name: "अछामी",
   // },
   // {
-  //   value: "16",
-  //   label: "बान्तवा",
+  //   id: "16",
+  //   name: "बान्तवा",
   // },
   // {
-  //   value: "17",
-  //   label: "राजबंशी",
+  //   id: "17",
+  //   name: "राजबंशी",
   // },
   // {
-  //   value: "18",
-  //   label: "शेर्पा",
+  //   id: "18",
+  //   name: "शेर्पा",
   // },
   // {
-  //   value: "19",
-  //   label: "भोजपुरी",
+  //   id: "19",
+  //   name: "भोजपुरी",
   // },
-  {
-    value: "20",
-    label: "थामी",
-  },
-  {
-    value: "21",
-    label: "माझी",
-  },
-  {
-    value: "22",
-    label: "अन्य",
-  },
+  { id: "20", name: "थामी" },
+  { id: "21", name: "माझी" },
+  { id: "22", name: "अन्य" },
 ];
 
 const education_levels = [
-  {
-    value: "1",
-    label: "पुर्व प्राथमिक",
-  },
-  {
-    value: "2",
-    label: "आधारभुत तह",
-  },
-  {
-    value: "3",
-    label: "माध्यामिक तह",
-  },
-  {
-    value: "4",
-    label: "स्नातक",
-  },
-  {
-    value: "5",
-    label: "स्नातकोत्तर",
-  },
-  {
-    value: "6",
-    label: "एमफिल र बिद्यावारिधी",
-  },
-  {
-    value: "7",
-    label: "प्राविधिक एस.एल.सी (एस.ई.ई)",
-  },
-  {
-    value: "8",
-    label: "साधारण लेखपद (साक्षर)",
-  },
-  {
-    value: "9",
-    label: "लेखपद गर्न नसक्ने (निरक्षर)",
-  },
+  { id: "1", name: "पुर्व प्राथमिक" },
+  { id: "2", name: "आधारभुत तह" },
+  { id: "3", name: "माध्यामिक तह" },
+  { id: "4", name: "स्नातक" },
+  { id: "5", name: "स्नातकोत्तर" },
+  { id: "6", name: "एमफिल र बिद्यावारिधी" },
+  { id: "7", name: "प्राविधिक एस.एल.सी (एस.ई.ई)" },
+  { id: "8", name: "साधारण लेखपद (साक्षर)" },
+  { id: "9", name: "लेखपद गर्न नसक्ने (निरक्षर)" },
 ];
 
 const education_statuses = [
-  {
-    value: "1",
-    label: "अध्ययनरत",
-  },
-  {
-    value: "2",
-    label: "पढाइ छाडेको",
-  },
-  {
-    value: "3",
-    label: "अध्ययन पुरा",
-  },
-  {
-    value: "4",
-    label: "निरक्षर",
-  },
+  { id: "1", name: "अध्ययनरत" },
+  { id: "2", name: "पढाइ छाडेको" },
+  { id: "3", name: "अध्ययन पुरा" },
+  { id: "4", name: "निरक्षर" },
 ];
 
 const marital_statuses = [
-  {
-    value: "1",
-    label: "विवाहित",
-  },
-  {
-    value: "2",
-    label: "अविवाहित",
-  },
-  {
-    value: "3",
-    label: "एकल बिबाह",
-  },
-  {
-    value: "4",
-    label: "बहु बिबाह",
-  },
-  {
-    value: "5",
-    label: "पुन: बिबाह",
-  },
-  {
-    value: "6",
-    label: "बिदुर / बिधुवा",
-  },
-  {
-    value: "7",
-    label: "सम्बन्ध बिच्छेद",
-  },
-  {
-    value: "8",
-    label: "बिबाहित तर अलग बसेको",
-  },
+  { id: "1", name: "विवाहित" },
+  { id: "2", name: "अविवाहित" },
+  { id: "3", name: "एकल बिबाह" },
+  { id: "4", name: "बहु बिबाह" },
+  { id: "5", name: "पुन: बिबाह" },
+  { id: "6", name: "बिदुर / बिधुवा" },
+  { id: "7", name: "सम्बन्ध बिच्छेद" },
+  { id: "8", name: "बिबाहित तर अलग बसेको" },
 ];
 
 const vehicle_types = [
-  { value: "1", label: "अटो  रिक्सा" },
-  { value: "2", label: "मोटरसाइकल" },
-  { value: "3", label: "कार" },
-  { value: "4", label: "जिप/भ्यान" },
-  { value: "5", label: "बस" },
-  { value: "6", label: "ट्रक/ त्रपर" },
-  { value: "7", label: "डोजर लोडर हेभी उपकरण" },
+  { id: "1", name: "अटो  रिक्सा" },
+  { id: "2", name: "मोटरसाइकल" },
+  { id: "3", name: "कार" },
+  { id: "4", name: "जिप/भ्यान" },
+  { id: "5", name: "बस" },
+  { id: "6", name: "ट्रक/ त्रपर" },
+  { id: "7", name: "डोजर लोडर हेभी उपकरण" },
 ];
 
 const disability_types = [
-  { value: "1", label: "दृष्टिबिहिन" },
-  { value: "2", label: "न्यून दृष्टिबिहिन" },
-  { value: "3", label: "बहिरा" },
-  { value: "4", label: "बोल्न नसक्ने" },
-  { value: "5", label: "सुस्त मनस्थिति" },
-  { value: "6", label: "सुस्त श्रवन" },
-  { value: "7", label: "हातखुट्टा नचल्ने" },
+  { id: "1", name: "दृष्टिबिहिन" },
+  { id: "2", name: "न्यून दृष्टिबिहिन" },
+  { id: "3", name: "बहिरा" },
+  { id: "4", name: "बोल्न नसक्ने" },
+  { id: "5", name: "सुस्त मनस्थिति" },
+  { id: "6", name: "सुस्त श्रवन" },
+  { id: "7", name: "हातखुट्टा नचल्ने" },
 ];
 
 const disability_card_types = [
-  { value: "1", label: "रातो" },
-  { value: "2", label: "निलो" },
-  { value: "3", label: "सेतो" },
-  { value: "4", label: "पाएको छैन" },
+  { id: "1", name: "रातो" },
+  { id: "2", name: "निलो" },
+  { id: "3", name: "सेतो" },
+  { id: "4", name: "पाएको छैन" },
 ];
 
 const disease_names = [
-  { value: "प्रेसर", label: "प्रेसर" },
-  { value: "सुगर", label: "सुगर" },
-  { value: "क्षयरोग", label: "क्षयरोग" },
-  { value: "क्यान्सर", label: "क्यान्सर" },
-  { value: "एच.आई.भि/ एड्स", label: "एच.आई.भि/ एड्स" },
-  { value: "ग्याष्ट्रिक", label: "ग्याष्ट्रिक" },
-  { value: "हेपाटाईटिस बी", label: "हेपाटाईटिस बी" },
-  { value: "अन्य", label: "अन्य" },
+  { id: "प्रेसर", name: "प्रेसर" },
+  { id: "सुगर", name: "सुगर" },
+  { id: "क्षयरोग", name: "क्षयरोग" },
+  { id: "क्यान्सर", name: "क्यान्सर" },
+  { id: "एच.आई.भि/ एड्स", name: "एच.आई.भि/ एड्स" },
+  { id: "ग्याष्ट्रिक", name: "ग्याष्ट्रिक" },
+  { id: "हेपाटाईटिस बी", name: "हेपाटाईटिस बी" },
+  { id: "अन्य", name: "अन्य" },
 ];
 
 const death_reasons = [
-  { value: "1", label: "कालगति" },
-  { value: "2", label: "दुर्घटना" },
-  { value: "3", label: "आत्महत्या" },
-  { value: "4", label: "हत्या" },
-  { value: "5", label: "दिर्घरोगी" },
-  { value: "6", label: "थाहा नभएको" },
-  { value: "7", label: "हराएको" },
-  { value: "8", label: "बेपत्ता पारिएको" },
+  { id: "1", name: "कालगति" },
+  { id: "2", name: "दुर्घटना" },
+  { id: "3", name: "आत्महत्या" },
+  { id: "4", name: "हत्या" },
+  { id: "5", name: "दिर्घरोगी" },
+  { id: "6", name: "थाहा नभएको" },
+  { id: "7", name: "हराएको" },
+  { id: "8", name: "बेपत्ता पारिएको" },
 ];
 
 const countries = [
-  { value: "1", label: "AUSTRALIA" },
-  { value: "2", label: "BAHARAIN" },
-  { value: "3", label: "BANGLADESH" },
-  { value: "4", label: "CHINA" },
-  { value: "5", label: "SOUTH KOREA" },
-  { value: "6", label: "DENMARK" },
-  { value: "7", label: "DUBAI" },
-  { value: "8", label: "GERMANY" },
-  { value: "9", label: "INDIA" },
-  { value: "10", label: "VIETNAM" },
-  { value: "11", label: "SINGAPORE" },
-  { value: "12", label: "BELGIUM" },
-  { value: "13", label: "FRANCE" },
-  { value: "14", label: "IRE-LAND" },
-  { value: "15", label: "NEW-ZEALAND" },
-  { value: "16", label: "CANADA" },
-  { value: "17", label: "IRAQ" },
-  { value: "18", label: "ISRAEL" },
-  { value: "19", label: "JAPAN" },
-  { value: "20", label: "KUWAIT" },
-  { value: "21", label: "LIBIA" },
-  { value: "22", label: "MALDIVES" },
-  { value: "23", label: "MALAYSIA" },
-  { value: "24", label: "PHILIPPINES" },
-  { value: "25", label: "POLAND" },
+  { id: "1", name: "AUSTRALIA" },
+  { id: "2", name: "BAHARAIN" },
+  { id: "3", name: "BANGLADESH" },
+  { id: "4", name: "CHINA" },
+  { id: "5", name: "SOUTH KOREA" },
+  { id: "6", name: "DENMARK" },
+  { id: "7", name: "DUBAI" },
+  { id: "8", name: "GERMANY" },
+  { id: "9", name: "INDIA" },
+  { id: "10", name: "VIETNAM" },
+  { id: "11", name: "SINGAPORE" },
+  { id: "12", name: "BELGIUM" },
+  { id: "13", name: "FRANCE" },
+  { id: "14", name: "IRE-LAND" },
+  { id: "15", name: "NEW-ZEALAND" },
+  { id: "16", name: "CANADA" },
+  { id: "17", name: "IRAQ" },
+  { id: "18", name: "ISRAEL" },
+  { id: "19", name: "JAPAN" },
+  { id: "20", name: "KUWAIT" },
+  { id: "21", name: "LIBIA" },
+  { id: "22", name: "MALDIVES" },
+  { id: "23", name: "MALAYSIA" },
+  { id: "24", name: "PHILIPPINES" },
+  { id: "25", name: "POLAND" },
 ];
 
 const foreign_reasons = [
-  { value: "1", label: "रोजगारी" },
-  { value: "2", label: "ब्यापार" },
-  { value: "3", label: "अध्ययन" },
-  { value: "4", label: "आप्रबास" },
-  { value: "5", label: "अन्य" },
+  { id: "1", name: "रोजगारी" },
+  { id: "2", name: "ब्यापार" },
+  { id: "3", name: "अध्ययन" },
+  { id: "4", name: "आप्रबास" },
+  { id: "5", name: "अन्य" },
 ];
 
 const festivals = [
@@ -419,12 +239,12 @@ const festivals = [
 ];
 
 const water_sources = [
-  { value: "1", label: "मुलको धारा" },
-  { value: "6", label: "लिफ्टको धारा" },
-  { value: "2", label: "कुवा" },
-  { value: "3", label: "मूल" },
-  { value: "4", label: "खोला" },
-  { value: "7", label: "अन्य" },
+  { id: "1", name: "मुलको धारा" },
+  { id: "6", name: "लिफ्टको धारा" },
+  { id: "2", name: "कुवा" },
+  { id: "3", name: "मूल" },
+  { id: "4", name: "खोला" },
+  { id: "7", name: "अन्य" },
 ];
 
 const cooking_fuels = [
@@ -445,9 +265,9 @@ const light_fuels = [
 ];
 
 const toilet_types = [
-  { value: "1", label: "पक्की" },
-  { value: "2", label: "कच्ची" },
-  { value: "3", label: "नभएको" },
+  { id: "1", name: "पक्की" },
+  { id: "2", name: "कच्ची" },
+  { id: "3", name: "नभएको" },
 ];
 
 const animal_types = [
@@ -513,5 +333,5 @@ export {
   animal_types,
   land_types,
   socialNetworks,
-  developmentOption
+  developmentOption,
 };

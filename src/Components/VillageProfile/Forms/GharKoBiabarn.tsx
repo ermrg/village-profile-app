@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { IBasti } from "../../../db/models/BastiModel";
 import { IHousehold } from "../../../db/models/Household";
 import { IMarga } from "../../../db/models/MargaModel";
-import { IWard } from "../../../db/models/WardModel";
 import { gender_choice, hoh_roles, mother_tongues } from "../../../enums";
+import InputComponent from "./FormComponent/InputComponent";
+import RadioComponent from "./FormComponent/RadioComponent";
+import SelectComponent from "./FormComponent/SelectComponent";
 
 export default function GharKoBiabarn(props: any) {
   let { bastis, wards, margas, hh, jaatis, dharmas } = props;
@@ -78,186 +80,91 @@ export default function GharKoBiabarn(props: any) {
   };
   return (
     <>
-      <div
-        className={`form-group`}
-        id="1"
-      >
-        <label className="label">1. वडाको नाम</label>
-        <div className="options-verical">
-          {wards.map((w: IWard, key: any) => (
-            <div className="radio" key={key}>
-              <label>
-                {household.ward_id == w.id.toString() ? (
-                  <input
-                    type="radio"
-                    value={w.id}
-                    name="ward_id"
-                    defaultChecked
-                    onChange={(e) => handleChange(e)}
-                  />
-                ) : (
-                  <input
-                    type="radio"
-                    value={w.id}
-                    name="ward_id"
-                    onChange={(e) => handleChange(e)}
-                  />
-                )}
-                {w.name}
-              </label>
-            </div>
-          ))}
-        </div>
+      <div className={`form-group`} id="1">
+        <RadioComponent
+          options={wards}
+          wrapperClass="options-verical"
+          label={"1. वडाको नाम"}
+          name="ward_id"
+          handleChange={handleChange}
+          defaultValue={household.ward_id}
+        />
 
-        <label className="label">2. टोलको नाम</label>
-        <div className="options-verical">
-          {bastis.map((b: IBasti, key: any) => (
-            <div className="radio" key={key}>
-              <label>
-                {household.basti_id == b.id.toString() ? (
-                  <input
-                    type="radio"
-                    value={b.id}
-                    name="basti_id"
-                    defaultChecked
-                    onChange={(e) => handleChange(e)}
-                  />
-                ) : (
-                  <input
-                    type="radio"
-                    value={b.id}
-                    name="basti_id"
-                    onChange={(e) => handleChange(e)}
-                  />
-                )}
-                {b.name}
-              </label>
-            </div>
-          ))}
-        </div>
-        <label className="label">3. मार्गको नाम</label>
-        <div className="options-verical">
-          {margas.map((m: IMarga, key: any) => (
-            <div className="radio" key={key}>
-              <label>
-                {household.marga_id == m.id.toString() ? (
-                  <input
-                    type="radio"
-                    value={m.id}
-                    name="marga_id"
-                    defaultChecked
-                    onChange={(e) => handleChange(e)}
-                  />
-                ) : (
-                  <input
-                    type="radio"
-                    value={m.id}
-                    name="marga_id"
-                    onChange={(e) => handleChange(e)}
-                  />
-                )}
-                {m.name}
-              </label>
-            </div>
-          ))}
-        </div>
+        <RadioComponent
+          options={bastis}
+          wrapperClass="options-verical"
+          label={"2. टोलको नाम"}
+          name="basti_id"
+          handleChange={handleChange}
+          defaultValue={household.basti_id}
+          id={"basti_id"}
+        />
+
+        <RadioComponent
+          options={margas}
+          wrapperClass="options-verical"
+          label={"3. मार्गको नाम"}
+          name="marga_id"
+          handleChange={handleChange}
+          defaultValue={household.marga_id}
+          id={"marga_id"}
+        />
       </div>
 
-      <div
-        className={`form-group`}
-        id="4"
-      >
-        <label className="label">4. घर नं.</label>
-        <div className="options-verical">
-          <input
-            onChange={(e) => handleChange(e)}
-            type="text"
-            className="form-control"
-            value={household.house_num ?? ""}
-            name="house_num"
-          />
-        </div>
-        <label className="label">5. घरमुलीको नाम</label>
-        <div className="options-verical">
-          <input
-            onChange={(e) => handleChange(e)}
-            type="text"
-            className="form-control"
-            value={household.hoh_name ? household.hoh_name : ""}
-            name="hoh_name"
-          />
-        </div>
-        <label className="label">6. घरमुली</label>
-        <div className="options-verical">
-          {hoh_roles.map((m: any, key: any) => (
-            <div className="radio" key={key}>
-              <label>
-                {household.hoh_role == m.value ? (
-                  <input
-                    type="radio"
-                    value={m.value}
-                    name="hoh_role"
-                    defaultChecked
-                    onChange={(e) => handleChange(e)}
-                  />
-                ) : (
-                  <input
-                    type="radio"
-                    value={m.value}
-                    name="hoh_role"
-                    onChange={(e) => handleChange(e)}
-                  />
-                )}
-                {m.label}
-              </label>
-            </div>
-          ))}
-        </div>
-        <label className="label">7. घरमुलीको लिंग</label>
-        <div className="options-verical">
-          {gender_choice.map((m: any, key: any) => (
-            <div className="radio" key={key}>
-              <label>
-                {household.hoh_gender == m.value ? (
-                  <input
-                    type="radio"
-                    value={m.value}
-                    name="hoh_gender"
-                    onChange={(e) => handleChange(e)}
-                    defaultChecked
-                  />
-                ) : (
-                  <input
-                    type="radio"
-                    value={m.value}
-                    name="hoh_gender"
-                    onChange={(e) => handleChange(e)}
-                  />
-                )}
-                {m.label}
-              </label>
-            </div>
-          ))}
-        </div>
-        <label className="label">8. जाति</label>
-        <div className="options-verical">
-          <select
-            className="form-control"
-            name="jaati_id"
-            required
-            onChange={(e) => handleChange(e)}
-            value={household.jaati_id ? household.jaati_id : ""}
-          >
-            <option value={""} key={"jaati-1"}>
-              ------ जाति ------
-            </option>
-            {jaatis.map((d: any, key: any) => (
-              <option value={d.id} key={"jaati" + key}>
-                {d.name}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div className={`form-group`} id="2">
+        <InputComponent
+          name={"house_num"}
+          label={"4. घर नं."}
+          wrapperClass={"options-verical"}
+          handleChange={handleChange}
+          defaultValue={household.house_num}
+          palceholder={"घर नं"}
+          type={"text"}
+          id={"house_num"}
+        />
+
+        <InputComponent
+          name={"hoh_name"}
+          label={"5. घरमुलीको नाम"}
+          wrapperClass={"options-verical"}
+          handleChange={handleChange}
+          defaultValue={household.hoh_name}
+          palceholder={"घरमुलीको नाम"}
+          type={"text"}
+          id={"hoh_name"}
+        />
+
+        <RadioComponent
+          options={hoh_roles}
+          wrapperClass="options-verical"
+          label={"6. घरमुली"}
+          name="hoh_role"
+          handleChange={handleChange}
+          defaultValue={household.hoh_role}
+          id={"hoh_role"}
+        />
+
+        <RadioComponent
+          options={gender_choice}
+          wrapperClass="options-verical"
+          label={"7. घरमुलीको लिंग"}
+          name="hoh_gender"
+          handleChange={handleChange}
+          defaultValue={household.hoh_gender}
+          id={"hoh_gender"}
+        />
+        <SelectComponent
+          options={jaatis}
+          wrapperClass="options-verical"
+          label={"8. जाति"}
+          name="jaati_id"
+          handleChange={handleChange}
+          defaultValue={household.jaati_id}
+          id={"jaati_id"}
+          placeholder="जाति"
+        />
+
+        
         <label className="label">9. धर्म</label>
         <div className="options-verical">
           <select
@@ -294,18 +201,15 @@ export default function GharKoBiabarn(props: any) {
               ------ मातृभाषा ------
             </option>
             {mother_tongues.map((option, key) => (
-              <option value={option.value} key={"relation_with_hoh" + key}>
-                {option.label}
+              <option value={option.id} key={"relation_with_hoh" + key}>
+                {option.name}
               </option>
             ))}
           </select>
         </div>
       </div>
 
-      <div
-        className={`form-group`}
-        id="5"
-      >
+      <div className={`form-group`} id="5">
         <label className="label">11. परिवार संख्याः</label>
         <div className="options-verical">
           <input

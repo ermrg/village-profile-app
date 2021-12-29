@@ -69,7 +69,7 @@ export default function PariwarKoBibaran(props: any) {
       let v = vehicle_types.find((s: any) => s.value == e.target.value);
       setVehicle((vehicle) => ({
         ...vehicle,
-        vehicle_type_name: v.label,
+        vehicle_type_name: v.name,
       }));
     }
   };
@@ -172,8 +172,8 @@ export default function PariwarKoBibaran(props: any) {
                   ------ नाता ------
                 </option>
                 {relations.map((option, key) => (
-                  <option value={option.value} key={"relation_with_hoh" + key}>
-                    {option.label}
+                  <option value={option.id} key={"relation_with_hoh" + key}>
+                    {option.name}
                   </option>
                 ))}
               </select>
@@ -211,8 +211,8 @@ export default function PariwarKoBibaran(props: any) {
                   ------ शैक्षिक स्तरः ------
                 </option>
                 {education_levels.map((option, key) => (
-                  <option value={option.value} key={"education_level_id" + key}>
-                    {option.label}
+                  <option value={option.id} key={"education_level_id" + key}>
+                    {option.name}
                   </option>
                 ))}
               </select>
@@ -237,10 +237,10 @@ export default function PariwarKoBibaran(props: any) {
                 </option>
                 {education_statuses.map((option, key) => (
                   <option
-                    value={option.value}
+                    value={option.id}
                     key={"education_status_id" + key}
                   >
-                    {option.label}
+                    {option.name}
                   </option>
                 ))}
               </select>
@@ -493,10 +493,10 @@ export default function PariwarKoBibaran(props: any) {
                   >
                     {marital_statuses.map((ms, keym) => (
                       <option
-                        value={ms.value}
+                        value={ms.id}
                         key={"वैवाविक स्थितिःoption" + keym}
                       >
-                        {ms.label}
+                        {ms.name}
                       </option>
                     ))}
                   </select>

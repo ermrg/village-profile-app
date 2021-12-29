@@ -86,7 +86,7 @@ export default function GharKoDetailBiabarn(props: any) {
       console.log(v);
       setForeignMember((foreignMember) => ({
         ...foreignMember,
-        country: v.label,
+        country: v.name,
       }));
     }
   };
@@ -116,7 +116,7 @@ export default function GharKoDetailBiabarn(props: any) {
       let v = death_reasons.find((s: any) => s.value == e.target.value);
       setMissingMember((missingMember) => ({
         ...missingMember,
-        reason: v.label,
+        reason: v.name,
       }));
     }
   };
@@ -299,8 +299,8 @@ export default function GharKoDetailBiabarn(props: any) {
                   ---- कारन -----
                 </option>
                 {death_reasons.map((option, key) => (
-                  <option value={option.value} key={"death_reasons" + key}>
-                    {option.label}
+                  <option value={option.id} key={"death_reasons" + key}>
+                    {option.name}
                   </option>
                 ))}
               </select>
@@ -455,8 +455,8 @@ export default function GharKoDetailBiabarn(props: any) {
                   ---- देश -----
                 </option>
                 {countries.map((option, key) => (
-                  <option value={option.value} key={"death_reasons" + key}>
-                    {option.label}
+                  <option value={option.id} key={"death_reasons" + key}>
+                    {option.name}
                   </option>
                 ))}
               </select>
@@ -470,8 +470,8 @@ export default function GharKoDetailBiabarn(props: any) {
                   ---- कारन -----
                 </option>
                 {foreign_reasons.map((option, key) => (
-                  <option value={option.value} key={"death_reasons" + key}>
-                    {option.label}
+                  <option value={option.id} key={"death_reasons" + key}>
+                    {option.name}
                   </option>
                 ))}
               </select>
@@ -730,8 +730,8 @@ export default function GharKoDetailBiabarn(props: any) {
               ---- श्रोत -----
             </option>
             {water_sources.map((option, key) => (
-              <option value={option.value} key={"water_source_id" + key}>
-                {option.label}
+              <option value={option.id} key={"water_source_id" + key}>
+                {option.name}
               </option>
             ))}
           </select>
@@ -889,8 +889,8 @@ export default function GharKoDetailBiabarn(props: any) {
               ---- प्रकार -----
             </option>
             {toilet_types.map((option, key) => (
-              <option value={option.value} key={"सौचालयको प्रकार" + key}>
-                {option.label}
+              <option value={option.id} key={"सौचालयको प्रकार" + key}>
+                {option.name}
               </option>
             ))}
           </select>
