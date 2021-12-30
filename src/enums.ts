@@ -310,6 +310,10 @@ const developmentOption = [
   { name: "खानेपानी", id: "खानेपानी" },
   { name: "सिंचाई", id: "सिंचाई" },
 ];
+const residentTypes =[
+  { name: "जन्मसिद्ध", id: "1" },
+  { name: "बसाईसराई", id: "2" },
+]
 export {
   hoh_roles,
   gender_choice,
@@ -334,4 +338,5 @@ export {
   land_types,
   socialNetworks,
   developmentOption,
+  residentTypes,
 };
