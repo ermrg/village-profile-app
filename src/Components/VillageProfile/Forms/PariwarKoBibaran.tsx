@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { IMember, ITrainingDetail, IVehicle } from "../../../db/models/Member";
+import React, { useState } from "react";
+import { ITrainingDetail, IVehicle } from "../../../db/models/Member";
 import {
   developmentOption,
   disability_card_types,
@@ -12,12 +12,12 @@ import {
   relations,
   socialNetworks,
   vehicle_types,
+  yes_nos,
 } from "../../../enums";
-import { NepaliDatePicker } from "nepali-datepicker-reactjs";
-import "nepali-datepicker-reactjs/dist/index.css";
 import Multiselect from "multiselect-react-dropdown";
 import RadioComponent from "./FormComponent/RadioComponent";
-import { memberDefault } from "../../../defaultRequired";
+import InputComponent from "./FormComponent/InputComponent";
+import SelectComponent from "./FormComponent/SelectComponent";
 
 const initialTechSkill = {
   skill_id: "",
@@ -31,12 +31,7 @@ const initialVehicle = {
 } as IVehicle;
 
 export default function PariwarKoBibaran(props: any) {
-  let {
-    household,
-    occupations,
-    technical_skills,
-    errors,
-  } = props;
+  let { household, occupations, technical_skills, errors } = props;
   let { handleMemberChange } = props;
   const [techSkill, setTechSkill] = useState(initialTechSkill);
   const [vehicle, setVehicle] = useState(initialVehicle);
@@ -100,280 +95,239 @@ export default function PariwarKoBibaran(props: any) {
     handleMemberChange(key, "vehicles", newVehicles);
     setVehicle({ ...initialVehicle });
   };
+  
   return (
     <>
       {household.members &&
         household.members.map((member: any, memberKey: any) => (
           <>
-            <div className={`form-group`} key={"member-detail" + memberKey}>
+            <div
+              className={`form-group member-form-one`}
+              key={"member-form-one-" + memberKey}
+            >
               <h5>Member: {memberKey + 1} *</h5>
-              <label className="label">15. सदस्यको नामथर:</label>
-              <div className="options-verical">
-                <input
-                  onChange={(e) =>
-                    handleMemberChange(memberKey, "name_eng", e.target.value)
-                  }
-                  type="text"
-                  className="form-control"
-                  placeholder="In English"
-                  defaultValue={member.name_eng ?? ""}
-                  name="name_eng"
-                  required
-                />
-              </div>
-              <label className="label">16. मोवाईल नम्बर:</label>
-              <div className="options-verical">
-                <input
-                  onChange={(e) =>
-                    handleMemberChange(memberKey, "mobile_num", e.target.value)
-                  }
-                  type="text"
-                  className="form-control"
-                  defaultValue={member.mobile_num ?? ""}
-                  name="mobile_num"
-                  placeholder="Mobile"
-                />
-              </div>
-              <label className="label">17. सदस्यको नागरिकता नं.</label>
-              <div className="options-verical">
-                <input
-                  onChange={(e) =>
-                    handleMemberChange(
-                      memberKey,
-                      "citizenship_num",
-                      e.target.value
-                    )
-                  }
-                  type="text"
-                  className="form-control"
-                  defaultValue={member.citizenship_num ?? ""}
-                  name="citizenship_num"
-                  placeholder="Citizenship No"
-                />
-              </div>
-              <RadioComponent
-                options={gender_choice}
-                wrapperClass="options-verical"
-                label={"17.1 सदस्यको लिंग"}
-                name="gender_id"
+              <InputComponent
+                name={"name_eng"}
+                label={"15. सदस्यको नामथर:"}
+                wrapperClass={"options-verical"}
                 handleChange={(e: any) =>
-                  handleMemberChange(memberKey, "gender_id", e.target.value)
+                  handleMemberChange(memberKey, "name_eng", e.target.value)
                 }
-                defaultValue={member.gender_id ?? ""}
-                id={"gender_id-" + memberKey}
+                defaultValue={member.name_eng}
+                palceholder={"नामथर"}
+                type={"text"}
+                id={"name_eng-" + memberKey}
                 errors={errors}
               />
-              <label className="label">18. घरमुलीसँग नाता:</label>
-              <div className="options-verical">
-                <select
-                  className="form-control"
-                  value={member.relation_with_hoh_id ?? ""}
-                  name="relation_with_hoh_id"
-                  onChange={(e) =>
-                    handleMemberChange(
-                      memberKey,
-                      "relation_with_hoh_id",
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value={""} key={"relation_with_hoh-1"}>
-                    ------ नाता ------
-                  </option>
-                  {relations.map((option, key) => (
-                    <option value={option.id} key={"relation_with_hoh" + key}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <label className="label">19. जन्ममितिः</label>
-              <div className="options-verical">
-                <input
-                  onChange={(e) =>
-                    handleMemberChange(memberKey, "dob_bs", e.target.value)
-                  }
-                  type="text"
-                  className="form-control"
-                  defaultValue={member.dob_bs ?? ""}
-                  name="dob_bs"
-                  placeholder="2064-08-24"
-                />
-              </div>
+              <InputComponent
+                name={"mobile_num"}
+                label={"16. मोवाईल नम्बर:"}
+                wrapperClass={"options-verical"}
+                handleChange={(e: any) =>
+                  handleMemberChange(memberKey, "mobile_num", e.target.value)
+                }
+                defaultValue={member.mobile_num}
+                palceholder={"मोवाईल नम्बर"}
+                type={"text"}
+                id={"mobile_num-" + memberKey}
+                errors={errors}
+              />
+              <InputComponent
+                name={"citizenship_num"}
+                label={"17. सदस्यको नागरिकता नं."}
+                wrapperClass={"options-verical"}
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "citizenship_num",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.citizenship_num}
+                palceholder={"नागरिकता नं."}
+                type={"text"}
+                id={"citizenship_num-" + memberKey}
+                errors={errors}
+              />
 
-              <label className="label">20. सदस्यको शैक्षिक स्तरः:</label>
-              <div className="options-verical">
-                <select
-                  className="form-control"
-                  value={member.education_level_id ?? ""}
-                  name="education_level_id"
-                  onChange={(e) =>
-                    handleMemberChange(
-                      memberKey,
-                      "education_level_id",
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value={""} key={"education_level_id-1"}>
-                    ------ शैक्षिक स्तरः ------
-                  </option>
-                  {education_levels.map((option, key) => (
-                    <option
-                      value={option.id}
-                      key={"education_level_id" + key + memberKey}
-                    >
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <SelectComponent
+                options={gender_choice}
+                wrapperClass="options-verical"
+                label={"18. सदस्यको लिंग"}
+                name="gender_id"
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "gender_id",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.gender_id}
+                id={"gender_id"}
+                placeholder="लिंग"
+                errors={errors}
+              />
+              <SelectComponent
+                options={relations}
+                wrapperClass="options-verical"
+                label={"19. घरमुलीसँग नाता:"}
+                name="relation_with_hoh_id"
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "relation_with_hoh_id",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.relation_with_hoh_id}
+                id={"relation_with_hoh_id-"+memberKey}
+                placeholder="नाता"
+                errors={errors}
+              />
+              <InputComponent
+                name={"dob_bs"}
+                label={"20. जन्ममितिः"}
+                wrapperClass={"options-verical"}
+                handleChange={(e: any) =>
+                  handleMemberChange(memberKey, "dob_bs", e.target.value)
+                }
+                defaultValue={member.dob_bs}
+                palceholder={"जन्ममितिः"}
+                type={"text"}
+                id={"dob_bs-" + memberKey}
+                errors={errors}
+              />
+              <SelectComponent
+                options={education_levels}
+                wrapperClass="options-verical"
+                label={"21. सदस्यको शैक्षिक स्तरः"}
+                name="education_level_id"
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "education_level_id",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.education_level_id}
+                id={"education_level_id-" + memberKey}
+                placeholder="शैक्षिक स्तरः"
+                errors={errors}
+              />
 
-              <label className="label">21.सदस्यको पढाईको अवस्थाः</label>
-              <div className="options-verical">
-                <select
-                  className="form-control"
-                  value={member.education_status_id ?? ""}
-                  name="education_status_id"
-                  onChange={(e) =>
-                    handleMemberChange(
-                      memberKey,
-                      "education_status_id",
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value={""} key={"education_status_id-1"}>
-                    ------ पढाईको अवस्था ------
-                  </option>
-                  {education_statuses.map((option, key) => (
-                    <option
-                      value={option.id}
-                      key={"education_status_id" + key + memberKey}
-                    >
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <SelectComponent
+                options={education_statuses}
+                wrapperClass="options-verical"
+                label={"22.सदस्यको पढाईको अवस्थाः"}
+                name="education_status_id"
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "education_status_id",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.education_status_id}
+                id={"education_status_id-" + memberKey}
+                placeholder="शैक्षिक अवस्थाः"
+                errors={errors}
+              />
 
-              <label className="label">22. अनौपचारिक शिक्षा लिएको?</label>
-              <div className="options-horizontal">
-                <select
-                  className="form-control"
-                  name="has_informal_education"
-                  key={"अनौपचारिक शिक्षा लिएको" + memberKey}
-                  value={member.has_informal_education ?? ""}
-                  onChange={(e) =>
-                    handleMemberChange(
-                      memberKey,
-                      "has_informal_education",
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value={""}>------ अनौपचारिक शिक्षा ------</option>
-                  <option value={"1"}>लिएको</option>
-                  <option value={"0"}>नलिएको</option>
-                </select>
-              </div>
+              <SelectComponent
+                options={yes_nos}
+                wrapperClass="options-verical"
+                label={"23. अनौपचारिक शिक्षा लिएको छ?"}
+                name="has_informal_education"
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "has_informal_education",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.has_informal_education}
+                id={"has_informal_education-" + memberKey}
+                placeholder="शैक्षिक स्तरः"
+                errors={errors}
+              />
 
-              <label className="label">23. मुख्य पेशा</label>
-              <div className="options-verical">
-                <select
-                  className="form-control"
-                  name="main_occupation_id"
-                  required
-                  value={member.main_occupation_id ?? ""}
-                  onChange={(e) =>
-                    handleMemberChange(
-                      memberKey,
-                      "main_occupation_id",
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value={""} key={"main_occupation_id-1"}>
-                    ------ मुख्य पेशा ------
-                  </option>
-                  {occupations.map((d: any, key: any) => (
-                    <option value={d.id} key={"main_occupation_id" + key}>
-                      {d.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <SelectComponent
+                options={occupations}
+                wrapperClass="options-verical"
+                label={"24. मुख्य पेशा"}
+                name="main_occupation_id"
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "main_occupation_id",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.main_occupation_id}
+                id={"main_occupation_id-" + memberKey}
+                placeholder="मुख्य पेशा"
+                errors={errors}
+              />
 
-              <label className="label">24. सहायक पेशा:</label>
-              <div className="options-verical">
-                <select
-                  className="form-control"
-                  name="other_occupation_id"
-                  required
-                  value={member.other_occupation_id ?? ""}
-                  onChange={(e) =>
-                    handleMemberChange(
-                      memberKey,
-                      "other_occupation_id",
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value={""} key={"other_occupation_id-1"}>
-                    ------ सहायक पेशा ------
-                  </option>
-                  {occupations.map((d: any, key: any) => (
-                    <option value={d.id} key={"other_occupation_id" + key}>
-                      {d.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <label className="label">25. मासिक आय:</label>
-              <div className="options-verical">
-                <input
-                  onChange={(e) =>
-                    handleMemberChange(
-                      memberKey,
-                      "monthly_income",
-                      e.target.value
-                    )
-                  }
-                  type="text"
-                  className="form-control"
-                  value={member.monthly_income ?? ""}
-                  name="monthly_income"
-                  placeholder="मासिक आय"
-                />
-              </div>
+              <SelectComponent
+                options={occupations}
+                wrapperClass="options-verical"
+                label={"25. सहायक पेशा:"}
+                name="other_occupation_id"
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "other_occupation_id",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.other_occupation_id}
+                id={"other_occupation_id-" + memberKey}
+                placeholder="सहायक पेशा"
+                errors={errors}
+              />
+              <InputComponent
+                label={"25. मासिक आय:"}
+                wrapperClass={"options-verical"}
+                name={"monthly_income"}
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "monthly_income",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.monthly_income}
+                palceholder={"मासिक आय"}
+                type={"text"}
+                id={"monthly_income-" + memberKey}
+                errors={errors}
+              />
             </div>
 
             <div
-              className={`form-group`}
+              className={`form-group member-form-two`}
               id={14 + 2 + memberKey}
-              key={"प्राविधिक-member-" + memberKey}
+              key={"member-form-two-" + memberKey}
             >
               <h5>Member: {memberKey + 1} **</h5>
-              <label className="label">26. प्राविधिक सिप </label>
-              <div className="options-vertical">
-                <select
-                  className="form-control"
-                  name="has_technical_training"
-                  key={"प्राविधिक सिप" + memberKey}
-                  value={member.has_technical_training ?? "0"}
-                  onChange={(e) =>
-                    handleMemberChange(
-                      memberKey,
-                      "has_technical_training",
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value={"0"}>छैन</option>
-                  <option value={"1"}>छ</option>
-                </select>
-              </div>
+              <SelectComponent
+                options={yes_nos}
+                wrapperClass="options-verical"
+                label={"26. प्राविधिक सिप"}
+                name="has_technical_training"
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "has_technical_training",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.has_technical_training}
+                id={"has_technical_training-" + memberKey}
+                placeholder="प्राविधिक सिप"
+                errors={errors}
+              />
 
               {member.has_technical_training == "1" && (
                 <div className="child-section">
@@ -391,85 +345,20 @@ export default function PariwarKoBibaran(props: any) {
                       <br />
                     </>
                   ))}
-
-                  <label className="label">a. सिपको नामः </label>
-                  <div className="options-vertical">
-                    <select
-                      className="form-control"
-                      key={"28.1 सिपको नामः" + memberKey}
-                      name="skill_id"
-                      value={techSkill.skill_id}
-                      onChange={handleTechSkillChange}
-                    >
-                      <option value={""} key={"29.0 सिप सिपको नामः"}>
-                        ------ सिपको नाम ------
-                      </option>
-                      {technical_skills.map((ms: any, keyt: any) => (
-                        <option
-                          value={ms.id}
-                          key={"28.1 सिपको नामःoption" + keyt}
-                        >
-                          {ms.name}
-                        </option>
-                      ))}
-                    </select>
-                    <label className="label">b. सिप हासिलः </label>
-                    <div className="options-vertical">
-                      <select
-                        className="form-control"
-                        key={"28.2 सिप हासिलः" + memberKey}
-                        name="source"
-                        value={techSkill.source}
-                        onChange={handleTechSkillChange}
-                      >
-                        <option
-                          value={""}
-                          key={"29.0 सिप हासिलःoption-1" + memberKey}
-                        >
-                          ------ सिप हासिल ------
-                        </option>
-                        <option
-                          value={"0"}
-                          key={"29.1 सिप हासिलःoption1" + memberKey}
-                        >
-                          स्वज्ञान
-                        </option>
-                        <option
-                          value={"1"}
-                          key={"29.1 सिप हासिलःoption2" + memberKey}
-                        >
-                          तालिम
-                        </option>
-                      </select>
-                    </div>
-                    {techSkill.source == "1" && (
-                      <>
-                        <label className="label">
-                          c. तालिम लिएको भए तालिमको अविधिः महिनामा{" "}
-                        </label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          name="duration"
-                          key={
-                            "तालिम लिएको भए तालिमको अविधिः महिनामा" + memberKey
-                          }
-                          // value={}
-                          onChange={handleTechSkillChange}
-                          placeholder="Ex: 3"
-                        />
-                      </>
-                    )}
-                    <button
-                      onClick={() => saveTechSkill(memberKey, "add")}
-                      className="btn btn-sm btn-success"
-                    >
-                      Add
-                    </button>
-                  </div>
+                  <SelectComponent
+                    options={technical_skills}
+                    wrapperClass="options-verical"
+                    label={"a. सिपको नामः"}
+                    name="skill_id"
+                    handleChange={handleTechSkillChange}
+                    defaultValue={techSkill.skill_id}
+                    id={"skill_id-" + memberKey}
+                    placeholder="प्राविधिक सिप"
+                    errors={errors}
+                  />
                 </div>
               )}
-              <label className="label">27. वैवाविक स्थितिः </label>
+              <label className="label" id={"is_married-" + memberKey}>27. वैवाविक स्थितिः </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -488,7 +377,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
               {member.is_married == "1" && (
                 <div className="child-section">
-                  <label className="label">a. स्थिति </label>
+                  <label className="label" id={"marital_status_id-" + memberKey}>a. स्थिति </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -514,7 +403,7 @@ export default function PariwarKoBibaran(props: any) {
                     </select>
                   </div>
 
-                  <label className="label">b. विवाह भएको सालः </label>
+                  <label className="label" id={"marriage_year-" + memberKey}>b. विवाह भएको सालः </label>
                   <div className="options-vertical">
                     <input
                       type="number"
@@ -533,7 +422,7 @@ export default function PariwarKoBibaran(props: any) {
                     />
                   </div>
 
-                  <label className="label">c. विबाह हुँदाको उमेर </label>
+                  <label className="label"  id={"age_on_marriage-" + memberKey}>c. विबाह हुँदाको उमेर </label>
                   <div className="options-vertical">
                     <input
                       type="number"
@@ -555,12 +444,12 @@ export default function PariwarKoBibaran(props: any) {
               )}
             </div>
             <div
-              className={`form-group`}
+              className={`form-group member-form-three`}
               id={14 + 2 + memberKey}
-              key={"member-residence-2-" + memberKey}
+              key={"member-form-three-" + memberKey}
             >
               <h5>Member: {memberKey + 1} ***</h5>
-              <label className="label">28. बसोबास गर्ने ठाउः</label>
+              <label className="label"  id={"resident_place-" + memberKey}>28. बसोबास गर्ने ठाउः</label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -583,7 +472,7 @@ export default function PariwarKoBibaran(props: any) {
                   <option value={"अन्य"}>अन्य</option>
                 </select>
               </div>
-              <label className="label">29. सवारी साधन ? </label>
+              <label className="label"  id={"has_vehicle-" + memberKey}>29. सवारी साधन ? </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -613,7 +502,7 @@ export default function PariwarKoBibaran(props: any) {
                     </button>
                   ))}
                   <br />
-                  <label className="label">a. सवारी साधनको नामः </label>
+                  <label className="label"  id={"vehicle_type_id-" + memberKey}>a. सवारी साधनको नामः </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -637,7 +526,7 @@ export default function PariwarKoBibaran(props: any) {
                         </option>
                       ))}
                     </select>
-                    <label className="label">b. कति? </label>
+                    <label className="label"  id={"count-" + memberKey}>b. कति? </label>
                     <div className="options-vertical">
                       <input
                         type="number"
@@ -658,7 +547,7 @@ export default function PariwarKoBibaran(props: any) {
                   </div>
                 </div>
               )}
-              <label className="label">30. स्वास्थ्य बिमा गरिएको छ ? </label>
+              <label className="label"  id={"has_health_insurance-" + memberKey}>30. स्वास्थ्य बिमा गरिएको छ ? </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -678,7 +567,7 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label">31. जिमा बिमा गरिएको छ ? </label>
+              <label className="label"  id={"has_life_insurance-" + memberKey}>31. जिमा बिमा गरिएको छ ? </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -698,7 +587,7 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label">32. बैंकमा खाता छ? </label>
+              <label className="label"  id={"has_bank_account-" + memberKey}>32. बैंकमा खाता छ? </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -718,7 +607,7 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label">33. सहकारीमा सदस्य हुनुहुन्छ? </label>
+              <label className="label"  id={"has_cooperative_account-" + memberKey}>33. सहकारीमा सदस्य हुनुहुन्छ? </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -738,7 +627,7 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label">34. तपाई पेन्सन बुझ्नुहुन्छ? </label>
+              <label className="label"  id={"has_pension-" + memberKey}>34. तपाई पेन्सन बुझ्नुहुन्छ? </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -755,7 +644,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
               {member.has_pension == "1" && (
                 <>
-                  <label className="label">
+                  <label className="label"  id={"pension_income-" + memberKey}>
                     a. पेन्सन आम्दानी मासिक (रू.){" "}
                   </label>
                   <div className="options-vertical">
@@ -777,7 +666,7 @@ export default function PariwarKoBibaran(props: any) {
                   </div>
                 </>
               )}
-              <label className="label">35. अपाङ्ता छ? </label>
+              <label className="label"  id={"has_disability-" + memberKey}>35. अपाङ्ता छ? </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -799,7 +688,7 @@ export default function PariwarKoBibaran(props: any) {
 
               {member.has_disability == "1" && (
                 <div className="child-section">
-                  <label className="label">a. अपाङ्गताको प्रकार: </label>
+                  <label className="label"  id={"disability_type_id-" + memberKey}>a. अपाङ्गताको प्रकार: </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -831,7 +720,7 @@ export default function PariwarKoBibaran(props: any) {
                     </select>
                   </div>
 
-                  <label className="label">b. अपाङ्गताको कार्डः </label>
+                  <label className="label"  id={"disability_card_id-" + memberKey}>b. अपाङ्गताको कार्डः </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -861,13 +750,13 @@ export default function PariwarKoBibaran(props: any) {
               )}
             </div>
             <div
-              className={`form-group`}
+              className={`form-group member-form-four`}
               id={14 + 2 + memberKey}
               key={"member-health-2-" + memberKey}
             >
               <h5>Member: {memberKey + 1} ****</h5>
 
-              <label className="label">36. रोग छ? </label>
+              <label className="label"  id={"has_chronic_disease-" + memberKey}>36. रोग छ? </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -889,7 +778,7 @@ export default function PariwarKoBibaran(props: any) {
 
               {member.has_chronic_disease == "1" && (
                 <div className="child-section">
-                  <label className="label">a. रोगको नाम: </label>
+                  <label className="label"  id={"disease_name-" + memberKey}>a. रोगको नाम: </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -916,7 +805,7 @@ export default function PariwarKoBibaran(props: any) {
                     </select>
                   </div>
 
-                  <label className="label">b. उपचारको अवस्थाः </label>
+                  <label className="label"  id={"treatment_condition-" + memberKey}>b. उपचारको अवस्थाः </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -940,7 +829,7 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               )}
 
-              <label className="label">
+              <label className="label"  id={"covid_infection_status-" + memberKey}>
                 37. तपाईलाई कोरोना सक्रमण वा शंका लागेको थियो ?{" "}
               </label>
               <div className="options-vertical">
@@ -965,7 +854,7 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label">
+              <label className="label"  id={"has_covid_vaccine-" + memberKey}>
                 38. कोभिड भ्याक्सिन लगाएको/ नलगाएको
               </label>
               <div className="options-vertical">
@@ -989,7 +878,7 @@ export default function PariwarKoBibaran(props: any) {
 
               {member.has_covid_vaccine == "1" && (
                 <div className="child-section">
-                  <label className="label">a. कुन भ्याक्सिन? </label>
+                  <label className="label"  id={"covid_vaccine_status-" + memberKey}>a. कुन भ्याक्सिन? </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -1029,7 +918,7 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               )}
 
-              <label className="label">39. तपाईको स्माट्रफोन छ ? </label>
+              <label className="label"  id={"has_smartphone-" + memberKey}>39. तपाईको स्माट्रफोन छ ? </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -1050,7 +939,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
               {member.has_smartphone == "1" && (
                 <div className="child-section">
-                  <label className="label">
+                  <label className="label"  id={"social_networks-" + memberKey}>
                     a. तपाईको तलको कुन कुन प्रयोग गर्नुहुन्छ?{" "}
                   </label>
                   <div className="options-vertical">
@@ -1069,7 +958,7 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               )}
 
-              <label className="label">40. भोटर कार्ड भएको नभएको ? </label>
+              <label className="label"  id={"has_voter_card-" + memberKey}>40. भोटर कार्ड भएको नभएको ? </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -1091,7 +980,7 @@ export default function PariwarKoBibaran(props: any) {
 
               {member.has_voter_card == "1" && (
                 <div className="child-section">
-                  <label className="label">
+                  <label className="label"  id={"voter_card_location-" + memberKey}>
                     a. भोटर कार्ड कुन स्थानको भएको?
                   </label>
                   <div className="options-vertical">
@@ -1119,7 +1008,7 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               )}
 
-              <label className="label">
+              <label className="label"  id={"feelings_for_local_government-" + memberKey}>
                 41. अहिलेको स्थानिय सरकारको काम कस्तो लागेको छ?
               </label>
               <div className="options-vertical">
@@ -1144,7 +1033,7 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label">
+              <label className="label"  id={"recommendation_for_local_level-" + memberKey}>
                 42. गाउँपालिकाले तिब्र विकासको लागि कुन क्षेत्रमा बढी ध्यान
                 दिनुपर्छ ?
               </label>
@@ -1172,7 +1061,7 @@ export default function PariwarKoBibaran(props: any) {
                 />
               </div>
 
-              <label className="label">
+              <label className="label"  id={"house_count-" + memberKey}>
                 43. तपाइँको गाउँपालिका भित्रको घरको संख्या?
               </label>
               <div className="options-verical">
@@ -1188,13 +1077,13 @@ export default function PariwarKoBibaran(props: any) {
                 />
               </div>
 
-              <label className="label">44. जग्गा जमिनको संख्या?</label>
+              <label className="label"  id={"land_count-" + memberKey}>44. जग्गा जमिनको संख्या?</label>
               <div className="options-verical">
                 <input
                   onChange={(e) =>
                     handleMemberChange(memberKey, "land_count", e.target.value)
                   }
-                  type="text"
+                  type="number"
                   className="form-control"
                   value={member.land_count ?? ""}
                   name="land_count"

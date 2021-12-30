@@ -19,21 +19,6 @@ export default function IncompleteData() {
     let hhs = await getIncompleteHouseholds(auth_.id ? auth_.id.toString() : "");
     setHousholds([...hhs]);
   };
-  const postHousehold = async (hh: any) => {
-    if (window.navigator.onLine) {
-      hh["members"] = await getMembersbyHousehold(hh.id);
-      console.log(hh);
-      let res = await api.postHousehold(hh);
-      if (res.status === 200) {
-        // await updateHousehold({ ...hh, is_posted: 1 });
-      } else {
-        console.log(hh.id, "Failed");
-      }
-      getHouseholds(auth);
-    } else {
-      alert("Please connect to WIFI!");
-    }
-  };
 
   const checkUser = async () => {
     let auth_ = await getAllUsers();

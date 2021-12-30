@@ -224,7 +224,6 @@ export default function VPForm(props: any) {
     let mems = [...household.members];
     let mem = mems[index];
     mem = { ...mem, [name]: value };
-
     mems[index] = mem;
     handleArrayChangeInHousehold("members", mems);
   };

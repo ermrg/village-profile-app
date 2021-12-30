@@ -142,7 +142,7 @@ a {
   width: 100%;
   justify-content: space-between;
 }
-.save-btns button{
+.save-btns button {
   margin: 2px;
 }
 
@@ -169,9 +169,21 @@ ul.dropdown-menu.inner {
   float: right;
   margin-top: 5px;
 }
-.question.error{
+.question.error {
   color: red;
 }
-.error-list{
+.error-list {
   text-align: left;
+}
+.member-form-one {
+  background-color: rgba(255, 0, 0, 0.15) !important;
+}
+.member-form-two {
+  background-color: rgba(255, 0, 0, 0.35) !important;
+}
+.member-form-three {
+  background-color: rgba(255, 0, 0, 0.55) !important;
+}
+.member-form-four {
+  background-color: rgba(255, 0, 0, 0.75) !important;
 }
