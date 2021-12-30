@@ -198,13 +198,11 @@ export default function GharKoBiabarn(props: any) {
           options={residentTypes}
           wrapperClass="options-verical"
           label={"14. बसोबासको प्रकार?"}
-          name="resident_typer"
+          name="resident_type"
           handleChange={handleChange}
           defaultValue={household.resident_type}
           id={"resident_type"}
         />
-        
-
         <InputComponent
           name={"num_of_member"}
           label={"a. बसाई सरेको भए साल (वि.स.)"}
@@ -215,19 +213,7 @@ export default function GharKoBiabarn(props: any) {
           type={"text"}
           id={"migration_date"}
         />
-
-        
-
-
-
-        
-        
-
-        
-      </div>
-
-     
-        <label className="label">12. घरमूलीको फोटोः</label>
+         <label className="label">12. घरमूलीको फोटोः</label>
         <div className="options-verical">
           <video
             id="hoh_imagevideo"
@@ -311,51 +297,14 @@ export default function GharKoBiabarn(props: any) {
             घरको जियो कोड
           </button>
         </div>
-        <label className="label">14. बसोबासको प्रकार?</label>
-        <div className="options-vertical">
-          <div className="radio" key={"बसोबासको प्रकार1"}>
-            <label>
-              <input
-                type="radio"
-                value={"1"}
-                name="resident_type"
-                checked={household.resident_type == "1"}
-                onChange={(e) => handleChange(e)}
-              />
-              जन्मसिद्ध
-            </label>
-          </div>
-
-          <div className="radio" key={"बसोबासको प्रकार2"}>
-            <label>
-              <input
-                type="radio"
-                value={"2"}
-                name="resident_type"
-                checked={household.resident_type == "2"}
-                onChange={(e) => handleChange(e)}
-              />
-              बसाईसराई
-            </label>
-          </div>
-        </div>
+        
 
         {household.resident_type == "2" && (
           <div className="child-section">
-            <label className="label">a. बसाई सरेको भए साल (वि.स.)</label>
-            <div className="options-horizontal">
-              <input
-                onChange={(e) => handleChange(e)}
-                type="number"
-                className="form-control"
-                defaultValue={household.migration_date ?? ""}
-                name="migration_date"
-                placeholder="Ex: 2067"
-              />
-            </div>
+            
           </div>
         )}
-      
+      </div>
     </>
   );
 }
