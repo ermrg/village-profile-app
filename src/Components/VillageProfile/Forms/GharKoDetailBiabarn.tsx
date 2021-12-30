@@ -83,7 +83,6 @@ export default function GharKoDetailBiabarn(props: any) {
     }
     if (e.target.name == "country_id") {
       let v = countries.find((s: any) => s.value == e.target.value);
-      console.log(v);
       setForeignMember((foreignMember) => ({
         ...foreignMember,
         country: v.name,
@@ -221,7 +220,6 @@ export default function GharKoDetailBiabarn(props: any) {
       .getContext("2d")
       .drawImage(video, 0, 0, canvas.width, canvas.height);
     let image_data_url = canvas.toDataURL("image/jpeg");
-    console.log(image_data_url);
     video.style.display = "none";
     canvas.style.display = "block";
     let click_photo = document.querySelector(
@@ -406,7 +404,7 @@ export default function GharKoDetailBiabarn(props: any) {
             className="form-control"
             name="has_foreign_member"
             key={"परिवारमा कोई बिदेशमा बसेको वा गएको छ?"}
-            value={household.has_foreign_member ? "1" : ""}
+            value={household.has_foreign_member}
             onChange={(e) => handleChange(e)}
           >
             <option value={"0"}>छैन</option>
@@ -738,7 +736,7 @@ export default function GharKoDetailBiabarn(props: any) {
         </div>
         {(household.water_source_id == "1" ||
           household.water_source_id == "6") && (
-          <>
+          <div className="child-section">
             <label className="label">a. घरमा कि साझा ?</label>
 
             <div className="options-horizontal">
@@ -756,21 +754,21 @@ export default function GharKoDetailBiabarn(props: any) {
                 </option>
               </select>
             </div>
-          </>
-        )}
-        {household.water_source_location == "साझा" && (
-          <>
-            <label className="label">b. लाग्ने समय ? (मिनेट)</label>
-            <div className="options-horizontal">
-              <input
-                className="form-control"
-                value={household.water_source_distance ?? ""}
-                name="water_source_distance"
-                onChange={handleChange}
-                placeholder="दुरी (मिनेट)"
-              />
-            </div>
-          </>
+            {household.water_source_location == "साझा" && (
+              <>
+                <label className="label">b. लाग्ने समय ? (मिनेट)</label>
+                <div className="options-horizontal">
+                  <input
+                    className="form-control"
+                    value={household.water_source_distance ?? ""}
+                    name="water_source_distance"
+                    onChange={handleChange}
+                    placeholder="दुरी (मिनेट)"
+                  />
+                </div>
+              </>
+            )}
+          </div>
         )}
 
         <label className="label">57. खाना पकाउन</label>
@@ -876,7 +874,7 @@ export default function GharKoDetailBiabarn(props: any) {
       </div>
 
       <div className={`form-group`} id="18">
-      <h5>Household</h5>
+        <h5>Household</h5>
         <label className="label">64. सौचालयको प्रकार</label>
         <div className="options-horizontal">
           <select
@@ -1171,7 +1169,7 @@ export default function GharKoDetailBiabarn(props: any) {
             </div>
             <div className="options-horizontal">
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 value={land.remarks ?? ""}
                 name="remarks"

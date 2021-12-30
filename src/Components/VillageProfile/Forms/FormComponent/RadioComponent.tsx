@@ -1,10 +1,26 @@
 import React from "react";
 
 export default function RadioComponent(props: any) {
-  let { options, defaultValue, handleChange, label, wrapperClass, name, id } =
-    props;
+  let {
+    options,
+    defaultValue,
+    handleChange,
+    label,
+    wrapperClass,
+    name,
+    id,
+    errors,
+  } = props;
+
+  const checkIfError = () => {
+    let v = errors.find((s: any) => s.name == id);
+    if (v) {
+      return "error";
+    }
+    return "";
+  };
   return (
-    <div className="question"  key={id} id={id}>
+    <div className={`question ${checkIfError()}`} key={id} id={id}>
       <label className="label">{label}</label>
       <div className={wrapperClass}>
         {options.map((o: any, key: any) => (

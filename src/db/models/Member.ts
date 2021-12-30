@@ -1,5 +1,8 @@
 import { db } from "../db";
 
+interface IObjectKeys {
+  [key: string]: any;
+}
 export interface ITrainingDetail {
   skill_id: string;
   skill_name: string;
@@ -10,13 +13,13 @@ export interface ITrainingDetail {
 export interface IVehicle {
   vehicle_type: string;
   vehicle_type_id: string;
-  count: string
+  count: string;
 }
-export interface IMember {
+export interface IMember extends IObjectKeys {
   id?: number;
   name_eng?: string;
   name_nep?: String;
-  gender?: String;
+  gender_id?: string;
   dob_ad?: String;
   dob_bs?: String;
   age?: String;
@@ -65,12 +68,11 @@ export interface IMember {
   has_smartphone?: string;
   has_voter_card?: string;
   voter_card_location?: string;
-  recommendation_for_local_level?: string[];
+  recommendation_for_local_level?: any;
   social_networks?: string[];
   feelings_for_local_government?: string;
   house_count?: string;
   land_count?: string;
-
 
   vaccine_name?: String;
   foreign_reason?: String;
@@ -84,7 +86,7 @@ export class Member {
   id?: number;
   name_eng?: string;
   name_nep?: String;
-  gender?: String;
+  gender_id?: string;
   dob_ad?: String;
   dob_bs?: String;
   age?: String;
@@ -133,7 +135,7 @@ export class Member {
   has_smartphone?: string;
   has_voter_card?: string;
   voter_card_location?: string;
-  recommendation_for_local_level?: string[];
+  recommendation_for_local_level?: any;
   social_networks?: string[];
   feelings_for_local_government?: string;
   house_count?: string;
@@ -150,7 +152,7 @@ export class Member {
   constructor(data: IMember) {
     this.name_eng = data.name_eng;
     this.name_nep = data.name_nep;
-    this.gender = data.gender;
+    this.gender_id = data.gender_id;
     this.dob_ad = data.dob_ad;
     this.dob_bs = data.dob_bs;
     this.age = data.age;

@@ -9,6 +9,7 @@ import { db } from "./db/db";
 import AllData from "./Components/VillageProfile/AllData";
 import EditHousehold from "./Components/VillageProfile/EditHousehold";
 import AddHousehold from "./Components/VillageProfile/AddHousehold";
+import IncompleteData from "./Components/VillageProfile/IncompleteData";
 
 export default function App() {
   db.open();
@@ -24,6 +25,9 @@ export default function App() {
         />
         <Route path="/village-profile-app/app/pending">
           <PendingData />
+        </Route>
+        <Route path="/village-profile-app/app/incomplete">
+          <IncompleteData />
         </Route>
         <Route path="/village-profile-app/app/all">
           <AllData />

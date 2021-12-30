@@ -49,6 +49,7 @@ export default function AllData() {
             <th>Id</th>
             <th>User</th>
             <th>Posted</th>
+            <th>Complete</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -60,11 +61,10 @@ export default function AllData() {
                 <td>{hh.id}</td>
                 <td>{hh.user_id}</td>
                 <td>
-                  {hh.is_posted == "1" ? (
-                    <label className="badge badge-success">YES{hh.is_posted}</label>
-                  ) : (
-                    <label className="badge badge-danger">NO{hh.is_posted}</label>
-                  )}
+                  {hh.is_posted}
+                </td>
+                <td>
+                  {hh.is_complete}
                 </td>
                 <td>
                   {hh.is_posted == "0" && (

@@ -45,7 +45,7 @@ export class AppDatabase extends Dexie {
       dharmas: "id, name, status",
       occupations: "id, name, status",
       technicalSkills: "id, name, status",
-      households: "++id, name, phone, password, [user_id+is_posted]",
+      households: "++id, name, phone, password, [user_id+is_posted+is_complete], is_complete",
       members: "++id, name, hh_id",
     });
     db.open()

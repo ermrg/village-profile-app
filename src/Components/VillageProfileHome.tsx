@@ -128,7 +128,7 @@ export default function VillageProfileHome() {
       </div>
       <Link to="/village-profile-app/app/add-new">Add New Household</Link>
       <Link to="/village-profile-app/app/pending">Pending Data</Link>
-      {/* <Link to="/village-profile-app/app/incomplete">Incomplete Data</Link> */}
+      <Link to="/village-profile-app/app/incomplete">Incomplete Data</Link>
       <Link to="/village-profile-app/app/all">All Data</Link>
       <button className="btn btn-sm btn-secondary" onClick={syncServerData}>
         Pull Data

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../../Api/api";
-import { getPendingHouseholds, IHousehold } from "../../db/models/Household";
+import { getIncompleteHouseholds, getPendingHouseholds, IHousehold } from "../../db/models/Household";
 import { getMembersbyHousehold } from "../../db/models/Member";
 import { getAllUsers, IUser } from "../../db/models/UserModel";
 
-export default function PendingData() {
+export default function IncompleteData() {
   const [households, setHousholds] = useState([] as IHousehold[]);
   const [auth, setAuth] = useState({} as IUser);
 
@@ -16,7 +16,7 @@ export default function PendingData() {
   }, []);
 
   const getHouseholds = async (auth_: IUser) => {
-    let hhs = await getPendingHouseholds(auth_.id ? auth_.id.toString() : "");
+    let hhs = await getIncompleteHouseholds(auth_.id ? auth_.id.toString() : "");
     setHousholds([...hhs]);
   };
   const postHousehold = async (hh: any) => {
@@ -84,12 +84,6 @@ export default function PendingData() {
                         }
                       >
                         Edit
-                      </button>
-                      <button
-                        className="btn btn-primary btn-sm"
-                        onClick={() => postHousehold(hh)}
-                      >
-                        Post
                       </button>
                     </>
                   )}

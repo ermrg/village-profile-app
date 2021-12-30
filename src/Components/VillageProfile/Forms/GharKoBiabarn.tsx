@@ -8,10 +8,9 @@ import RadioComponent from "./FormComponent/RadioComponent";
 import SelectComponent from "./FormComponent/SelectComponent";
 
 export default function GharKoBiabarn(props: any) {
-  let { bastis, wards, margas, hh, jaatis, dharmas } = props;
+  let { bastis, wards, margas, hh, jaatis, dharmas, errors } = props;
   let { handleChange, handleArrayChangeInHousehold } = props;
   const [household, setHousehold] = useState({ ...hh } as IHousehold);
-
   useEffect(() => {
     setHousehold({ ...hh });
   }, [hh]);
@@ -57,7 +56,6 @@ export default function GharKoBiabarn(props: any) {
       .getContext("2d")
       .drawImage(video, 0, 0, canvas.width, canvas.height);
     let image_data_url = canvas.toDataURL("image/jpeg");
-    console.log(image_data_url);
     video.style.display = "none";
     canvas.style.display = "block";
     let click_photo = document.querySelector(
@@ -86,8 +84,10 @@ export default function GharKoBiabarn(props: any) {
           wrapperClass="options-verical"
           label={"1. वडाको नाम"}
           name="ward_id"
+          id="ward_id"
           handleChange={handleChange}
           defaultValue={household.ward_id}
+          errors={errors}
         />
 
         <RadioComponent
@@ -98,6 +98,7 @@ export default function GharKoBiabarn(props: any) {
           handleChange={handleChange}
           defaultValue={household.basti_id}
           id={"basti_id"}
+          errors={errors}
         />
 
         <RadioComponent
@@ -108,6 +109,7 @@ export default function GharKoBiabarn(props: any) {
           handleChange={handleChange}
           defaultValue={household.marga_id}
           id={"marga_id"}
+          errors={errors}
         />
       </div>
 
@@ -121,6 +123,7 @@ export default function GharKoBiabarn(props: any) {
           palceholder={"घर नं"}
           type={"text"}
           id={"house_num"}
+          errors={errors}
         />
 
         <InputComponent
@@ -132,6 +135,7 @@ export default function GharKoBiabarn(props: any) {
           palceholder={"घरमुलीको नाम"}
           type={"text"}
           id={"hoh_name"}
+          errors={errors}
         />
 
         <RadioComponent
@@ -142,6 +146,7 @@ export default function GharKoBiabarn(props: any) {
           handleChange={handleChange}
           defaultValue={household.hoh_role}
           id={"hoh_role"}
+          errors={errors}
         />
 
         <RadioComponent
@@ -152,6 +157,7 @@ export default function GharKoBiabarn(props: any) {
           handleChange={handleChange}
           defaultValue={household.hoh_gender}
           id={"hoh_gender"}
+          errors={errors}
         />
         <SelectComponent
           options={jaatis}
@@ -162,9 +168,9 @@ export default function GharKoBiabarn(props: any) {
           defaultValue={household.jaati_id}
           id={"jaati_id"}
           placeholder="जाति"
+          errors={errors}
         />
 
-        
         <label className="label">9. धर्म</label>
         <div className="options-verical">
           <select
