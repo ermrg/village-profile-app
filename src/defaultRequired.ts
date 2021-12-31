@@ -6,7 +6,7 @@ export const householdDefault = {
   is_complete: "0",
   ward_id: "1",
   basti_id: "1",
-  marga_id: "3",
+  marga_id: "1",
   hoh_name: "Head of House",
   jaati_id: "5",
   num_of_member: "",

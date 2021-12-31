@@ -363,7 +363,7 @@ export default function GharKoDetailBiabarn(props: any) {
         <div className="options-verical">
           <input
             onChange={(e) => handleChange(e)}
-            type="text"
+            type="number"
             className="form-control"
             value={household.business_count ?? 0}
             name="business_count"
@@ -377,7 +377,7 @@ export default function GharKoDetailBiabarn(props: any) {
         <div className="options-verical">
           <input
             onChange={(e) => handleChange(e)}
-            type="text"
+            type="number"
             className="form-control"
             value={household.rent_business_count ?? 0}
             name="rent_business_count"
@@ -390,7 +390,7 @@ export default function GharKoDetailBiabarn(props: any) {
         <div className="options-verical">
           <input
             onChange={(e) => handleChange(e)}
-            type="text"
+            type="number"
             className="form-control"
             value={household.annual_expense ?? 0}
             name="annual_expense"
