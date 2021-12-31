@@ -61,7 +61,7 @@ export default function PendingData() {
     }
   };
   if (loading) {
-    return <div className="vp-home">Loading...</div>;
+    return <div className="vp-home">Posting...</div>;
   }
   return (
     <div>

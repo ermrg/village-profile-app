@@ -54,7 +54,7 @@ export default function AllData() {
                 <td>{++key}</td>
                 <td>{hh.id}</td>
                 <td>{hh.hoh_name}</td>
-                <td>{hh.members.length}</td>
+                <td>{hh.members?.length}</td>
                 <td>
                   {hh.is_posted == "1" && "Y"}
                   {hh.is_posted == "0" && "N"}

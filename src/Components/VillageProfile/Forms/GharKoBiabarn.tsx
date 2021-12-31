@@ -30,13 +30,21 @@ export default function GharKoBiabarn(props: any) {
       "getUserMedia" in navigator.mediaDevices
     ) {
       let video = document.querySelector("#hoh_imagevideo") as HTMLVideoElement;
-      let stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: "enviroment",
-        },
+      // let stream = await navigator.mediaDevices.getUserMedia({
+      //   video: {
+      //     facingMode: "environment",
+      //   },
+      //   audio: false,
+      // });
+      // video!.srcObject = stream;
+      navigator.mediaDevices.getUserMedia({
         audio: false,
-      });
-      video!.srcObject = stream;
+        video: {
+          facingMode: 'environment'
+        }
+      })
+        .then(stream => video.srcObject = stream)
+        .catch(console.error);
 
       let click_photo = document.querySelector(
         "#hoh_imageclick-photo"
@@ -44,8 +52,8 @@ export default function GharKoBiabarn(props: any) {
 
       video.style.display = "block";
       click_photo.style.display = "block";
-      let existingImage = document.getElementById("imageDisplay")
-      existingImage.style.display = "none"
+      let existingImage = document.getElementById("imageDisplay");
+      existingImage.style.display = "none";
     }
   };
 
@@ -68,6 +76,8 @@ export default function GharKoBiabarn(props: any) {
     ) as HTMLButtonElement;
     click_photo.style.display = "none";
     reset.style.display = "block";
+    let existingImage = document.getElementById("imageDisplay");
+    existingImage.style.display = "none";
     handleArrayChangeInHousehold("hoh_image", image_data_url);
   };
 
@@ -76,6 +86,8 @@ export default function GharKoBiabarn(props: any) {
     let reset = document.querySelector("#reset-photo") as HTMLButtonElement;
     reset.style.display = "none";
     canvas.style.display = "none";
+    let existingImage = document.getElementById("imageDisplay");
+    existingImage.style.display = "none";
     getHohPhoto();
   };
   return (
@@ -248,11 +260,9 @@ export default function GharKoBiabarn(props: any) {
             id="hoh_imageresponder_image"
             onChange={(e) => handleChange(e)}
           />
-          {household.hoh_image && (
-            <div id="imageDisplay">
-              <img src={household.hoh_image} />
-            </div>
-          )}
+          <div id="imageDisplay">
+            {household.hoh_image && <img src={household.hoh_image} />}
+          </div>
           <button className="btn btn-secondary" onClick={getHohPhoto}>
             घरमूलीको फोटो {household.hoh_image && "Reset"}
           </button>
