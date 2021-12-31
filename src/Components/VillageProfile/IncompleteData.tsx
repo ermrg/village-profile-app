@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getPendingHouseholds, IHousehold } from "../../db/models/Household";
+import { getIncompleteHouseholds, IHousehold } from "../../db/models/Household";
 import { getMembersbyHousehold } from "../../db/models/Member";
 import { getAllUsers, IUser } from "../../db/models/UserModel";
 
@@ -16,7 +16,7 @@ export default function IncompleteData() {
 
   const getHouseholds = async (auth_: IUser) => {
     setLoading(true);
-    let hhs = await getPendingHouseholds(auth_.id ? auth_.id.toString() : "");
+    let hhs = await getIncompleteHouseholds(auth_.id ? auth_.id.toString() : "");
     let hhWithMembers = [] as IHousehold[];
     await Promise.all(
       hhs.map(async (hh) => {
@@ -62,7 +62,7 @@ export default function IncompleteData() {
                 <td>{++key}</td>
                 <td>{hh.id}</td>
                 <td>{hh.hoh_name}</td>
-                <td>{hh.members.length}</td>
+                <td>{hh.members?.length}</td>
                 <td>
                   <button
                     className="btn btn-warning btn-sm"

@@ -278,6 +278,9 @@ export default function VPForm(props: any) {
     if (errorLength === 0) {
       await updateHousehold({ ...household, is_complete: "1" });
       history.push("/village-profile-app/app");
+    }else{
+      alert('Check Input')
+      console.log(errorLength, );
     }
   };
 

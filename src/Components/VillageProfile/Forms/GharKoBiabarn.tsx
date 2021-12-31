@@ -30,13 +30,6 @@ export default function GharKoBiabarn(props: any) {
       "getUserMedia" in navigator.mediaDevices
     ) {
       let video = document.querySelector("#hoh_imagevideo") as HTMLVideoElement;
-      // let stream = await navigator.mediaDevices.getUserMedia({
-      //   video: {
-      //     facingMode: "environment",
-      //   },
-      //   audio: false,
-      // });
-      // video!.srcObject = stream;
       navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
