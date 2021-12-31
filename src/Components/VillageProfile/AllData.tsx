@@ -49,7 +49,7 @@ export default function AllData() {
           {households.length ? (
             households.map((hh, key) => (
               <tr key={key}>
-                <td>{++key} {hh.user_id}</td>
+                <td>{++key}</td>
                 <td>{hh.id}</td>
                 <td>{hh.hoh_name}</td>
                 <td>{hh.members?.length}</td>
