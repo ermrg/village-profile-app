@@ -24,6 +24,7 @@ export default function PendingData() {
 
   const getHouseholds = async (auth_: IUser) => {
     setLoading(true);
+    console.log(auth_);
     let hhs = await getPendingHouseholds(auth_.id ? auth_.id.toString() : "");
     let hhWithMembers = [] as IHousehold[];
     await Promise.all(

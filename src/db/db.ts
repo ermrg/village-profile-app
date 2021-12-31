@@ -26,16 +26,6 @@ export class AppDatabase extends Dexie {
     super("VPDB");
 
     var db = this;
-    // db.delete()
-    //   .then(() => {
-    //     console.log("Database successfully deleted");
-    //   })
-    //   .catch((err) => {
-    //     console.error("Could not delete database");
-    //   })
-    //   .finally(() => {
-    //     // Do what should be done next...
-    //   });
     db.version(1).stores({
       users: "++id, name, phone, password",
       wards: "id, name, status",

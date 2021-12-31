@@ -323,7 +323,7 @@ export async function getHouseholdById(id: any) {
 export async function getPendingHouseholds(user_id: string) {
   return await db.households
     .where("[user_id+is_posted+is_complete]")
-    .equals([user_id, "0", "1"])
+    .equals([parseInt(user_id), "0", "1"])
     .toArray();
 }
 
@@ -333,4 +333,23 @@ export async function getIncompleteHouseholds(user_id: string) {
 
 export async function updateHousehold(data: IHousehold) {
   return await db.households.put({ ...data });
+}
+
+export async function deleteAllData(test: string) {
+  if (test === "deleteall") {
+    return db
+      .delete()
+      .then(() => {
+        console.log("Database successfully deleted");
+        return true;
+      })
+      .catch((err) => {
+        console.error("Could not delete database");
+      })
+      .finally(async () => {
+        await db.open();
+        return true;
+      });
+  }
+  return false;
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   addNewUser,
   deleteUser,
@@ -8,6 +8,7 @@ import {
 } from "../db/models/UserModel";
 import api from "../Api/api";
 import { syncDb } from "../db/seed";
+import { deleteAllData } from "../db/models/Household";
 
 const initialAuth = {
   name: "",
@@ -21,6 +22,8 @@ export default function VillageProfileHome() {
   const [auth, setAuth] = useState(initialAuth as IUser);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const history = useHistory();
+
   useEffect(() => {
     checkUser();
     // checkGeoLocation();
@@ -82,6 +85,13 @@ export default function VillageProfileHome() {
     deleteUser();
   };
 
+  const handleDelete = async (e:any) => {
+    let res = await deleteAllData(e.target.value)
+    if(res){
+      history.push("/village-profile-app")
+    }
+  }
+
   if (loading) {
     return <div className="vp-home">Server Loading...</div>;
   }
@@ -133,6 +143,7 @@ export default function VillageProfileHome() {
       <button className="btn btn-sm btn-secondary" onClick={syncServerData}>
         Pull Data
       </button>
+      <input onChange={handleDelete} placeholder="DELETE-ALL" className="col-md-3"></input>
     </div>
   );
 }
