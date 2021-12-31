@@ -36,7 +36,7 @@ export async function getAllWards() {
   });
 }
 
-export async function getWardById(id: number) {
+export async function getWardById(id: string) {
   return await db.wards.get(id);
 }
 

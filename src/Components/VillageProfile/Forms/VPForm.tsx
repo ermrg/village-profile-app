@@ -286,6 +286,9 @@ export default function VPForm(props: any) {
   };
   return (
     <div className="vp-form-wrapper">
+      <button className="btn btn-warning back-btn" onClick={() => history.goBack()}>
+        Back
+      </button>
       <div className="save-btns">
         <div>
           <button

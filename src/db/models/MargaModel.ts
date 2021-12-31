@@ -42,7 +42,7 @@ export async function getAllMarga() {
   });
 }
 
-export async function getMargaById(id: number) {
+export async function getMargaById(id: string) {
   return await db.margas.get(id);
 }
 

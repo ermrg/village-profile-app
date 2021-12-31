@@ -6,6 +6,7 @@ import {
   IHousehold,
   updateHousehold,
 } from "../../db/models/Household";
+import { getMembersbyHousehold } from "../../db/models/Member";
 
 export default function AllData() {
   const [households, setHousholds] = useState([] as IHousehold[]);
@@ -17,28 +18,20 @@ export default function AllData() {
 
   const getHouseholds = async () => {
     let hhs = await getAllHousehold();
-    console.log(hhs);
-    setHousholds([...hhs]);
-  };
-
-  const postHousehold = async (hh: any) => {
-    if (window.navigator.onLine) {
-      let res = await api.postHousehold(hh);
-      if (res.status === 200) {
-        await updateHousehold({ ...hh, is_posted: 1 });
-      } else {
-        console.log(hh.id, "Failed");
-      }
-      getHouseholds();
-    } else {
-      alert("Please connect to WIFI!");
-    }
+    let hhWithMembers = [] as IHousehold[];
+    await Promise.all(
+      hhs.map(async (hh) => {
+        await getMembersbyHousehold(hh.id.toString());
+        hhWithMembers.push(hh);
+      })
+    );
+    setHousholds([...hhWithMembers]);
   };
   return (
     <div>
       <button
-        className="btn btn-warning"
-        onClick={() => history.push("/village-profile-app/app")}
+        className="btn btn-warning back-btn"
+        onClick={() => history.goBack()}
       >
         Back
       </button>
@@ -47,7 +40,8 @@ export default function AllData() {
           <tr>
             <th>SN</th>
             <th>Id</th>
-            <th>User</th>
+            <th>HOH</th>
+            <th>Members</th>
             <th>Posted</th>
             <th>Complete</th>
             <th>Action</th>
@@ -59,30 +53,37 @@ export default function AllData() {
               <tr key={key}>
                 <td>{++key}</td>
                 <td>{hh.id}</td>
-                <td>{hh.user_id}</td>
+                <td>{hh.hoh_name}</td>
+                <td>{hh.members.length}</td>
                 <td>
-                  {hh.is_posted}
+                  {hh.is_posted == "1" && "Y"}
+                  {hh.is_posted == "0" && "N"}
                 </td>
                 <td>
-                  {hh.is_complete}
+                  {hh.is_complete == "1" && "Y"}
+                  {hh.is_complete == "0" && "N"}
                 </td>
                 <td>
                   {hh.is_posted == "0" && (
                     <>
                       <button
-                        className="btn btn-warning"
-                        onClick={() => postHousehold(hh)}
+                        className="btn btn-warning btn-sm"
+                        onClick={() =>
+                          history.push("/village-profile-app/app/edit/" + hh.id)
+                        }
                       >
                         Edit
                       </button>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => postHousehold(hh)}
-                      >
-                        Post
-                      </button>
                     </>
                   )}
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={() =>
+                      history.push("/village-profile-app/app/view/" + hh.id)
+                    }
+                  >
+                    View
+                  </button>
                 </td>
               </tr>
             ))

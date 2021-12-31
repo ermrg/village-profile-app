@@ -236,7 +236,7 @@ export async function getAllMember() {
   });
 }
 
-export async function getMemberById(id: number) {
+export async function getMemberById(id: string) {
   return await db.members.get(id);
 }
 
@@ -246,4 +246,9 @@ export async function getMembersbyHousehold(hh_id: string) {
 
 export async function updateMember(data: IMember) {
   return await db.members.put({ ...data });
+}
+
+export async function getMemberCountByHousehold(hh_id: string) {
+  let x = await db.members.where("hh_id").equals(hh_id).count();
+  console.log(x)
 }

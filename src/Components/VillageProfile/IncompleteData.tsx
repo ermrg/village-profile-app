@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import api from "../../Api/api";
-import { getIncompleteHouseholds, getPendingHouseholds, IHousehold } from "../../db/models/Household";
+import { getPendingHouseholds, IHousehold } from "../../db/models/Household";
 import { getMembersbyHousehold } from "../../db/models/Member";
 import { getAllUsers, IUser } from "../../db/models/UserModel";
 
 export default function IncompleteData() {
   const [households, setHousholds] = useState([] as IHousehold[]);
-  const [auth, setAuth] = useState({} as IUser);
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -16,22 +15,33 @@ export default function IncompleteData() {
   }, []);
 
   const getHouseholds = async (auth_: IUser) => {
-    let hhs = await getIncompleteHouseholds(auth_.id ? auth_.id.toString() : "");
-    setHousholds([...hhs]);
+    setLoading(true);
+    let hhs = await getPendingHouseholds(auth_.id ? auth_.id.toString() : "");
+    let hhWithMembers = [] as IHousehold[];
+    await Promise.all(
+      hhs.map(async (hh) => {
+        await getMembersbyHousehold(hh.id.toString());
+        hhWithMembers.push(hh);
+      })
+    );
+    setHousholds([...hhWithMembers]);
+    setLoading(false);
   };
 
   const checkUser = async () => {
     let auth_ = await getAllUsers();
     if (auth_.length) {
-      setAuth({ ...auth_[0] });
       getHouseholds(auth_[0]);
     }
   };
+  if (loading) {
+    return <div className="vp-home">Loading...</div>;
+  }
   return (
     <div>
       <button
-        className="btn btn-warning"
-        onClick={() => history.push("/village-profile-app/app")}
+        className="btn btn-warning back-btn"
+        onClick={() => history.goBack()}
       >
         Back
       </button>
@@ -40,8 +50,8 @@ export default function IncompleteData() {
           <tr>
             <th>SN</th>
             <th>Id</th>
-            <th>Ward</th>
-            <th>Posted</th>
+            <th>HOH</th>
+            <th>Members</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -51,27 +61,25 @@ export default function IncompleteData() {
               <tr key={key}>
                 <td>{++key}</td>
                 <td>{hh.id}</td>
-                <td>{hh.ward_id}</td>
+                <td>{hh.hoh_name}</td>
+                <td>{hh.members.length}</td>
                 <td>
-                  {hh.is_posted == "1" ? (
-                    <label className="badge badge-success">YES</label>
-                  ) : (
-                    <label className="badge badge-danger">NO</label>
-                  )}
-                </td>
-                <td>
-                  {hh.is_posted == "0" && (
-                    <>
-                      <button
-                        className="btn btn-warning btn-sm"
-                        onClick={() =>
-                          history.push("/village-profile-app/app/edit/" + hh.id)
-                        }
-                      >
-                        Edit
-                      </button>
-                    </>
-                  )}
+                  <button
+                    className="btn btn-warning btn-sm"
+                    onClick={() =>
+                      history.push("/village-profile-app/app/edit/" + hh.id)
+                    }
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={() =>
+                      history.push("/village-profile-app/app/view/" + hh.id)
+                    }
+                  >
+                    View
+                  </button>
                 </td>
               </tr>
             ))

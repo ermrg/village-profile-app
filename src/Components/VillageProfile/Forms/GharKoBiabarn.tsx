@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
-import { IBasti } from "../../../db/models/BastiModel";
 import { IHousehold } from "../../../db/models/Household";
-import { IMarga } from "../../../db/models/MargaModel";
-import {
-  gender_choice,
-  hoh_roles,
-  mother_tongues,
-  residence_types,
-} from "../../../enums";
+import { gender_choice, hoh_roles, residence_types } from "../../../enums";
 import InputComponent from "./FormComponent/InputComponent";
 import RadioComponent from "./FormComponent/RadioComponent";
 import SelectComponent from "./FormComponent/SelectComponent";
@@ -38,7 +31,9 @@ export default function GharKoBiabarn(props: any) {
     ) {
       let video = document.querySelector("#hoh_imagevideo") as HTMLVideoElement;
       let stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: {
+          facingMode: "enviroment",
+        },
         audio: false,
       });
       video!.srcObject = stream;
@@ -49,6 +44,8 @@ export default function GharKoBiabarn(props: any) {
 
       video.style.display = "block";
       click_photo.style.display = "block";
+      let existingImage = document.getElementById("imageDisplay")
+      existingImage.style.display = "none"
     }
   };
 
@@ -251,8 +248,13 @@ export default function GharKoBiabarn(props: any) {
             id="hoh_imageresponder_image"
             onChange={(e) => handleChange(e)}
           />
+          {household.hoh_image && (
+            <div id="imageDisplay">
+              <img src={household.hoh_image} />
+            </div>
+          )}
           <button className="btn btn-secondary" onClick={getHohPhoto}>
-            घरमूलीको फोटो
+            घरमूलीको फोटो {household.hoh_image && "Reset"}
           </button>
         </div>
         <label className="label" id="geo_code">

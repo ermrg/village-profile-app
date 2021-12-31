@@ -36,7 +36,7 @@ export async function getAllTechnicalSkills() {
   });
 }
 
-export async function getTechnicalSkillById(id: number) {
+export async function getTechnicalSkillById(id: string) {
   return await db.technicalSkills.get(id);
 }
 

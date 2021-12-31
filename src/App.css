@@ -187,3 +187,18 @@ ul.dropdown-menu.inner {
 .member-form-four {
   background-color: rgba(255, 0, 0, 0.75) !important;
 }
+.view-household {
+  padding: 2%;
+}
+.view-household p {
+  color: #0007;
+  font-size: 12px;
+}
+.view-household h4 {
+  color: #000;
+}
+.back-btn {
+  position: absolute;
+  right: 5px;
+  top: 2px;
+}
