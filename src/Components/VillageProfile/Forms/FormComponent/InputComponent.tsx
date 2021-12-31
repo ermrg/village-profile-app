@@ -9,10 +9,18 @@ export default function InputComponent(props: any) {
     wrapperClass,
     name,
     type,
-    id
+    id,
+    errors
   } = props;
+  const checkIfError = () => {
+    let v = errors.find((s: any) => s.name == name);
+    if (v) {
+      return "error";
+    }
+    return "";
+  };
   return (
-    <div className="question" key={id} id={id}>
+    <div className={`question ${checkIfError()}`} key={id} id={id}>
       <label className="label">{label}</label>
       <div className={wrapperClass}>
         <input

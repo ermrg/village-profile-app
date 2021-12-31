@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../../Api/api";
-import { getPendingHouseholds, IHousehold } from "../../db/models/Household";
-import { getMembersbyHousehold } from "../../db/models/Member";
+import {
+  getPendingHouseholds,
+  IHousehold,
+  updateHousehold,
+} from "../../db/models/Household";
+import {
+  getMembersbyHousehold,
+} from "../../db/models/Member";
 import { getAllUsers, IUser } from "../../db/models/UserModel";
 
-export default function AllData() {
+export default function PendingData() {
   const [households, setHousholds] = useState([] as IHousehold[]);
   const [auth, setAuth] = useState({} as IUser);
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -16,24 +23,34 @@ export default function AllData() {
   }, []);
 
   const getHouseholds = async (auth_: IUser) => {
-    // console.log(auth_);
+    setLoading(true);
     let hhs = await getPendingHouseholds(auth_.id ? auth_.id.toString() : "");
-    setHousholds([...hhs]);
+    let hhWithMembers = [] as IHousehold[];
+    await Promise.all(
+      hhs.map(async (hh) => {
+        await getMembersbyHousehold(hh.id.toString());
+        hhWithMembers.push(hh);
+      })
+    );
+    setHousholds([...hhWithMembers]);
+    setLoading(false);
   };
   const postHousehold = async (hh: any) => {
+    setLoading(true);
     if (window.navigator.onLine) {
       hh["members"] = await getMembersbyHousehold(hh.id);
-      console.log(hh);
       let res = await api.postHousehold(hh);
       if (res.status === 200) {
-        // await updateHousehold({ ...hh, is_posted: 1 });
+        await updateHousehold({ ...hh, is_posted: 1 });
       } else {
-        console.log(hh.id, "Failed");
+        console.log(res, "Failed");
+        alert("Submission failed! Please check your input")
       }
       getHouseholds(auth);
     } else {
       alert("Please connect to WIFI!");
     }
+    setLoading(false);
   };
 
   const checkUser = async () => {
@@ -43,11 +60,14 @@ export default function AllData() {
       getHouseholds(auth_[0]);
     }
   };
+  if (loading) {
+    return <div className="vp-home">Loading...</div>;
+  }
   return (
     <div>
       <button
-        className="btn btn-warning"
-        onClick={() => history.push("/village-profile-app/app")}
+        className="btn btn-warning back-btn"
+        onClick={() => history.goBack()}
       >
         Back
       </button>
@@ -56,8 +76,8 @@ export default function AllData() {
           <tr>
             <th>SN</th>
             <th>Id</th>
-            <th>Ward</th>
-            <th>Posted</th>
+            <th>HOH</th>
+            <th>Members</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -67,14 +87,8 @@ export default function AllData() {
               <tr key={key}>
                 <td>{++key}</td>
                 <td>{hh.id}</td>
-                <td>{hh.ward_id}</td>
-                <td>
-                  {hh.is_posted == "1" ? (
-                    <label className="badge badge-success">YES</label>
-                  ) : (
-                    <label className="badge badge-danger">NO</label>
-                  )}
-                </td>
+                <td>{hh.hoh_name}</td>
+                <td>{hh.members.length}</td>
                 <td>
                   {hh.is_posted == "0" && (
                     <>
@@ -85,6 +99,14 @@ export default function AllData() {
                         }
                       >
                         Edit
+                      </button>
+                      <button
+                        className="btn btn-success btn-sm"
+                        onClick={() =>
+                          history.push("/village-profile-app/app/view/" + hh.id)
+                        }
+                      >
+                        View
                       </button>
                       <button
                         className="btn btn-primary btn-sm"

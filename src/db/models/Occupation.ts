@@ -36,7 +36,7 @@ export async function getAllOccupations() {
   });
 }
 
-export async function getOccupationById(id: number) {
+export async function getOccupationById(id: string) {
   return await db.occupations.get(id);
 }
 

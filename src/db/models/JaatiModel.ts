@@ -36,7 +36,7 @@ export async function getAllJaatis() {
   });
 }
 
-export async function getJaatiById(id: number) {
+export async function getJaatiById(id: string) {
   return await db.jaatis.get(id);
 }
 

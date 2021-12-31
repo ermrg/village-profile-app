@@ -4,9 +4,9 @@ const hoh_roles = [
   { name: "जेठो दाई", id: "eldest_son" },
 ];
 const gender_choice = [
-  { name: "पुरष", id: "male" },
-  { name: "महिला", id: "female" },
-  { name: "अन्य", id: "other" },
+  { name: "पुरष", id: "1" },
+  { name: "महिला", id: "2" },
+  { name: "अन्य", id: "3" },
 ];
 
 const relations = [
@@ -250,8 +250,8 @@ const water_sources = [
 const cooking_fuels = [
   { id: "1", name: "बिद्युत" },
   { id: "2", name: "एलपी ग्याँस" },
-  { id: "3", name: "गोबर ग्याँस" },
   { id: "4", name: "दाउरा" },
+  { id: "3", name: "गोबर ग्याँस" },
   { id: "5", name: "अन्य" },
 ];
 
@@ -310,6 +310,16 @@ const developmentOption = [
   { name: "खानेपानी", id: "खानेपानी" },
   { name: "सिंचाई", id: "सिंचाई" },
 ];
+const residence_types = [
+  { name: "जन्मसिद्ध", id: "1" },
+  { name: "बसाईसराई", id: "2" },
+  
+];
+const yes_nos = [
+  { name: "छ", id: "1" },
+  { name: "छैन", id: "0" },
+  
+];
 export {
   hoh_roles,
   gender_choice,
@@ -334,4 +344,6 @@ export {
   land_types,
   socialNetworks,
   developmentOption,
+  residence_types,
+  yes_nos,
 };

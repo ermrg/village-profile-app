@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
-import { IBasti } from "../../../db/models/BastiModel";
 import { IHousehold } from "../../../db/models/Household";
-import { IMarga } from "../../../db/models/MargaModel";
-import { gender_choice, hoh_roles, mother_tongues } from "../../../enums";
+import { gender_choice, hoh_roles, residence_types } from "../../../enums";
 import InputComponent from "./FormComponent/InputComponent";
 import RadioComponent from "./FormComponent/RadioComponent";
 import SelectComponent from "./FormComponent/SelectComponent";
 
 export default function GharKoBiabarn(props: any) {
-  let { bastis, wards, margas, hh, jaatis, dharmas } = props;
+  let { bastis, wards, margas, hh, jaatis, dharmas, errors } = props;
   let { handleChange, handleArrayChangeInHousehold } = props;
   const [household, setHousehold] = useState({ ...hh } as IHousehold);
-
   useEffect(() => {
     setHousehold({ ...hh });
   }, [hh]);
@@ -34,7 +31,9 @@ export default function GharKoBiabarn(props: any) {
     ) {
       let video = document.querySelector("#hoh_imagevideo") as HTMLVideoElement;
       let stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: {
+          facingMode: "enviroment",
+        },
         audio: false,
       });
       video!.srcObject = stream;
@@ -45,6 +44,8 @@ export default function GharKoBiabarn(props: any) {
 
       video.style.display = "block";
       click_photo.style.display = "block";
+      let existingImage = document.getElementById("imageDisplay")
+      existingImage.style.display = "none"
     }
   };
 
@@ -57,7 +58,6 @@ export default function GharKoBiabarn(props: any) {
       .getContext("2d")
       .drawImage(video, 0, 0, canvas.width, canvas.height);
     let image_data_url = canvas.toDataURL("image/jpeg");
-    console.log(image_data_url);
     video.style.display = "none";
     canvas.style.display = "block";
     let click_photo = document.querySelector(
@@ -86,8 +86,10 @@ export default function GharKoBiabarn(props: any) {
           wrapperClass="options-verical"
           label={"1. वडाको नाम"}
           name="ward_id"
+          id="ward_id"
           handleChange={handleChange}
           defaultValue={household.ward_id}
+          errors={errors}
         />
 
         <RadioComponent
@@ -98,6 +100,7 @@ export default function GharKoBiabarn(props: any) {
           handleChange={handleChange}
           defaultValue={household.basti_id}
           id={"basti_id"}
+          errors={errors}
         />
 
         <RadioComponent
@@ -108,6 +111,7 @@ export default function GharKoBiabarn(props: any) {
           handleChange={handleChange}
           defaultValue={household.marga_id}
           id={"marga_id"}
+          errors={errors}
         />
       </div>
 
@@ -121,6 +125,7 @@ export default function GharKoBiabarn(props: any) {
           palceholder={"घर नं"}
           type={"text"}
           id={"house_num"}
+          errors={errors}
         />
 
         <InputComponent
@@ -132,6 +137,7 @@ export default function GharKoBiabarn(props: any) {
           palceholder={"घरमुलीको नाम"}
           type={"text"}
           id={"hoh_name"}
+          errors={errors}
         />
 
         <RadioComponent
@@ -142,6 +148,7 @@ export default function GharKoBiabarn(props: any) {
           handleChange={handleChange}
           defaultValue={household.hoh_role}
           id={"hoh_role"}
+          errors={errors}
         />
 
         <RadioComponent
@@ -152,6 +159,7 @@ export default function GharKoBiabarn(props: any) {
           handleChange={handleChange}
           defaultValue={household.hoh_gender}
           id={"hoh_gender"}
+          errors={errors}
         />
         <SelectComponent
           options={jaatis}
@@ -162,64 +170,46 @@ export default function GharKoBiabarn(props: any) {
           defaultValue={household.jaati_id}
           id={"jaati_id"}
           placeholder="जाति"
+          errors={errors}
+        />
+        <SelectComponent
+          options={dharmas}
+          wrapperClass="options-verical"
+          label={"9. धर्म"}
+          name="religion_id"
+          handleChange={handleChange}
+          defaultValue={household.religion_id}
+          id={"religion_id"}
+          placeholder="धर्म"
+          errors={errors}
         />
 
-        
-        <label className="label">9. धर्म</label>
-        <div className="options-verical">
-          <select
-            className="form-control"
-            name="religion_id"
-            required
-            value={household.religion_id ? household.religion_id : ""}
-            onChange={(e) => handleChange(e)}
-          >
-            <option value={""} key={"religion-1"}>
-              ------ धर्म ------
-            </option>
-            {dharmas.map((d: any, key: any) => (
-              <option value={d.id} key={"religion" + key}>
-                {d.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <label className="label">10. मातृभाषा:</label>
-        <div className="options-verical">
-          <select
-            className="form-control"
-            value={
-              household.mother_tongue_id
-                ? household.mother_tongue_id.toString()
-                : ""
-            }
-            name="mother_tongue_id"
-            onChange={(e) => handleChange(e)}
-          >
-            <option value={""} key={"मातृभाषा-1"}>
-              ------ मातृभाषा ------
-            </option>
-            {mother_tongues.map((option, key) => (
-              <option value={option.id} key={"relation_with_hoh" + key}>
-                {option.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <SelectComponent
+          options={dharmas}
+          wrapperClass="options-verical"
+          label={"10. मातृभाषा"}
+          name="mother_tongue_id"
+          handleChange={handleChange}
+          defaultValue={household.mother_tongue_id}
+          id={"mother_tongue_id"}
+          placeholder="मातृभाषा"
+          errors={errors}
+        />
       </div>
 
       <div className={`form-group`} id="5">
-        <label className="label">11. परिवार संख्याः</label>
-        <div className="options-verical">
-          <input
-            onChange={(e) => handleChange(e)}
-            type="number"
-            className="form-control"
-            defaultValue={household.num_of_member ?? ""}
-            name="num_of_member"
-          />
-        </div>
+        <InputComponent
+          name={"num_of_member"}
+          label={"11. परिवार संख्याः"}
+          wrapperClass={"options-verical"}
+          handleChange={handleChange}
+          defaultValue={household.num_of_member}
+          palceholder={"परिवार संख्याः"}
+          type={"number"}
+          id={"num_of_member"}
+          errors={errors}
+        />
+
         <label className="label">12. घरमूलीको फोटोः</label>
         <div className="options-verical">
           <video
@@ -254,15 +244,22 @@ export default function GharKoBiabarn(props: any) {
           </button>
           <input
             type="hidden"
-            name="responder_image"
+            name="hoh_image"
             id="hoh_imageresponder_image"
             onChange={(e) => handleChange(e)}
           />
+          {household.hoh_image && (
+            <div id="imageDisplay">
+              <img src={household.hoh_image} />
+            </div>
+          )}
           <button className="btn btn-secondary" onClick={getHohPhoto}>
-            घरमूलीको फोटो
+            घरमूलीको फोटो {household.hoh_image && "Reset"}
           </button>
         </div>
-        <label className="label">13. घरको जियो कोड:</label>
+        <label className="label" id="geo_code">
+          13. घरको जियो कोड:
+        </label>
         <div className="options-verical">
           {parseFloat(household.latitude) > 0 &&
           parseFloat(household.longitude) > 0 ? (
@@ -304,48 +301,30 @@ export default function GharKoBiabarn(props: any) {
             घरको जियो कोड
           </button>
         </div>
-        <label className="label">14. बसोबासको प्रकार?</label>
-        <div className="options-vertical">
-          <div className="radio" key={"बसोबासको प्रकार1"}>
-            <label>
-              <input
-                type="radio"
-                value={"1"}
-                name="resident_type"
-                checked={household.resident_type == "1"}
-                onChange={(e) => handleChange(e)}
-              />
-              जन्मसिद्ध
-            </label>
-          </div>
-
-          <div className="radio" key={"बसोबासको प्रकार2"}>
-            <label>
-              <input
-                type="radio"
-                value={"2"}
-                name="resident_type"
-                checked={household.resident_type == "2"}
-                onChange={(e) => handleChange(e)}
-              />
-              बसाईसराई
-            </label>
-          </div>
-        </div>
+        <RadioComponent
+          options={residence_types}
+          wrapperClass="options-verical"
+          label={"14. बसोबासको प्रकार?"}
+          name="resident_type"
+          handleChange={handleChange}
+          defaultValue={household.resident_type}
+          id={"resident_type"}
+          errors={errors}
+        />
 
         {household.resident_type == "2" && (
           <div className="child-section">
-            <label className="label">a. बसाई सरेको भए साल (वि.स.)</label>
-            <div className="options-horizontal">
-              <input
-                onChange={(e) => handleChange(e)}
-                type="number"
-                className="form-control"
-                defaultValue={household.migration_date ?? ""}
-                name="migration_date"
-                placeholder="Ex: 2067"
-              />
-            </div>
+            <InputComponent
+              name={"migration_date"}
+              label={"a. बसाई सरेको भए साल (वि.स.)"}
+              wrapperClass={"options-verical"}
+              handleChange={handleChange}
+              defaultValue={household.migration_date}
+              palceholder={"घरमुलीको नाम"}
+              type={"text"}
+              id={"migration_date"}
+              errors={errors}
+            />
           </div>
         )}
       </div>

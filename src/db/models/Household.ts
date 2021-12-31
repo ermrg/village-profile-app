@@ -1,5 +1,9 @@
 import { db } from "../db";
+import { IMember } from "./Member";
 
+interface IObjectKeys {
+  [key: string]: any;
+}
 export interface IMissingDeceasedMember {
   reason_id: string;
   reason: string;
@@ -48,9 +52,10 @@ export interface IForeignMember {
   return_year_bs?: string;
   monthly_income?: string;
 }
-export interface IHousehold {
+export interface IHousehold extends IObjectKeys {
   id?: number;
   id_string?: string;
+  members?: IMember[];
   hoh_name?: string;
   hoh_image?: string;
   hoh_role?: string;
@@ -90,6 +95,7 @@ export interface IHousehold {
   office?: string;
   user_id?: string;
   is_posted?: string;
+  is_complete?: string;
 
   missing_deceased_members?: IMissingDeceasedMember[];
   has_missing_deceased_member?: string;
@@ -169,6 +175,7 @@ export class Household {
   remarks?: string;
   user_id?: string;
   is_posted?: string;
+  is_complete?: string;
 
   missing_deceased_members?: IMissingDeceasedMember[];
   has_missing_deceased_member?: string;
@@ -246,6 +253,7 @@ export class Household {
     this.remarks = data.remarks;
     this.user_id = data.user_id;
     this.is_posted = data.is_posted;
+    this.is_complete = data.is_complete;
     this.missing_deceased_members = data.missing_deceased_members;
     this.has_missing_deceased_member = data.has_missing_deceased_member;
     this.has_foreign_member = data.has_foreign_member;
@@ -271,7 +279,7 @@ export class Household {
     this.child_death = data.child_death;
     this.child_death_condition = data.child_death_condition;
     this.child_death_count = data.child_death_count;
-    
+
     this.hospital_distance_meter = data.hospital_distance_meter;
     this.hospital_distance_minute = data.hospital_distance_minute;
     this.light_fuels = data.light_fuels;
@@ -314,9 +322,13 @@ export async function getHouseholdById(id: any) {
 
 export async function getPendingHouseholds(user_id: string) {
   return await db.households
-    .where("[user_id+is_posted]")
-    .equals([user_id, "0"])
+    .where("[user_id+is_posted+is_complete]")
+    .equals([user_id, "0", "1"])
     .toArray();
+}
+
+export async function getIncompleteHouseholds(user_id: string) {
+  return await db.households.where("is_complete").equals("0").toArray();
 }
 
 export async function updateHousehold(data: IHousehold) {

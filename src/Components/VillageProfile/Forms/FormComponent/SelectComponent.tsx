@@ -1,8 +1,24 @@
 export default function SelectComponent(props: any) {
-  let { options, defaultValue, handleChange, label, wrapperClass, name, id, placeholder } =
-    props;
+  let {
+    options,
+    defaultValue,
+    handleChange,
+    label,
+    wrapperClass,
+    name,
+    id,
+    placeholder,
+    errors,
+  } = props;
+  const checkIfError = () => {
+    let v = errors.find((s: any) => s.name == name);
+    if (v) {
+      return "error";
+    }
+    return "";
+  };
   return (
-    <div className="question" key={id} id={id}>
+    <div className={`question ${checkIfError()}`} key={id} id={id}>
       <label className="label">{label}</label>
       <div className={wrapperClass}>
         <select

@@ -49,7 +49,7 @@ export async function getAllUsers() {
   });
 }
 
-export async function getUserById(id: number) {
+export async function getUserById(id: string) {
   return await db.users.get(id);
 }
 
