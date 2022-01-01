@@ -106,7 +106,6 @@ export default function VPForm(props: any) {
     if (household.id) {
       hh_id = household.id;
       await updateHousehold(household);
-      console.log("Updated!");
     } else {
       hh_id = await addNewHousehold({
         ...household,
@@ -120,7 +119,6 @@ export default function VPForm(props: any) {
         is_posted: "0",
         user_id: auth.id?.toString(),
       }));
-      console.log("Saved!");
     }
     await saveMembers(hh_id);
     history.push("/village-profile-app/app");
@@ -131,7 +129,6 @@ export default function VPForm(props: any) {
     if (household.id) {
       hh_id = household.id;
       await updateHousehold(household);
-      console.log("Updated!");
     } else {
       hh_id = await addNewHousehold({
         ...household,
@@ -145,9 +142,9 @@ export default function VPForm(props: any) {
         is_posted: "0",
         user_id: auth.id?.toString(),
       }));
-      console.log("Saved!");
     }
     await saveMembers(hh_id);
+    return hh_id;
   };
 
   const saveMembers = async (hh_id: any) => {
@@ -273,10 +270,10 @@ export default function VPForm(props: any) {
   };
 
   const complete = async () => {
-    await saveHousehold();
+    let hh_id = await saveHousehold();
     let errorLength = validate(household);
     if (errorLength === 0) {
-      await updateHousehold({ ...household, is_complete: "1" });
+      await updateHousehold({ ...household, is_complete: "1", id: hh_id });
       history.push("/village-profile-app/app");
     }
   };
@@ -286,7 +283,10 @@ export default function VPForm(props: any) {
   };
   return (
     <div className="vp-form-wrapper">
-      <button className="btn btn-warning back-btn" onClick={() => history.goBack()}>
+      <button
+        className="btn btn-warning back-btn"
+        onClick={() => history.goBack()}
+      >
         Back
       </button>
       <div className="save-btns">

@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import api from "../../Api/api";
 import {
   getAllHousehold,
   IHousehold,
-  updateHousehold,
 } from "../../db/models/Household";
 import { getMembersbyHousehold } from "../../db/models/Member";
 
@@ -52,7 +50,7 @@ export default function AllData() {
             households.map((hh, key) => (
               <tr key={key}>
                 <td>{++key}</td>
-                <td>{hh.id}</td>
+                <td>{hh.id} {hh.user_id}</td>
                 <td>{hh.hoh_name}</td>
                 <td>{hh.members?.length}</td>
                 <td>

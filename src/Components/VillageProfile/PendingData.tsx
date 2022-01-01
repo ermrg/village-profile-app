@@ -24,6 +24,7 @@ export default function PendingData() {
 
   const getHouseholds = async (auth_: IUser) => {
     setLoading(true);
+    console.log(auth_);
     let hhs = await getPendingHouseholds(auth_.id ? auth_.id.toString() : "");
     let hhWithMembers = [] as IHousehold[];
     await Promise.all(
@@ -39,14 +40,18 @@ export default function PendingData() {
     setLoading(true);
     if (window.navigator.onLine) {
       hh["members"] = await getMembersbyHousehold(hh.id);
-      let res = await api.postHousehold(hh);
-      if (res.status === 200) {
-        await updateHousehold({ ...hh, is_posted: 1 });
-      } else {
-        console.log(res, "Failed");
-        alert("Submission failed! Please check your input")
+      try{
+        let res = await api.postHousehold(hh);
+        if (res.status === 200) {
+          await updateHousehold({ ...hh, is_posted: 1 });
+        }else{
+          alert(res.data.message)
+        }
+        getHouseholds(auth);
+      }catch(e:any){
+        alert(e.toString());
       }
-      getHouseholds(auth);
+      
     } else {
       alert("Please connect to WIFI!");
     }
@@ -61,7 +66,7 @@ export default function PendingData() {
     }
   };
   if (loading) {
-    return <div className="vp-home">Loading...</div>;
+    return <div className="vp-home">Posting...</div>;
   }
   return (
     <div>

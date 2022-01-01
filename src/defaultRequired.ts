@@ -6,7 +6,7 @@ export const householdDefault = {
   is_complete: "0",
   ward_id: "1",
   basti_id: "1",
-  marga_id: "3",
+  marga_id: "1",
   hoh_name: "Head of House",
   jaati_id: "5",
   num_of_member: "",
@@ -55,7 +55,7 @@ export const householdDefault = {
   child_death: "0",
   has_earthquake_relief_plan: "0",
   map_pass: "0",
-  responder_name: ""
+  responder_name: "",
 } as IHousehold;
 
 export const memberDefault = {
@@ -105,16 +105,16 @@ export const householdRequired = [
   "hoh_name",
   "jaati_id",
   "num_of_member",
-  "water_source_id",
-  "cooking_fuels",
-  "light_fuels",
-  "public_vehicle_distance_meter",
-  "public_vehicle_distance_minute",
-  "hospital_distance_meter",
-  "hospital_distance_minute",
-  "primary_distance",
-  "secondary_distance",
-  "higher_secondary_distance",
-  "toilet_type_id",
+  // "water_source_id",
+  // "cooking_fuels",
+  // "light_fuels",
+  // "public_vehicle_distance_meter",
+  // "public_vehicle_distance_minute",
+  // "hospital_distance_meter",
+  // "hospital_distance_minute",
+  // "primary_distance",
+  // "secondary_distance",
+  // "higher_secondary_distance",
+  // "toilet_type_id",
   "responder_name",
-];
+] as any;
