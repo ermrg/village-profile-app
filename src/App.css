@@ -189,6 +189,8 @@ ul.dropdown-menu.inner {
 }
 .view-household {
   padding: 2%;
+  overflow-y: scroll;
+    height: 100vh;
 }
 .view-household p {
   color: #0007;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IHousehold } from "../../../db/models/Household";
-import { gender_choice, hoh_roles, residence_types } from "../../../enums";
+import { gender_choice, hoh_roles, mother_tongues, residence_types } from "../../../enums";
 import InputComponent from "./FormComponent/InputComponent";
 import RadioComponent from "./FormComponent/RadioComponent";
 import SelectComponent from "./FormComponent/SelectComponent";
@@ -185,7 +185,7 @@ export default function GharKoBiabarn(props: any) {
         />
 
         <SelectComponent
-          options={dharmas}
+          options={mother_tongues}
           wrapperClass="options-verical"
           label={"10. मातृभाषा"}
           name="mother_tongue_id"
