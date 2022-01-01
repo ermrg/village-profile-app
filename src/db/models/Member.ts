@@ -241,7 +241,7 @@ export async function getMemberById(id: string) {
 }
 
 export async function getMembersbyHousehold(hh_id: string) {
-  return await db.members.where("hh_id").equals(hh_id).toArray();
+  return await db.members.where("hh_id").equals(parseInt(hh_id)).toArray();
 }
 
 export async function updateMember(data: IMember) {

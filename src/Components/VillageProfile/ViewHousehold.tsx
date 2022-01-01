@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { getBastiById, IBasti } from "../../db/models/BastiModel";
+import { getDharmaById, IDharma } from "../../db/models/DharmaModel";
 import { getHouseholdById, IHousehold } from "../../db/models/Household";
-import { getJaatiById, IJaati } from "../../db/models/JaatiModel";
+import { getJaatiById,getAllJaatis, IJaati } from "../../db/models/JaatiModel";
 import { getMargaById, IMarga } from "../../db/models/MargaModel";
 import { getMembersbyHousehold, IMember } from "../../db/models/Member";
-import { getWardById, IWard, getAllWards } from "../../db/models/WardModel";
-import { gender_choice, hoh_roles } from "../../enums";
+import { getWardById, IWard } from "../../db/models/WardModel";
+import {
+  gender_choice,
+  hoh_roles,
+  mother_tongues,
+  residence_types,
+  yes_nos,
+} from "../../enums";
 
 export default function ViewHousehold() {
   let { id } = useParams<{ id: any }>();
@@ -17,7 +24,9 @@ export default function ViewHousehold() {
   const [marga, setMarga] = useState({} as IMarga);
   const [basti, setBasti] = useState({} as IBasti);
   const [jaati, setJaati] = useState({} as IJaati);
+  const [dharma, setDharma] = useState({} as IDharma);
   const [members, setMembers] = useState([] as IMember[]);
+
   useEffect(() => {
     getHousehold();
   }, []);
@@ -29,6 +38,7 @@ export default function ViewHousehold() {
     getMarga(hh);
     getBasti(hh);
     getJaati(hh);
+    getDharma(hh);
     getMembers(hh);
   };
   const getWard = async (hh: IHousehold) => {
@@ -47,11 +57,13 @@ export default function ViewHousehold() {
     let j = await getJaatiById(hh.jaati_id);
     setJaati(j);
   };
-
+  const getDharma = async (hh: IHousehold) => {
+    let d = await getDharmaById(hh.religion_id);
+    setDharma(d);
+  };
   const getMembers = async (hh: IHousehold) => {
     let mems = await getMembersbyHousehold(hh.id.toString());
     setMembers([...mems]);
-    console.log(mems);
   };
 
   const findInEnumById = (options: any, id: string) => {
@@ -65,9 +77,12 @@ export default function ViewHousehold() {
   if (household) {
     return (
       <div className="view-household">
-       <button className="btn btn-warning back-btn" onClick={() => history.goBack()}>
-        Back
-      </button>
+        <button
+          className="btn btn-warning back-btn"
+          onClick={() => history.goBack()}
+        >
+          Back
+        </button>
         {household.is_posted == "0" && (
           <button
             className="btn btn-danger"
@@ -80,7 +95,7 @@ export default function ViewHousehold() {
         )}
 
         <h3>{household.hoh_name}</h3>
-        <img src={household.hoh_image}/>
+        <img src={household.hoh_image} alt="" />
         <p>
           Ward: <h4>{ward?.name}</h4>
         </p>
@@ -105,6 +120,83 @@ export default function ViewHousehold() {
           Jaati:
           <h4> {jaati?.name}</h4>
         </p>
+        <p>
+          Dharma:
+          <h4>{dharma?.name}</h4>
+        </p>
+        <p>
+          Mattribhasa:
+          <h4>{findInEnumById(mother_tongues, household.mother_tongue_id)}</h4>
+        </p>
+        <p>
+          Resident Type :
+          <h4>{findInEnumById(residence_types, household.resident_type)}</h4>
+        </p>
+        <p>
+          Migration Date:<h4> {household.migration_date}</h4>
+        </p>
+        <p>
+          Geo Code:
+          <h4>
+            {" "}
+            Lat: {household.latitude} Long: {household.longitude}
+          </h4>
+        </p>
+        <p>
+          Mobile Number: <h4>{household.mobile_num}</h4>
+        </p>
+        <p>
+          Missing Member:
+          <h4>
+            {findInEnumById(yes_nos, household.has_missing_deceased_member)}
+          </h4>
+          {/* Show missing member here */}
+        </p>
+        <p>
+          Animal Count: <h4>{household.animal_count}</h4>
+          {/* Show animals here */}
+        </p>
+        <p>
+          Business Count: <h4>{household.business_count}</h4>
+        </p>
+        <p>
+          Rent Business Count: <h4>{household.rent_business_count}</h4>
+        </p>
+        <p>
+          Annual Expense:<h4>{household.annual_expense}</h4>
+        </p>
+        <p>
+          Foreign Member:
+          <h4>{findInEnumById(yes_nos, household.has_foreign_member)}</h4>
+          {/* Show foregin members here */}
+        </p>
+        <h4>Members</h4>
+        {members && members.length ? (
+          <>
+            <table className="table table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>SN</th>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {members.map((m, key) => (
+                  <tr key={key}>
+                    <td>{++key}</td>
+                    <td>{m.id}</td>
+                    <td>{m.name_eng}</td>
+                    <td>{m.mobile_num}</td>
+                    <td>{/* Show Edit/View Option here */}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        ): 'No Members'}
       </div>
     );
   } else {

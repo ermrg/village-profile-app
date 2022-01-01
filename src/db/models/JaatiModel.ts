@@ -37,7 +37,7 @@ export async function getAllJaatis() {
 }
 
 export async function getJaatiById(id: string) {
-  return await db.jaatis.get(id);
+  return await db.jaatis.get(parseInt(id));
 }
 
 export async function getJaatiByName(name: string) {
