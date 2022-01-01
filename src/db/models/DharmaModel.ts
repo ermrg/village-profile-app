@@ -37,7 +37,7 @@ export async function getAllDharmas() {
 }
 
 export async function getDharmaById(id: string) {
-  return await db.dharmas.get(id);
+  return await db.dharmas.get(parseInt(id));
 }
 
 export async function getDharmaByName(name: string) {

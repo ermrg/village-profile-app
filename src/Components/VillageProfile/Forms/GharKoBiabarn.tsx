@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { IHousehold } from "../../../db/models/Household";
-import { gender_choice, hoh_roles, mother_tongues, residence_types } from "../../../enums";
+import {
+  gender_choice,
+  hoh_roles,
+  mother_tongues,
+  residence_types,
+} from "../../../enums";
 import InputComponent from "./FormComponent/InputComponent";
 import RadioComponent from "./FormComponent/RadioComponent";
 import SelectComponent from "./FormComponent/SelectComponent";
@@ -44,8 +49,10 @@ export default function GharKoBiabarn(props: any) {
 
       video.style.display = "block";
       click_photo.style.display = "block";
-      let existingImage = document.getElementById("imageDisplay")
-      existingImage.style.display = "none"
+      let existingImage = document.getElementById("imageDisplay");
+      if (existingImage) {
+        existingImage.style.display = "none";
+      }
     }
   };
 
@@ -68,6 +75,10 @@ export default function GharKoBiabarn(props: any) {
     ) as HTMLButtonElement;
     click_photo.style.display = "none";
     reset.style.display = "block";
+    let existingImage = document.getElementById("imageDisplay");
+    if (existingImage) {
+      existingImage.style.display = "none";
+    }
     handleArrayChangeInHousehold("hoh_image", image_data_url);
   };
 
@@ -76,6 +87,10 @@ export default function GharKoBiabarn(props: any) {
     let reset = document.querySelector("#reset-photo") as HTMLButtonElement;
     reset.style.display = "none";
     canvas.style.display = "none";
+    let existingImage = document.getElementById("imageDisplay");
+    if (existingImage) {
+      existingImage.style.display = "none";
+    }
     getHohPhoto();
   };
   return (
@@ -248,13 +263,13 @@ export default function GharKoBiabarn(props: any) {
             id="hoh_imageresponder_image"
             onChange={(e) => handleChange(e)}
           />
-          {household.hoh_image && (
+          {household.hoh_image && household.id && (
             <div id="imageDisplay">
               <img src={household.hoh_image} />
             </div>
           )}
           <button className="btn btn-secondary" onClick={getHohPhoto}>
-            घरमूलीको फोटो {household.hoh_image && "Reset"}
+            घरमूलीको फोटो {household.hoh_image && household.id && "Reset"}
           </button>
         </div>
         <label className="label" id="geo_code">
