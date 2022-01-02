@@ -95,7 +95,7 @@ export default function PariwarKoBibaran(props: any) {
     handleMemberChange(key, "vehicles", newVehicles);
     setVehicle({ ...initialVehicle });
   };
-  
+
   return (
     <>
       {household.members &&
@@ -156,11 +156,7 @@ export default function PariwarKoBibaran(props: any) {
                 label={"18. सदस्यको लिंग"}
                 name="gender_id"
                 handleChange={(e: any) =>
-                  handleMemberChange(
-                    memberKey,
-                    "gender_id",
-                    e.target.value
-                  )
+                  handleMemberChange(memberKey, "gender_id", e.target.value)
                 }
                 defaultValue={member.gender_id}
                 id={"gender_id"}
@@ -180,7 +176,7 @@ export default function PariwarKoBibaran(props: any) {
                   )
                 }
                 defaultValue={member.relation_with_hoh_id}
-                id={"relation_with_hoh_id-"+memberKey}
+                id={"relation_with_hoh_id-" + memberKey}
                 placeholder="नाता"
                 errors={errors}
               />
@@ -356,9 +352,53 @@ export default function PariwarKoBibaran(props: any) {
                     placeholder="प्राविधिक सिप"
                     errors={errors}
                   />
+                  <label className="label">b. सिप हासिलः </label>
+                  <div className="options-vertical">
+                    <select
+                      className="form-control"
+                      key={"b सिप हासिलः" + memberKey}
+                      name="source"
+                      value={techSkill.source}
+                      onChange={handleTechSkillChange}
+                    >
+                      <option value={""} key={"29.0 सिप हासिलःoption-1" + memberKey}>
+                        ------ सिप हासिल ------
+                      </option>
+                      <option value={"0"} key={"29.1 सिप हासिलःoption1" + memberKey}>
+                        स्वज्ञान
+                      </option>
+                      <option value={"1"} key={"29.1 सिप हासिलःoption2" + memberKey}>
+                        तालिम
+                      </option>
+                    </select>
+                  </div>
+                  {techSkill.source == "1" && (
+                    <>
+                      <label className="label">
+                        c. तालिम लिएको भए तालिमको अविधिः महिनामा{" "}
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        name="duration"
+                        key={"तालिम लिएको भए तालिमको अविधिः महिनामा" + memberKey}
+                        // value={}
+                        onChange={handleTechSkillChange}
+                        placeholder="Ex: 3"
+                      />
+                    </>
+                  )}
+                  <button
+                    onClick={() => saveTechSkill(memberKey, "add")}
+                    className="btn btn-sm btn-success"
+                  >
+                    Add
+                  </button>
                 </div>
               )}
-              <label className="label" id={"is_married-" + memberKey}>27. वैवाविक स्थितिः </label>
+              <label className="label" id={"is_married-" + memberKey}>
+                27. वैवाविक स्थितिः{" "}
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -377,7 +417,12 @@ export default function PariwarKoBibaran(props: any) {
               </div>
               {member.is_married == "1" && (
                 <div className="child-section">
-                  <label className="label" id={"marital_status_id-" + memberKey}>a. स्थिति </label>
+                  <label
+                    className="label"
+                    id={"marital_status_id-" + memberKey}
+                  >
+                    a. स्थिति{" "}
+                  </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -403,7 +448,9 @@ export default function PariwarKoBibaran(props: any) {
                     </select>
                   </div>
 
-                  <label className="label" id={"marriage_year-" + memberKey}>b. विवाह भएको सालः </label>
+                  <label className="label" id={"marriage_year-" + memberKey}>
+                    b. विवाह भएको सालः{" "}
+                  </label>
                   <div className="options-vertical">
                     <input
                       type="number"
@@ -422,7 +469,9 @@ export default function PariwarKoBibaran(props: any) {
                     />
                   </div>
 
-                  <label className="label"  id={"age_on_marriage-" + memberKey}>c. विबाह हुँदाको उमेर </label>
+                  <label className="label" id={"age_on_marriage-" + memberKey}>
+                    c. विबाह हुँदाको उमेर{" "}
+                  </label>
                   <div className="options-vertical">
                     <input
                       type="number"
@@ -449,7 +498,9 @@ export default function PariwarKoBibaran(props: any) {
               key={"member-form-three-" + memberKey}
             >
               <h5>Member: {memberKey + 1} ***</h5>
-              <label className="label"  id={"resident_place-" + memberKey}>28. बसोबास गर्ने ठाउः</label>
+              <label className="label" id={"resident_place-" + memberKey}>
+                28. बसोबास गर्ने ठाउः
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -472,7 +523,9 @@ export default function PariwarKoBibaran(props: any) {
                   <option value={"अन्य"}>अन्य</option>
                 </select>
               </div>
-              <label className="label"  id={"has_vehicle-" + memberKey}>29. सवारी साधन ? </label>
+              <label className="label" id={"has_vehicle-" + memberKey}>
+                29. सवारी साधन ?{" "}
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -502,7 +555,9 @@ export default function PariwarKoBibaran(props: any) {
                     </button>
                   ))}
                   <br />
-                  <label className="label"  id={"vehicle_type_id-" + memberKey}>a. सवारी साधनको नामः </label>
+                  <label className="label" id={"vehicle_type_id-" + memberKey}>
+                    a. सवारी साधनको नामः{" "}
+                  </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -519,14 +574,16 @@ export default function PariwarKoBibaran(props: any) {
                       </option>
                       {vehicle_types.map((ms: any, keyv: any) => (
                         <option
-                          value={ms.value}
+                          value={ms.id}
                           key={"28.1 सवारी साधनको नाम नामःoption" + keyv}
                         >
-                          {ms.label}
+                          {ms.name}
                         </option>
                       ))}
                     </select>
-                    <label className="label"  id={"count-" + memberKey}>b. कति? </label>
+                    <label className="label" id={"count-" + memberKey}>
+                      b. कति?{" "}
+                    </label>
                     <div className="options-vertical">
                       <input
                         type="number"
@@ -547,7 +604,9 @@ export default function PariwarKoBibaran(props: any) {
                   </div>
                 </div>
               )}
-              <label className="label"  id={"has_health_insurance-" + memberKey}>30. स्वास्थ्य बिमा गरिएको छ ? </label>
+              <label className="label" id={"has_health_insurance-" + memberKey}>
+                30. स्वास्थ्य बिमा गरिएको छ ?{" "}
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -567,7 +626,9 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label"  id={"has_life_insurance-" + memberKey}>31. जिमा बिमा गरिएको छ ? </label>
+              <label className="label" id={"has_life_insurance-" + memberKey}>
+                31. जिमा बिमा गरिएको छ ?{" "}
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -587,7 +648,9 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label"  id={"has_bank_account-" + memberKey}>32. बैंकमा खाता छ? </label>
+              <label className="label" id={"has_bank_account-" + memberKey}>
+                32. बैंकमा खाता छ?{" "}
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -607,7 +670,12 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label"  id={"has_cooperative_account-" + memberKey}>33. सहकारीमा सदस्य हुनुहुन्छ? </label>
+              <label
+                className="label"
+                id={"has_cooperative_account-" + memberKey}
+              >
+                33. सहकारीमा सदस्य हुनुहुन्छ?{" "}
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -627,7 +695,9 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label"  id={"has_pension-" + memberKey}>34. तपाई पेन्सन बुझ्नुहुन्छ? </label>
+              <label className="label" id={"has_pension-" + memberKey}>
+                34. तपाई पेन्सन बुझ्नुहुन्छ?{" "}
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -644,7 +714,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
               {member.has_pension == "1" && (
                 <>
-                  <label className="label"  id={"pension_income-" + memberKey}>
+                  <label className="label" id={"pension_income-" + memberKey}>
                     a. पेन्सन आम्दानी मासिक (रू.){" "}
                   </label>
                   <div className="options-vertical">
@@ -666,7 +736,9 @@ export default function PariwarKoBibaran(props: any) {
                   </div>
                 </>
               )}
-              <label className="label"  id={"has_disability-" + memberKey}>35. अपाङ्ता छ? </label>
+              <label className="label" id={"has_disability-" + memberKey}>
+                35. अपाङ्ता छ?
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -688,7 +760,12 @@ export default function PariwarKoBibaran(props: any) {
 
               {member.has_disability == "1" && (
                 <div className="child-section">
-                  <label className="label"  id={"disability_type_id-" + memberKey}>a. अपाङ्गताको प्रकार: </label>
+                  <label
+                    className="label"
+                    id={"disability_type_id-" + memberKey}
+                  >
+                    a. अपाङ्गताको प्रकार:{" "}
+                  </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -711,16 +788,21 @@ export default function PariwarKoBibaran(props: any) {
                       </option>
                       {disability_types.map((dt: any, keydt: any) => (
                         <option
-                          value={dt.value}
+                          value={dt.id}
                           key={keydt + "disability_type_id कार्डः"}
                         >
-                          {dt.label}
+                          {dt.name}
                         </option>
                       ))}
                     </select>
                   </div>
 
-                  <label className="label"  id={"disability_card_id-" + memberKey}>b. अपाङ्गताको कार्डः </label>
+                  <label
+                    className="label"
+                    id={"disability_card_id-" + memberKey}
+                  >
+                    b. अपाङ्गताको कार्डः{" "}
+                  </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -738,10 +820,10 @@ export default function PariwarKoBibaran(props: any) {
                       <option value={""}>----------</option>
                       {disability_card_types.map((dt: any, keydt: any) => (
                         <option
-                          value={dt.value}
+                          value={dt.id}
                           key={keydt + "अपाङ्गताको कार्डः"}
                         >
-                          {dt.label}
+                          {dt.name}
                         </option>
                       ))}
                     </select>
@@ -756,7 +838,9 @@ export default function PariwarKoBibaran(props: any) {
             >
               <h5>Member: {memberKey + 1} ****</h5>
 
-              <label className="label"  id={"has_chronic_disease-" + memberKey}>36. रोग छ? </label>
+              <label className="label" id={"has_chronic_disease-" + memberKey}>
+                36. रोग छ?{" "}
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -778,7 +862,9 @@ export default function PariwarKoBibaran(props: any) {
 
               {member.has_chronic_disease == "1" && (
                 <div className="child-section">
-                  <label className="label"  id={"disease_name-" + memberKey}>a. रोगको नाम: </label>
+                  <label className="label" id={"disease_name-" + memberKey}>
+                    a. रोगको नाम:{" "}
+                  </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -796,16 +882,21 @@ export default function PariwarKoBibaran(props: any) {
                       <option value={""}>----------</option>
                       {disease_names.map((dt: any, keydt: any) => (
                         <option
-                          value={dt.value}
+                          value={dt.id}
                           key={keydt + "disability_type_id disease_name"}
                         >
-                          {dt.label}
+                          {dt.name}
                         </option>
                       ))}
                     </select>
                   </div>
 
-                  <label className="label"  id={"treatment_condition-" + memberKey}>b. उपचारको अवस्थाः </label>
+                  <label
+                    className="label"
+                    id={"treatment_condition-" + memberKey}
+                  >
+                    b. उपचारको अवस्थाः{" "}
+                  </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -829,7 +920,10 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               )}
 
-              <label className="label"  id={"covid_infection_status-" + memberKey}>
+              <label
+                className="label"
+                id={"covid_infection_status-" + memberKey}
+              >
                 37. तपाईलाई कोरोना सक्रमण वा शंका लागेको थियो ?{" "}
               </label>
               <div className="options-vertical">
@@ -854,7 +948,7 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label"  id={"has_covid_vaccine-" + memberKey}>
+              <label className="label" id={"has_covid_vaccine-" + memberKey}>
                 38. कोभिड भ्याक्सिन लगाएको/ नलगाएको
               </label>
               <div className="options-vertical">
@@ -878,7 +972,12 @@ export default function PariwarKoBibaran(props: any) {
 
               {member.has_covid_vaccine == "1" && (
                 <div className="child-section">
-                  <label className="label"  id={"covid_vaccine_status-" + memberKey}>a. कुन भ्याक्सिन? </label>
+                  <label
+                    className="label"
+                    id={"covid_vaccine_status-" + memberKey}
+                  >
+                    a. कुन भ्याक्सिन?{" "}
+                  </label>
                   <div className="options-vertical">
                     <select
                       className="form-control"
@@ -918,7 +1017,9 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               )}
 
-              <label className="label"  id={"has_smartphone-" + memberKey}>39. तपाईको स्माट्रफोन छ ? </label>
+              <label className="label" id={"has_smartphone-" + memberKey}>
+                39. तपाईको स्माट्रफोन छ ?{" "}
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -939,7 +1040,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
               {member.has_smartphone == "1" && (
                 <div className="child-section">
-                  <label className="label"  id={"social_networks-" + memberKey}>
+                  <label className="label" id={"social_networks-" + memberKey}>
                     a. तपाईको तलको कुन कुन प्रयोग गर्नुहुन्छ?{" "}
                   </label>
                   <div className="options-vertical">
@@ -958,7 +1059,9 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               )}
 
-              <label className="label"  id={"has_voter_card-" + memberKey}>40. भोटर कार्ड भएको नभएको ? </label>
+              <label className="label" id={"has_voter_card-" + memberKey}>
+                40. भोटर कार्ड भएको नभएको ?{" "}
+              </label>
               <div className="options-vertical">
                 <select
                   className="form-control"
@@ -980,7 +1083,10 @@ export default function PariwarKoBibaran(props: any) {
 
               {member.has_voter_card == "1" && (
                 <div className="child-section">
-                  <label className="label"  id={"voter_card_location-" + memberKey}>
+                  <label
+                    className="label"
+                    id={"voter_card_location-" + memberKey}
+                  >
                     a. भोटर कार्ड कुन स्थानको भएको?
                   </label>
                   <div className="options-vertical">
@@ -1008,7 +1114,10 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               )}
 
-              <label className="label"  id={"feelings_for_local_government-" + memberKey}>
+              <label
+                className="label"
+                id={"feelings_for_local_government-" + memberKey}
+              >
                 41. अहिलेको स्थानिय सरकारको काम कस्तो लागेको छ?
               </label>
               <div className="options-vertical">
@@ -1033,7 +1142,10 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
 
-              <label className="label"  id={"recommendation_for_local_level-" + memberKey}>
+              <label
+                className="label"
+                id={"recommendation_for_local_level-" + memberKey}
+              >
                 42. गाउँपालिकाले तिब्र विकासको लागि कुन क्षेत्रमा बढी ध्यान
                 दिनुपर्छ ?
               </label>
@@ -1061,7 +1173,7 @@ export default function PariwarKoBibaran(props: any) {
                 />
               </div>
 
-              <label className="label"  id={"house_count-" + memberKey}>
+              <label className="label" id={"house_count-" + memberKey}>
                 43. तपाइँको गाउँपालिका भित्रको घरको संख्या?
               </label>
               <div className="options-verical">
@@ -1077,7 +1189,9 @@ export default function PariwarKoBibaran(props: any) {
                 />
               </div>
 
-              <label className="label"  id={"land_count-" + memberKey}>44. जग्गा जमिनको संख्या?</label>
+              <label className="label" id={"land_count-" + memberKey}>
+                44. जग्गा जमिनको संख्या?
+              </label>
               <div className="options-verical">
                 <input
                   onChange={(e) =>

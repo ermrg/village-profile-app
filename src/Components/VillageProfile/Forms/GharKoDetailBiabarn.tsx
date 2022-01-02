@@ -435,7 +435,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 <option value={""} key={"परिवारमा कोई बिदेशमा-1"}>
                   ---- सदस्य -----
                 </option>
-                {members.map((option: any, key: any) => (
+                {hh && hh.members && hh.members.map((option: any, key: any) => (
                   <option value={option.name_eng} key={"option.name" + key}>
                     {option.name_eng}
                   </option>

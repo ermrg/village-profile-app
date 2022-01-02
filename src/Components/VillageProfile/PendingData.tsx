@@ -43,7 +43,7 @@ export default function PendingData() {
       try{
         let res = await api.postHousehold(hh);
         if (res.status === 200) {
-          await updateHousehold({ ...hh, is_posted: 1 });
+          // await updateHousehold({ ...hh, is_posted: 1 });
         }else{
           alert(res.data.message)
         }
