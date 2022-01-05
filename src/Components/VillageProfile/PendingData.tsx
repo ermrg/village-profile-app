@@ -25,7 +25,7 @@ export default function PendingData() {
   const getHouseholds = async (auth_: IUser) => {
     setLoading(true);
     console.log(auth_);
-    let hhs = await getPendingHouseholds(auth_.id ? auth_.id.toString() : "");
+    let hhs = await getPendingHouseholds();
     let hhWithMembers = [] as IHousehold[];
     await Promise.all(
       hhs.map(async (hh) => {
@@ -92,7 +92,10 @@ export default function PendingData() {
               <tr key={key}>
                 <td>{++key}</td>
                 <td>{hh.id}</td>
-                <td>{hh.hoh_name}</td>
+                <td>
+                  {hh.hoh_name}
+                  <p>{hh.hoh_first_name} {hh.hoh_last_name}</p>
+                  </td>
                 <td>{hh.members.length}</td>
                 <td>
                   {hh.is_posted == "0" && (

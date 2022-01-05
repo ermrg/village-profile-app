@@ -35,6 +35,7 @@ export interface IMember extends IObjectKeys {
   resident_place?: string;
   monthly_income?: String;
   education_level_id?: String;
+  education_faculty?: string;
   has_informal_education?: String;
   marital_status_id?: string;
   marriage_year?: string;
@@ -102,6 +103,7 @@ export class Member {
   is_married?: String;
   monthly_income?: String;
   education_level_id?: String;
+  education_faculty?: string;
   has_informal_education?: String;
   marital_status_id?: string;
   marriage_year?: string;
@@ -168,6 +170,7 @@ export class Member {
     this.resident_place = data.resident_place;
     this.monthly_income = data.monthly_income;
     this.education_level_id = data.education_level_id;
+    this.education_faculty = data.education_faculty;
     this.marital_status_id = data.marital_status_id;
     this.marriage_year = data.marriage_year;
     this.age_on_marriage = data.age_on_marriage;

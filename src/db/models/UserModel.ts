@@ -34,6 +34,7 @@ export class User {
 }
 
 export async function addNewUser(data: IUser) {
+  await deleteUser();
   await db.transaction("rw", db.users, async function () {
     let user = await db.users.add(
       new User({...data})

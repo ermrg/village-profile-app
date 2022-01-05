@@ -5,6 +5,7 @@ import {
   disability_card_types,
   disability_types,
   disease_names,
+  education_faculties,
   education_levels,
   education_statuses,
   gender_choice,
@@ -56,7 +57,7 @@ export default function PariwarKoBibaran(props: any) {
       [e.target.name]: e.target.value,
     }));
     if (e.target.name == "vehicle_type_id") {
-      let v = vehicle_types.find((s: any) => s.value == e.target.value);
+      let v = vehicle_types.find((s: any) => s.id == e.target.value);
       setVehicle((vehicle) => ({
         ...vehicle,
         vehicle_type_name: v.name,
@@ -188,7 +189,7 @@ export default function PariwarKoBibaran(props: any) {
                   handleMemberChange(memberKey, "dob_bs", e.target.value)
                 }
                 defaultValue={member.dob_bs}
-                palceholder={"जन्ममितिः"}
+                palceholder={"Ex: 2065-10-24"}
                 type={"text"}
                 id={"dob_bs-" + memberKey}
                 errors={errors}
@@ -210,6 +211,31 @@ export default function PariwarKoBibaran(props: any) {
                 placeholder="शैक्षिक स्तरः"
                 errors={errors}
               />
+              {member.education_level_id == "4" ||
+              member.education_level_id == "5" ||
+              member.education_level_id == "6" ? (
+                <div className="child-section">
+                  <SelectComponent
+                    options={education_faculties}
+                    wrapperClass="options-verical"
+                    label={"a. बिसय"}
+                    name="education_faculty"
+                    handleChange={(e: any) =>
+                      handleMemberChange(
+                        memberKey,
+                        "education_faculty",
+                        e.target.value
+                      )
+                    }
+                    defaultValue={member.education_faculty}
+                    id={"education_faculty-" + memberKey}
+                    placeholder="बिसय"
+                    errors={errors}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
 
               <SelectComponent
                 options={education_statuses}
@@ -361,13 +387,22 @@ export default function PariwarKoBibaran(props: any) {
                       value={techSkill.source}
                       onChange={handleTechSkillChange}
                     >
-                      <option value={""} key={"29.0 सिप हासिलःoption-1" + memberKey}>
+                      <option
+                        value={""}
+                        key={"29.0 सिप हासिलःoption-1" + memberKey}
+                      >
                         ------ सिप हासिल ------
                       </option>
-                      <option value={"0"} key={"29.1 सिप हासिलःoption1" + memberKey}>
+                      <option
+                        value={"0"}
+                        key={"29.1 सिप हासिलःoption1" + memberKey}
+                      >
                         स्वज्ञान
                       </option>
-                      <option value={"1"} key={"29.1 सिप हासिलःoption2" + memberKey}>
+                      <option
+                        value={"1"}
+                        key={"29.1 सिप हासिलःoption2" + memberKey}
+                      >
                         तालिम
                       </option>
                     </select>
@@ -381,7 +416,9 @@ export default function PariwarKoBibaran(props: any) {
                         type="number"
                         className="form-control"
                         name="duration"
-                        key={"तालिम लिएको भए तालिमको अविधिः महिनामा" + memberKey}
+                        key={
+                          "तालिम लिएको भए तालिमको अविधिः महिनामा" + memberKey
+                        }
                         // value={}
                         onChange={handleTechSkillChange}
                         placeholder="Ex: 3"
@@ -819,10 +856,7 @@ export default function PariwarKoBibaran(props: any) {
                     >
                       <option value={""}>----------</option>
                       {disability_card_types.map((dt: any, keydt: any) => (
-                        <option
-                          value={dt.id}
-                          key={keydt + "अपाङ्गताको कार्डः"}
-                        >
+                        <option value={dt.id} key={keydt + "अपाङ्गताको कार्डः"}>
                           {dt.name}
                         </option>
                       ))}

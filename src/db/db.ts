@@ -3,6 +3,7 @@ import { IBasti } from "./models/BastiModel";
 import { IDharma } from "./models/DharmaModel";
 import { IHousehold } from "./models/Household";
 import { IJaati } from "./models/JaatiModel";
+import { IJaatiSamuha } from "./models/JaatiSamuhaModel";
 import { IMarga } from "./models/MargaModel";
 import { IMember } from "./models/Member";
 import { IOccupation } from "./models/Occupation";
@@ -16,6 +17,7 @@ export class AppDatabase extends Dexie {
   bastis: Dexie.Table<IBasti>;
   margas: Dexie.Table<IMarga>;
   jaatis: Dexie.Table<IJaati>;
+  jaati_samuhas: Dexie.Table<IJaatiSamuha>;
   dharmas: Dexie.Table<IDharma>;
   occupations: Dexie.Table<IOccupation>;
   households: Dexie.Table<IHousehold>;
@@ -26,16 +28,17 @@ export class AppDatabase extends Dexie {
     super("VPDB");
 
     var db = this;
-    db.version(1).stores({
+    db.version(2).stores({
       users: "++id, name, phone, password",
       wards: "id, name, status",
       bastis: "id, name, status, wardId",
       margas: "id, name, status, wardId, bastiId",
-      jaatis: "id, name, status",
+      jaatis: "id, name, status, jaati_samuha_id",
+      jaati_samuhas: "id, name, status",
       dharmas: "id, name, status",
       occupations: "id, name, status",
       technicalSkills: "id, name, status",
-      households: "++id, name, phone, password, [user_id+is_posted+is_complete], is_complete",
+      households: "++id, name, phone, password, [is_posted+is_complete], is_complete",
       members: "++id, name, hh_id",
     });
     db.open()

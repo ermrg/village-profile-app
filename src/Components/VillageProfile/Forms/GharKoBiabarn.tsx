@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { IHousehold } from "../../../db/models/Household";
 import {
   gender_choice,
-  hoh_roles,
   mother_tongues,
   residence_types,
 } from "../../../enums";
@@ -11,7 +10,8 @@ import RadioComponent from "./FormComponent/RadioComponent";
 import SelectComponent from "./FormComponent/SelectComponent";
 
 export default function GharKoBiabarn(props: any) {
-  let { bastis, wards, margas, hh, jaatis, dharmas, errors } = props;
+  let { bastis, wards, margas, hh, jaatis, jaati_samuhas, dharmas, errors } =
+    props;
   let { handleChange, handleArrayChangeInHousehold } = props;
   const [household, setHousehold] = useState({ ...hh } as IHousehold);
   useEffect(() => {
@@ -35,13 +35,14 @@ export default function GharKoBiabarn(props: any) {
       "getUserMedia" in navigator.mediaDevices
     ) {
       let video = document.querySelector("#hoh_imagevideo") as HTMLVideoElement;
-      navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: {
-          facingMode: 'environment'
-        }
-      })
-        .then(stream => video.srcObject = stream)
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: false,
+          video: {
+            facingMode: "environment",
+          },
+        })
+        .then((stream) => (video.srcObject = stream))
         .catch(console.error);
 
       let click_photo = document.querySelector(
@@ -62,9 +63,7 @@ export default function GharKoBiabarn(props: any) {
     let canvas = document.querySelector(
       "#hoh_imagecanvas"
     ) as HTMLCanvasElement;
-    canvas!
-      .getContext("2d")
-      .drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas!.getContext("2d").drawImage(video, 0, 0, video.width, video.height);
     let image_data_url = canvas.toDataURL("image/jpeg");
     video.style.display = "none";
     canvas.style.display = "block";
@@ -84,8 +83,8 @@ export default function GharKoBiabarn(props: any) {
   };
 
   const resetPhoto = async () => {
-    let canvas = document.querySelector("#canvas") as HTMLCanvasElement;
-    let reset = document.querySelector("#reset-photo") as HTMLButtonElement;
+    let canvas = document.querySelector("#hoh_imagecanvas") as HTMLCanvasElement;
+    let reset = document.querySelector("#hoh_imagereset-photo") as HTMLButtonElement;
     reset.style.display = "none";
     canvas.style.display = "none";
     let existingImage = document.getElementById("imageDisplay");
@@ -155,7 +154,27 @@ export default function GharKoBiabarn(props: any) {
           id={"hoh_name"}
           errors={errors}
         />
-
+        <InputComponent
+          name={"hoh_first_name"}
+          wrapperClass={"options-verical"}
+          handleChange={handleChange}
+          defaultValue={household.hoh_first_name}
+          palceholder={"First Name"}
+          type={"text"}
+          id={"hoh_first_name"}
+          errors={errors}
+        />
+        <InputComponent
+          name={"hoh_last_name"}
+          wrapperClass={"options-verical"}
+          handleChange={handleChange}
+          defaultValue={household.hoh_last_name}
+          palceholder={"Last Name"}
+          type={"text"}
+          id={"hoh_last_name"}
+          errors={errors}
+        />
+        {/* 
         <RadioComponent
           options={hoh_roles}
           wrapperClass="options-verical"
@@ -165,7 +184,7 @@ export default function GharKoBiabarn(props: any) {
           defaultValue={household.hoh_role}
           id={"hoh_role"}
           errors={errors}
-        />
+        /> */}
 
         <RadioComponent
           options={gender_choice}
@@ -175,6 +194,17 @@ export default function GharKoBiabarn(props: any) {
           handleChange={handleChange}
           defaultValue={household.hoh_gender}
           id={"hoh_gender"}
+          errors={errors}
+        />
+        <SelectComponent
+          options={jaati_samuhas}
+          wrapperClass="options-verical"
+          label={"8. जाति समुह"}
+          name="jaati_samuha_id"
+          handleChange={handleChange}
+          defaultValue={household.jaati_samuha_id}
+          id={"jaati_id"}
+          placeholder="जाति"
           errors={errors}
         />
         <SelectComponent
@@ -211,9 +241,6 @@ export default function GharKoBiabarn(props: any) {
           placeholder="मातृभाषा"
           errors={errors}
         />
-      </div>
-
-      <div className={`form-group`} id="5">
         <InputComponent
           name={"num_of_member"}
           label={"11. परिवार संख्याः"}
@@ -225,9 +252,11 @@ export default function GharKoBiabarn(props: any) {
           id={"num_of_member"}
           errors={errors}
         />
+      </div>
 
+      <div className={`form-group`} id="5">
         <label className="label">12. घरमूलीको फोटोः</label>
-        <div className="options-verical">
+        <div className="options-verical image-component">
           <video
             id="hoh_imagevideo"
             width="320"
@@ -336,7 +365,7 @@ export default function GharKoBiabarn(props: any) {
               wrapperClass={"options-verical"}
               handleChange={handleChange}
               defaultValue={household.migration_date}
-              palceholder={"घरमुलीको नाम"}
+              palceholder={"बसाई सरेको साल"}
               type={"text"}
               id={"migration_date"}
               errors={errors}

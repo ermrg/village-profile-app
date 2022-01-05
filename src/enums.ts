@@ -112,6 +112,13 @@ const education_levels = [
   { id: "9", name: "लेखपद गर्न नसक्ने (निरक्षर)" },
 ];
 
+const education_faculties = [
+  { id: "Management", name: "Management" },
+  { id: "Science", name: "Science" },
+  { id: "Education", name: "Education" },
+  { id: "Arts", name: "Arts" }
+];
+
 const education_statuses = [
   { id: "1", name: "अध्ययनरत" },
   { id: "2", name: "पढाइ छाडेको" },
@@ -326,6 +333,7 @@ export {
   relations,
   mother_tongues,
   education_levels,
+  education_faculties,
   education_statuses,
   marital_statuses,
   vehicle_types,

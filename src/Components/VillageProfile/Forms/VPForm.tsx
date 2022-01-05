@@ -7,7 +7,8 @@ import {
   IHousehold,
   updateHousehold,
 } from "../../../db/models/Household";
-import { getAllJaatis, IJaati } from "../../../db/models/JaatiModel";
+import { getAllJaatis, getJaatiBySamuhaId, IJaati } from "../../../db/models/JaatiModel";
+import { getAllJaatiSamuhas, IJaatiSamuha } from "../../../db/models/JaatiSamuhaModel";
 import { getMargaByBastiId, IMarga } from "../../../db/models/MargaModel";
 import {
   addNewMember,
@@ -44,6 +45,7 @@ export default function VPForm(props: any) {
   const [bastis, setBastis] = useState([] as IBasti[]);
   const [margas, setMargas] = useState([] as IMarga[]);
   const [jaatis, setJaatis] = useState([] as IJaati[]);
+  const [jaatiSamuhas, setJaatiSamuhas] = useState([] as IJaatiSamuha[]);
   const [dharmas, setDharmas] = useState([] as IDharma[]);
   const [household, setHousehold] = useState({} as IHousehold);
   // const [members, setMembers] = useState([] as IMember[]);
@@ -91,6 +93,8 @@ export default function VPForm(props: any) {
   }
 
   const loadJaatiAndDharma = async () => {
+    let jaatis_samuhas = await getAllJaatiSamuhas();
+    setJaatiSamuhas([...jaatis_samuhas]);
     let jaatis_ = await getAllJaatis();
     setJaatis([...jaatis_]);
     let dharmas_ = await getAllDharmas();
@@ -173,12 +177,29 @@ export default function VPForm(props: any) {
     setMargas([...margas]);
   };
 
+  const loadJaatiByJaatiSamuhaId = async (jaati_samuha_id: any) => {
+    let jaatis = await getJaatiBySamuhaId(parseInt(jaati_samuha_id));
+    setJaatis([...jaatis]);
+  };
+
+  const loadAllJaati = async () => {
+    let jaatis = await getAllJaatis();
+    setJaatis([...jaatis]);
+  };
+
   const handleChange = (e: any) => {
     if (e.target.name === "ward_id") {
       loadBastiByWadaId(e.target.value);
     }
     if (e.target.name === "basti_id") {
       loadMargaByBastiId(e.target.value);
+    }
+    if (e.target.name === "jaati_samuha_id") {
+      if(e.target.value){
+        loadJaatiByJaatiSamuhaId(e.target.value);
+      }else{
+        loadAllJaati()
+      }
     }
     if (e.target.name === "num_of_member") {
       setMembersInHousehold(e.target.value, household.members);
@@ -324,6 +345,7 @@ export default function VPForm(props: any) {
           bastis={bastis}
           margas={margas}
           jaatis={jaatis}
+          jaati_samuhas={jaatiSamuhas}
           dharmas={dharmas}
           handleArrayChangeInHousehold={handleArrayChangeInHousehold}
           errors={errors}

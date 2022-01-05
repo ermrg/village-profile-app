@@ -10,7 +10,7 @@ export default function InputComponent(props: any) {
     name,
     type,
     id,
-    errors
+    errors,
   } = props;
   const checkIfError = () => {
     let v = errors.find((s: any) => s.name == name);
@@ -21,7 +21,8 @@ export default function InputComponent(props: any) {
   };
   return (
     <div className={`question ${checkIfError()}`} key={id} id={id}>
-      <label className="label">{label}</label>
+      {label ? <label className="label">{label}</label> : ""}
+
       <div className={wrapperClass}>
         <input
           onChange={handleChange}

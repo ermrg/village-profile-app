@@ -2,6 +2,7 @@ body {
   overflow-y: hidden;
   margin: 0;
   padding: 0;
+  overscroll-behavior: contain;
 }
 a {
   text-decoration: none;
@@ -203,4 +204,7 @@ ul.dropdown-menu.inner {
   position: absolute;
   right: 5px;
   top: 2px;
+}
+.image-component{
+  align-items: center;
 }

@@ -197,45 +197,63 @@ export default function GharKoDetailBiabarn(props: any) {
       "mediaDevices" in navigator &&
       "getUserMedia" in navigator.mediaDevices
     ) {
-      let video = document.querySelector("#video") as HTMLVideoElement;
-      let stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: false,
-      });
-      video!.srcObject = stream;
+      let video = document.querySelector("#responder_image_video") as HTMLVideoElement;
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: false,
+          video: {
+            facingMode: "environment",
+          },
+        })
+        .then((stream) => (video.srcObject = stream))
+        .catch(console.error);
 
       let click_photo = document.querySelector(
-        "#click-photo"
+        "#responder_image_click-photo"
       ) as HTMLButtonElement;
 
       video.style.display = "block";
       click_photo.style.display = "block";
+      let existingImage = document.getElementById("imageDisplay");
+      if (existingImage) {
+        existingImage.style.display = "none";
+      }
     }
   };
 
   const clickPhoto = async () => {
-    let video = document.querySelector("#video") as HTMLVideoElement;
-    let canvas = document.querySelector("#canvas") as HTMLCanvasElement;
-    canvas!
-      .getContext("2d")
-      .drawImage(video, 0, 0, canvas.width, canvas.height);
+    let video = document.querySelector("#responder_image_video") as HTMLVideoElement;
+    let canvas = document.querySelector(
+      "#responder_image_canvas"
+    ) as HTMLCanvasElement;
+    canvas!.getContext("2d").drawImage(video, 0, 0, video.width, video.height);
     let image_data_url = canvas.toDataURL("image/jpeg");
     video.style.display = "none";
     canvas.style.display = "block";
     let click_photo = document.querySelector(
-      "#click-photo"
+      "#responder_image_click-photo"
     ) as HTMLButtonElement;
-    let reset = document.querySelector("#reset-photo") as HTMLButtonElement;
+    let reset = document.querySelector(
+      "#responder_imagereset-photo"
+    ) as HTMLButtonElement;
     click_photo.style.display = "none";
     reset.style.display = "block";
+    let existingImage = document.getElementById("imageDisplay");
+    if (existingImage) {
+      existingImage.style.display = "none";
+    }
     handleArrayChangeInHousehold("responder_image", image_data_url);
   };
 
   const resetPhoto = async () => {
-    let canvas = document.querySelector("#canvas") as HTMLCanvasElement;
-    let reset = document.querySelector("#reset-photo") as HTMLButtonElement;
+    let canvas = document.querySelector("#responder_image_canvas") as HTMLCanvasElement;
+    let reset = document.querySelector("#responder_imagereset-photo") as HTMLButtonElement;
     reset.style.display = "none";
     canvas.style.display = "none";
+    let existingImage = document.getElementById("imageDisplay");
+    if (existingImage) {
+      existingImage.style.display = "none";
+    }
     getHohPhoto();
   };
 
@@ -435,11 +453,13 @@ export default function GharKoDetailBiabarn(props: any) {
                 <option value={""} key={"परिवारमा कोई बिदेशमा-1"}>
                   ---- सदस्य -----
                 </option>
-                {hh && hh.members && hh.members.map((option: any, key: any) => (
-                  <option value={option.name_eng} key={"option.name" + key}>
-                    {option.name_eng}
-                  </option>
-                ))}
+                {hh &&
+                  hh.members &&
+                  hh.members.map((option: any, key: any) => (
+                    <option value={option.name_eng} key={"option.name" + key}>
+                      {option.name_eng}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="options-horizontal">
@@ -900,7 +920,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"higher_secondary_distance"}>
-          63. माध्यमिक विद्यालय सम्म लाग्ने समय
+          63. उच्च मा.बि वा कलेज सम्म लाग्ने समय
         </label>
         <div className="options-horizontal">
           <input
@@ -1072,7 +1092,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 value={animal.count ?? ""}
                 name="count"
                 onChange={handleAnimalChange}
-                placeholder="विदेशबाट आउने रकम (मासिक)"
+                placeholder="संख्या"
               />
             </div>
 
@@ -1181,7 +1201,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 onChange={handleLandChange}
               >
                 <option value={""} key={"जग्गाको क्षेत्रफल"}>
-                  ---- क्षेत्रफल -----
+                  ---- एकाइ -----
                 </option>
 
                 <option value={"रोपनी"}>रोपनी</option>
@@ -1266,9 +1286,9 @@ export default function GharKoDetailBiabarn(props: any) {
         <label className="label" id={"responder_image"}>
           70. उत्तरदाताको फोटोः
         </label>
-        <div className="options-verical">
+        <div className="options-verical image-component">
           <video
-            id="video"
+            id="responder_image_video"
             width="320"
             height="240"
             autoPlay
@@ -1276,13 +1296,13 @@ export default function GharKoDetailBiabarn(props: any) {
           ></video>
 
           <canvas
-            id="canvas"
+            id="responder_image_canvas"
             width="320"
             height="240"
             style={{ display: "none" }}
           ></canvas>
           <button
-            id="click-photo"
+            id="responder_image_click-photo"
             className="btn btn-sm btn-success"
             onClick={clickPhoto}
             style={{ display: "none" }}
@@ -1290,7 +1310,7 @@ export default function GharKoDetailBiabarn(props: any) {
             Click Photo
           </button>
           <button
-            id="reset-photo"
+            id="responder_imagereset-photo"
             className="btn btn-sm btn-danger"
             onClick={resetPhoto}
             style={{ display: "none" }}
@@ -1300,11 +1320,16 @@ export default function GharKoDetailBiabarn(props: any) {
           <input
             type="hidden"
             name="responder_image"
-            id="responder_image"
+            id="hoh_imageresponder_image"
             onChange={(e) => handleChange(e)}
           />
+          {household.responder_image && household.id && (
+            <div id="imageDisplay">
+              <img src={household.responder_image} />
+            </div>
+          )}
           <button className="btn btn-secondary" onClick={getHohPhoto}>
-            उत्तरदाताको फोटो
+          उत्तरदाताको फोटोः {household.responder_image && household.id && "Reset"}
           </button>
         </div>
       </div>

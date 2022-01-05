@@ -2,6 +2,7 @@ import api from "../Api/api";
 import { addNewBasti, getBastiByName } from "./models/BastiModel";
 import { addNewDharma, getDharmaByName } from "./models/DharmaModel";
 import { addNewJaati, getJaatiByName } from "./models/JaatiModel";
+import { addNewJaatiSamuha, getJaatiSamuhaByName } from "./models/JaatiSamuhaModel";
 import { addNewMarga, getMargaByName } from "./models/MargaModel";
 import { addNewOccupation, getOccupationByName } from "./models/Occupation";
 import { addNewTechnicalSkill, getTechnicalSkillByName } from "./models/TechnicalSkill";
@@ -62,6 +63,21 @@ export async function getMargas(office_id: String) {
       }
     });
     console.log(margas.length, " Marga Synced.");
+  }
+}
+
+export async function getJaatiSamuha() {
+  console.log("Synchronizing Jaati Samuha...");
+  let res = await api.loadJaatiSamuhas();
+  if (res.status === 200) {
+    let jaatis = res.data;
+    jaatis.map(async (m: any) => {
+      let checkJaati = await getJaatiSamuhaByName(m.name);
+      if (checkJaati.length === 0) {
+        await addNewJaatiSamuha({ ...m });
+      }
+    });
+    console.log(jaatis.length, " Jaati Samuha Synced.");
   }
 }
 
@@ -131,6 +147,7 @@ export async function syncDb(data: any) {
     await getBastis(data.office_id);
     await getMargas(data.office_id);
     await getJaati();
+    await getJaatiSamuha();
     await getDharma();
     await getOccupation();
     await getTechnicalSkill();

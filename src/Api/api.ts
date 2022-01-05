@@ -9,6 +9,7 @@ const api = {
   loadMarga: (office_id: String) => axios.get(`${server}margas/`, {params: {office_id: office_id}}),
   loadBasti: (office_id: String) => axios.get(`${server}bastis/`, {params: {office_id: office_id}}),
   loadJaati: () => axios.get(`${server}jaatis/`),
+  loadJaatiSamuhas: () => axios.get(`${server}jaati-samuhas/`),
   loadDharma: () => axios.get(`${server}dharmas/`),
   loadOccupations: () => axios.get(`${server}occupations/`),
   loadTechnicalSkills: () => axios.get(`${server}technical-skills/`),

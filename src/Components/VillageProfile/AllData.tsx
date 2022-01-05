@@ -16,6 +16,7 @@ export default function AllData() {
 
   const getHouseholds = async () => {
     let hhs = await getAllHousehold();
+    console.log(hhs);
     let hhWithMembers = [] as IHousehold[];
     await Promise.all(
       hhs.map(async (hh) => {
@@ -51,7 +52,10 @@ export default function AllData() {
               <tr key={key}>
                 <td>{++key}</td>
                 <td>{hh.id} {hh.user_id}</td>
-                <td>{hh.hoh_name}</td>
+                <td>
+                  {hh.hoh_name}
+                  <p>{hh.hoh_first_name} {hh.hoh_last_name}</p>
+                  </td>
                 <td>{hh.members?.length}</td>
                 <td>
                   {hh.is_posted == "1" && "Y"}

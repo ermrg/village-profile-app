@@ -57,6 +57,8 @@ export interface IHousehold extends IObjectKeys {
   id_string?: string;
   members?: IMember[];
   hoh_name?: string;
+  hoh_first_name?: string;
+  hoh_last_name?: string;
   hoh_image?: string;
   hoh_role?: string;
   hoh_gender?: string;
@@ -78,7 +80,7 @@ export interface IHousehold extends IObjectKeys {
   member_with_health_insurance?: string;
   responder_name?: string;
   house_num?: string;
-  num_of_member?: string;
+  num_of_member?: number;
   resident_type?: string;
   migration_date?: string;
   phone_num?: string;
@@ -96,6 +98,7 @@ export interface IHousehold extends IObjectKeys {
   user_id?: string;
   is_posted?: string;
   is_complete?: string;
+  jaati_samuha_id?: string;
 
   missing_deceased_members?: IMissingDeceasedMember[];
   has_missing_deceased_member?: string;
@@ -141,6 +144,8 @@ export interface IHousehold extends IObjectKeys {
 export class Household {
   id: number;
   hoh_name?: string;
+  hoh_first_name?: string;
+  hoh_last_name?: string;
   hoh_image?: string;
   hoh_role?: string;
   hoh_gender?: string;
@@ -159,7 +164,7 @@ export class Household {
   member_with_health_insurance?: string;
   responder_name?: string;
   house_num?: string;
-  num_of_member?: string;
+  num_of_member?: number;
   resident_type?: string;
   migration_date?: string;
   phone_num?: string;
@@ -176,6 +181,7 @@ export class Household {
   user_id?: string;
   is_posted?: string;
   is_complete?: string;
+  jaati_samuha_id?: string;
 
   missing_deceased_members?: IMissingDeceasedMember[];
   has_missing_deceased_member?: string;
@@ -219,6 +225,8 @@ export class Household {
 
   constructor(data: IHousehold) {
     this.hoh_name = data.hoh_name;
+    this.hoh_first_name = data.hoh_first_name;
+    this.hoh_last_name = data.hoh_last_name;
     this.hoh_image = data.hoh_image;
     this.hoh_role = data.hoh_role;
     this.hoh_gender = data.hoh_gender;
@@ -294,6 +302,7 @@ export class Household {
     this.map_pass = data.map_pass;
     this.animals = data.animals;
     this.lands = data.lands;
+    this.jaati_samuha_id = data.jaati_samuha_id;
 
     if (data.id) this.id = data.id;
     db.households.mapToClass(Household);
@@ -320,10 +329,10 @@ export async function getHouseholdById(id: any) {
   return await db.households.get(parseInt(id));
 }
 
-export async function getPendingHouseholds(user_id: string) {
+export async function getPendingHouseholds() {
   return await db.households
-    .where("[user_id+is_posted+is_complete]")
-    .equals([parseInt(user_id), "0", "1"])
+    .where("[is_posted+is_complete]")
+    .equals(["0", "1"])
     .toArray();
 }
 
