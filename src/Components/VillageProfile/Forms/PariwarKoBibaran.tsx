@@ -129,11 +129,11 @@ export default function PariwarKoBibaran(props: any) {
                 }
                 defaultValue={member.mobile_num}
                 palceholder={"मोवाईल नम्बर"}
-                type={"text"}
+                type={"number"}
                 id={"mobile_num-" + memberKey}
                 errors={errors}
               />
-              <InputComponent
+              {/* <InputComponent
                 name={"citizenship_num"}
                 label={"17. सदस्यको नागरिकता नं."}
                 wrapperClass={"options-verical"}
@@ -149,7 +149,7 @@ export default function PariwarKoBibaran(props: any) {
                 type={"text"}
                 id={"citizenship_num-" + memberKey}
                 errors={errors}
-              />
+              /> */}
 
               <SelectComponent
                 options={gender_choice}
@@ -195,9 +195,26 @@ export default function PariwarKoBibaran(props: any) {
                 errors={errors}
               />
               <SelectComponent
+                options={education_statuses}
+                wrapperClass="options-verical"
+                label={"21.सदस्यको पढाईको अवस्थाः"}
+                name="education_status_id"
+                handleChange={(e: any) =>
+                  handleMemberChange(
+                    memberKey,
+                    "education_status_id",
+                    e.target.value
+                  )
+                }
+                defaultValue={member.education_status_id}
+                id={"education_status_id-" + memberKey}
+                placeholder="शैक्षिक अवस्थाः"
+                errors={errors}
+              />
+              <SelectComponent
                 options={education_levels}
                 wrapperClass="options-verical"
-                label={"21. सदस्यको शैक्षिक स्तरः"}
+                label={"22. सदस्यको शैक्षिक स्तरः"}
                 name="education_level_id"
                 handleChange={(e: any) =>
                   handleMemberChange(
@@ -236,24 +253,6 @@ export default function PariwarKoBibaran(props: any) {
               ) : (
                 ""
               )}
-
-              <SelectComponent
-                options={education_statuses}
-                wrapperClass="options-verical"
-                label={"22.सदस्यको पढाईको अवस्थाः"}
-                name="education_status_id"
-                handleChange={(e: any) =>
-                  handleMemberChange(
-                    memberKey,
-                    "education_status_id",
-                    e.target.value
-                  )
-                }
-                defaultValue={member.education_status_id}
-                id={"education_status_id-" + memberKey}
-                placeholder="शैक्षिक अवस्थाः"
-                errors={errors}
-              />
 
               <SelectComponent
                 options={yes_nos}
@@ -308,7 +307,7 @@ export default function PariwarKoBibaran(props: any) {
                 placeholder="सहायक पेशा"
                 errors={errors}
               />
-              <InputComponent
+              {/* <InputComponent
                 label={"25. मासिक आय:"}
                 wrapperClass={"options-verical"}
                 name={"monthly_income"}
@@ -324,7 +323,7 @@ export default function PariwarKoBibaran(props: any) {
                 type={"text"}
                 id={"monthly_income-" + memberKey}
                 errors={errors}
-              />
+              /> */}
             </div>
 
             <div
@@ -485,10 +484,10 @@ export default function PariwarKoBibaran(props: any) {
                     </select>
                   </div>
 
-                  <label className="label" id={"marriage_year-" + memberKey}>
+                  {/* <label className="label" id={"marriage_year-" + memberKey}>
                     b. विवाह भएको सालः{" "}
-                  </label>
-                  <div className="options-vertical">
+                  </label> */}
+                  {/* <div className="options-vertical">
                     <input
                       type="number"
                       className="form-control"
@@ -504,9 +503,9 @@ export default function PariwarKoBibaran(props: any) {
                       }
                       placeholder="Ex: 2077"
                     />
-                  </div>
+                  </div> */}
 
-                  <label className="label" id={"age_on_marriage-" + memberKey}>
+                  {/* <label className="label" id={"age_on_marriage-" + memberKey}>
                     c. विबाह हुँदाको उमेर{" "}
                   </label>
                   <div className="options-vertical">
@@ -525,7 +524,7 @@ export default function PariwarKoBibaran(props: any) {
                       }
                       placeholder="Ex: 26"
                     />
-                  </div>
+                  </div> */}
                 </div>
               )}
             </div>
@@ -554,10 +553,10 @@ export default function PariwarKoBibaran(props: any) {
                 >
                   <option value={""}>----- बसोबास गर्ने ठाउ ------</option>
                   <option value={"गाउँ"}>पुर्ण गाउँ</option>
-                  <option value={"काठमान्डौ"}>काठमान्डौ</option>
+                  <option value={"काठमान्डौ उपत्यका"}>काठमान्डौ उपत्यका</option>
                   <option value={"गाउँ/शहर"}>गाउँ/शहर</option>
                   <option value={"बिदेश"}>बिदेश</option>
-                  <option value={"अन्य"}>अन्य</option>
+                  <option value={"अन्य जिल्ला"}>अन्य जिल्ला</option>
                 </select>
               </div>
               <label className="label" id={"has_vehicle-" + memberKey}>
@@ -1028,23 +1027,17 @@ export default function PariwarKoBibaran(props: any) {
                     >
                       <option value={""}>----------</option>
                       <option value={"भेरोसेल(पहिलो डोज)"}>
-                        भेरोसेल (पहिलो दोस्रो)
+                        भेरोसेल (पहिलो डोज)
                       </option>
                       <option value={"भेरोसेल(दुवै डोज)"}>
                         भेरोसेल दुवै डोज
                       </option>
                       <option value={"जोनसन"}>जोनसन</option>
-                      <option value={"कोभिसिल्ड(पहिलो डोज)"}>
-                        कोभिसिल्ड ( पहिलो डोज)
+                      <option value={"कोभिसिल्ड/एस्ट्राजेनिका ( पहिलो  डोज)"}>
+                      कोभिसिल्ड/ एस्ट्राजेनिका ( पहिलो  डोज)
                       </option>
-                      <option value={"एस्ट्राजेनिका(पहिलो डोज)"}>
-                        एस्ट्राजेनिका ( पहिलो डोज)
-                      </option>
-                      <option value={"कोभिसिल्ड(दुबै डोज)"}>
-                        कोभिसिल्ड(दुबै डोज)
-                      </option>
-                      <option value={"एस्ट्राजेनिका(दुबै डोज)"}>
-                        एस्ट्राजेनिका(दुबै डोज)
+                      <option value={"कोभिसिल्ड/एस्ट्राजेनिका ( दुबै डोज)"}>
+                      कोभिसिल्ड/ एस्ट्राजेनिका ( दुबै डोज)
                       </option>
                     </select>
                   </div>

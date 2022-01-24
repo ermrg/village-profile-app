@@ -872,8 +872,29 @@ export default function GharKoDetailBiabarn(props: any) {
             placeholder="दुरी (मिनेट)"
           />
         </div>
+        <label className="label" id={"public_vehicle_distance_meter"}>
+          60. घरबाट नजिक सडक सम्मको दुरी ? (मिटर/मिनेट)
+        </label>
+        <div className="options-horizontal">
+          <input
+            type="number"
+            className="form-control"
+            value={household.nearest_road_distance_meter ?? ""}
+            name="nearest_road_distance_meter"
+            onChange={handleChange}
+            placeholder="दुरी (मिटरमा)"
+          />
+          <input
+            type="number"
+            className="form-control"
+            value={household.nearest_road_distance_minute ?? ""}
+            name="nearest_road_distance_minute"
+            onChange={handleChange}
+            placeholder="दुरी (मिनेट)"
+          />
+        </div>
         <label className="label" id={"hospital_distance_meter"}>
-          60. स्वास्थ्य चौकी वा अस्पताल सम्म लाग्ने दुरी? (मिटर/मिनेट)
+          61. स्वास्थ्य चौकी वा अस्पताल सम्म लाग्ने दुरी? (मिटर/मिनेट)
         </label>
         <div className="options-horizontal">
           <input
@@ -894,7 +915,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"primary_distance"}>
-          61. आधारभुत विद्यालय सम्म लाग्ने समय
+          62. आधारभुत विद्यालय सम्म लाग्ने समय
         </label>
         <div className="options-horizontal">
           <input
@@ -907,7 +928,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"secondary_distance"}>
-          62. माध्यमिक विद्यालय सम्म लाग्ने समय
+          63. माध्यमिक विद्यालय सम्म लाग्ने समय
         </label>
         <div className="options-horizontal">
           <input
@@ -920,7 +941,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"higher_secondary_distance"}>
-          63. उच्च मा.बि वा कलेज सम्म लाग्ने समय
+          64. उच्च मा.बि वा कलेज सम्म लाग्ने समय
         </label>
         <div className="options-horizontal">
           <input
@@ -1209,7 +1230,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 <option value={"दाम"}>दाम</option>
               </select>
             </div>
-            <label className="label" id={"kitta_no"}>
+            {/* <label className="label" id={"kitta_no"}>
               d. कित्ता नं
             </label>
             <div className="options-verticle">
@@ -1220,9 +1241,9 @@ export default function GharKoDetailBiabarn(props: any) {
                 onChange={handleLandChange}
                 placeholder="कित्ता नं"
               />
-            </div>
+            </div> */}
             <label className="label" id={"irrigation"}>
-              e. सिचाई सुविधा
+              d. सिचाई सुविधा
             </label>
             <div className="options-horizontal">
               <div className="radio" key={"irrigation"}>

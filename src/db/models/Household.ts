@@ -114,6 +114,8 @@ export interface IHousehold extends IObjectKeys {
   water_source_distance?: string;
   public_vehicle_distance_meter?: string;
   public_vehicle_distance_minute?: string;
+  nearest_road_distance_meter?: string;
+  nearest_road_distance_minute?: string;
 
   has_pregnant_member?: string;
   has_pregnancy_test?: string;
@@ -197,6 +199,8 @@ export class Household {
   water_source_distance?: string;
   public_vehicle_distance_meter?: string;
   public_vehicle_distance_minute?: string;
+  nearest_road_distance_meter?: string;
+  nearest_road_distance_minute?: string;
   has_pregnant_member?: string;
   has_pregnancy_test?: string;
   pregnancy_test_count?: string;
@@ -276,6 +280,8 @@ export class Household {
     this.water_source_location = data.water_source_location;
     this.public_vehicle_distance_minute = data.public_vehicle_distance_minute;
     this.public_vehicle_distance_meter = data.public_vehicle_distance_meter;
+    this.nearest_road_distance_minute = data.nearest_road_distance_minute;
+    this.nearest_road_distance_meter = data.nearest_road_distance_meter;
     this.has_pregnant_member = data.has_pregnant_member;
     this.has_pregnancy_test = data.has_pregnancy_test;
     this.pregnancy_test_count = data.pregnancy_test_count;

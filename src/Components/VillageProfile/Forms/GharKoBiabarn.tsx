@@ -149,7 +149,7 @@ export default function GharKoBiabarn(props: any) {
           wrapperClass={"options-verical"}
           handleChange={handleChange}
           defaultValue={household.hoh_name}
-          palceholder={"घरमुलीको नाम"}
+          palceholder={"घरमुलीको पुरा नाम (English)"}
           type={"text"}
           id={"hoh_name"}
           errors={errors}
@@ -159,7 +159,7 @@ export default function GharKoBiabarn(props: any) {
           wrapperClass={"options-verical"}
           handleChange={handleChange}
           defaultValue={household.hoh_first_name}
-          palceholder={"First Name"}
+          palceholder={"घरमुलीको नाम (नेपाली)"}
           type={"text"}
           id={"hoh_first_name"}
           errors={errors}
@@ -169,7 +169,7 @@ export default function GharKoBiabarn(props: any) {
           wrapperClass={"options-verical"}
           handleChange={handleChange}
           defaultValue={household.hoh_last_name}
-          palceholder={"Last Name"}
+          palceholder={"घरमुलीको थर (नेपाली)"}
           type={"text"}
           id={"hoh_last_name"}
           errors={errors}
@@ -199,12 +199,12 @@ export default function GharKoBiabarn(props: any) {
         <SelectComponent
           options={jaati_samuhas}
           wrapperClass="options-verical"
-          label={"8. जाति समुह"}
+          label={"8. जातजाति समुह"}
           name="jaati_samuha_id"
           handleChange={handleChange}
           defaultValue={household.jaati_samuha_id}
-          id={"jaati_id"}
-          placeholder="जाति"
+          id={"jaati_samuha_id"}
+          placeholder="जातजाति"
           errors={errors}
         />
         <SelectComponent

@@ -4,7 +4,7 @@ const hoh_roles = [
   { name: "जेठो दाई", id: "eldest_son" },
 ];
 const gender_choice = [
-  { name: "पुरष", id: "1" },
+  { name: "पुरूष", id: "1" },
   { name: "महिला", id: "2" },
   { name: "अन्य", id: "3" },
 ];
@@ -37,7 +37,7 @@ const relations = [
 ];
 
 const mother_tongues = [
-  { id: "1", name: "नेपाली" },
+  // { id: "1", name: "नेपाली" },
   // {
   //   id: "2",
   //   name: "मैथिली",
@@ -46,6 +46,10 @@ const mother_tongues = [
   //   id: "3",
   //   name: "थारु",
   // },
+  {
+    id: "3",
+    name: "नेपाली",
+  },
   { id: "4", name: "तामाङ" },
   // {
   //   id: "5",
@@ -116,7 +120,7 @@ const education_faculties = [
   { id: "Management", name: "Management" },
   { id: "Science", name: "Science" },
   { id: "Education", name: "Education" },
-  { id: "Arts", name: "Arts" }
+  { id: "Arts", name: "Arts" },
 ];
 
 const education_statuses = [
@@ -320,12 +324,10 @@ const developmentOption = [
 const residence_types = [
   { name: "जन्मसिद्ध", id: "1" },
   { name: "बसाईसराई", id: "2" },
-  
 ];
 const yes_nos = [
   { name: "छ", id: "1" },
   { name: "छैन", id: "0" },
-  
 ];
 export {
   hoh_roles,
