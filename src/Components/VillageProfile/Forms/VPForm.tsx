@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getBastiByWardId, IBasti } from "../../../db/models/BastiModel";
+import { getAllCountrys, getCountryBySamuhaId, ICountry } from "../../../db/models/CountryModel";
+import { getAllCountrySamuhas, ICountrySamuha } from "../../../db/models/CountrySamuhaModel";
 import { getAllDharmas, IDharma } from "../../../db/models/DharmaModel";
 import {
   addNewHousehold,
@@ -16,6 +18,7 @@ import {
   IMember,
   updateMember,
 } from "../../../db/models/Member";
+import { getAllMotherToungues, IMotherTongue } from "../../../db/models/MotherTongue";
 import { getAllOccupations, IOccupation } from "../../../db/models/Occupation";
 import {
   getAllTechnicalSkills,
@@ -45,6 +48,9 @@ export default function VPForm(props: any) {
   const [bastis, setBastis] = useState([] as IBasti[]);
   const [margas, setMargas] = useState([] as IMarga[]);
   const [jaatis, setJaatis] = useState([] as IJaati[]);
+  const [countries, setCountries] = useState([] as ICountry[]);
+  const [country_samuhas, setCountrySamuhas] = useState([] as ICountrySamuha[]);
+  const [mother_tongues, setMotherTongues] = useState([] as IMotherTongue[]);
   const [jaatiSamuhas, setJaatiSamuhas] = useState([] as IJaatiSamuha[]);
   const [dharmas, setDharmas] = useState([] as IDharma[]);
   const [household, setHousehold] = useState({} as IHousehold);
@@ -93,10 +99,16 @@ export default function VPForm(props: any) {
   }
 
   const loadJaatiAndDharma = async () => {
+    let mts = await getAllMotherToungues();
+    setMotherTongues([...mts]);
     let jaatis_samuhas = await getAllJaatiSamuhas();
     setJaatiSamuhas([...jaatis_samuhas]);
     let jaatis_ = await getAllJaatis();
     setJaatis([...jaatis_]);
+    let CountryS_samuhas = await getAllCountrySamuhas();
+    setCountrySamuhas([...CountryS_samuhas]);
+    let CountryS_ = await getAllCountrys();
+    setCountries([...CountryS_]);
     let dharmas_ = await getAllDharmas();
     setDharmas([...dharmas_]);
     let occupations_ = await getAllOccupations();
@@ -187,6 +199,16 @@ export default function VPForm(props: any) {
     setJaatis([...jaatis]);
   };
 
+  const loadCountryByCountrySamuhaId = async (country_samuha_id: any) => {
+    let cs = await getCountryBySamuhaId(parseInt(country_samuha_id));
+    setCountrySamuhas([...cs]);
+  };
+
+  const loadAllCountry = async () => {
+    let countries = await getAllCountrys();
+    setCountries([...countries]);
+  };
+
   const handleChange = (e: any) => {
     if (e.target.name === "ward_id") {
       loadBastiByWadaId(e.target.value);
@@ -199,6 +221,13 @@ export default function VPForm(props: any) {
         loadJaatiByJaatiSamuhaId(e.target.value);
       }else{
         loadAllJaati()
+      }
+    }
+    if (e.target.name === "country_samuha_id") {
+      if(e.target.value){
+        loadCountryByCountrySamuhaId(e.target.value);
+      }else{
+        loadAllCountry()
       }
     }
     if (e.target.name === "num_of_member") {
@@ -347,6 +376,7 @@ export default function VPForm(props: any) {
           jaatis={jaatis}
           jaati_samuhas={jaatiSamuhas}
           dharmas={dharmas}
+          mother_tongues={mother_tongues}
           handleArrayChangeInHousehold={handleArrayChangeInHousehold}
           errors={errors}
         />
@@ -362,6 +392,8 @@ export default function VPForm(props: any) {
           hh={household}
           handleChange={handleChange}
           wards={wards}
+          countries={countries}
+          country_samuhas={country_samuhas}
           handleArrayChangeInHousehold={handleArrayChangeInHousehold}
           errors={errors}
         />

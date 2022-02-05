@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { IHousehold } from "../../../db/models/Household";
 import {
   gender_choice,
-  mother_tongues,
   residence_types,
 } from "../../../enums";
 import InputComponent from "./FormComponent/InputComponent";
@@ -10,7 +9,7 @@ import RadioComponent from "./FormComponent/RadioComponent";
 import SelectComponent from "./FormComponent/SelectComponent";
 
 export default function GharKoBiabarn(props: any) {
-  let { bastis, wards, margas, hh, jaatis, jaati_samuhas, dharmas, errors } =
+  let { bastis, wards, margas, hh, jaatis, jaati_samuhas, dharmas, mother_tongues, errors } =
     props;
   let { handleChange, handleArrayChangeInHousehold } = props;
   const [household, setHousehold] = useState({ ...hh } as IHousehold);
@@ -149,12 +148,12 @@ export default function GharKoBiabarn(props: any) {
           wrapperClass={"options-verical"}
           handleChange={handleChange}
           defaultValue={household.hoh_name}
-          palceholder={"घरमुलीको पुरा नाम (English)"}
+          palceholder={"घरमुलीको पुरा नाम"}
           type={"text"}
           id={"hoh_name"}
           errors={errors}
         />
-        <InputComponent
+        {/* <InputComponent
           name={"hoh_first_name"}
           wrapperClass={"options-verical"}
           handleChange={handleChange}
@@ -173,7 +172,7 @@ export default function GharKoBiabarn(props: any) {
           type={"text"}
           id={"hoh_last_name"}
           errors={errors}
-        />
+        /> */}
         {/* 
         <RadioComponent
           options={hoh_roles}

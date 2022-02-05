@@ -143,7 +143,8 @@ export default function VillageProfileHome() {
       <button className="btn btn-sm btn-secondary" onClick={syncServerData}>
         Pull Data
       </button>
-      <input onChange={handleDelete} placeholder="DELETE-ALL" className="col-md-3"></input>
+      <p>Version: 1.01</p>
+      <input onChange={handleDelete} title="deleteall" placeholder="DELETE" className="col-md-3"></input>
     </div>
   );
 }

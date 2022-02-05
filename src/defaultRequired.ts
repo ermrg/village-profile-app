@@ -32,8 +32,9 @@ export const memberDefault = {
   has_voter_card: "1",
   voter_card_location: "गाउँपालिका",
   feelings_for_local_government: "5",
+  education_faculty: "",
+  education_leave_reason: "",
 } as IMember;
-
 
 export const householdDefault = {
   is_posted: "0",
@@ -59,6 +60,11 @@ export const householdDefault = {
     { id: "3", name: "सोलार" },
     { id: "4", name: "मट्टितेल" },
     { id: "5", name: "दाउरा" },
+  ],
+  facilities: [
+    { id: "2", name: "टेलिभिजन" },
+    { id: "4", name: "स्मार्ट फोन" },
+    { id: "17", name: "बिद्युतीय पंखा" },
   ],
   public_vehicle_distance_meter: "",
   public_vehicle_distance_minute: "",
@@ -93,7 +99,6 @@ export const householdDefault = {
   map_pass: "0",
   responder_name: "",
 } as IHousehold;
-
 
 export const memberRequired = [
   "name_eng",

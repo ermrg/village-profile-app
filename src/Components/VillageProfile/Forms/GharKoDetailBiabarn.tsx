@@ -3,16 +3,19 @@ import {
   IAnimal,
   IForeignMember,
   IHousehold,
+  IIncomeExpense,
   ILand,
   IMissingDeceasedMember,
 } from "../../../db/models/Household";
 import {
   animal_types,
   cooking_fuels,
-  countries,
   death_reasons,
+  expense_sources,
+  facilities,
   festivals,
   foreign_reasons,
+  income_sources,
   land_types,
   light_fuels,
   toilet_types,
@@ -27,6 +30,7 @@ let initialForeignMember = {
   reason: "",
   country: "",
   country_id: "",
+  country_samuha_id: "",
   visited_year_bs: "",
   return_year_bs: "",
   monthly_income: "",
@@ -43,6 +47,11 @@ let initialAnimal = {
   animal_type_id: "",
   count: "1",
 } as IAnimal;
+let initialIncomeExpense = {
+  source: "",
+  source_id: "",
+  amount: "",
+} as IIncomeExpense;
 let initialLand = {
   land_type_id: "",
   land_type: "",
@@ -55,13 +64,14 @@ let initialLand = {
   remarks: "",
 } as ILand;
 export default function GharKoDetailBiabarn(props: any) {
-  let { hh, members, wards } = props;
+  let { hh, members, wards, countries, country_samuhas } = props;
   let { handleChange, handleArrayChangeInHousehold } = props;
   const [household, setHousehold] = useState({ ...hh } as IHousehold);
   const [foreignMember, setForeignMember] = useState(initialForeignMember);
   const [missingMember, setMissingMember] = useState(initialMissingMember);
   const [animal, setAnimal] = useState(initialAnimal);
   const [land, setLand] = useState(initialLand);
+  const [income_expense, setIncomeExpense] = useState(initialIncomeExpense);
 
   useEffect(() => {
     setHousehold({ ...hh });
@@ -72,7 +82,7 @@ export default function GharKoDetailBiabarn(props: any) {
       ...foreignMember,
       [e.target.name]: e.target.value,
     }));
-    if (e.target.name == "member_name") {
+    if (e.target.name == "member_name" && members && members.length) {
       let v = members.find((s: any) => s.name_eng == e.target.value);
       if (v) {
         setForeignMember((foreignMember) => ({
@@ -82,7 +92,7 @@ export default function GharKoDetailBiabarn(props: any) {
       }
     }
     if (e.target.name == "country_id") {
-      let v = countries.find((s: any) => s.value == e.target.value);
+      let v = countries.find((s: any) => s.id == e.target.value);
       setForeignMember((foreignMember) => ({
         ...foreignMember,
         country: v.name,
@@ -92,6 +102,10 @@ export default function GharKoDetailBiabarn(props: any) {
 
   const saveForeignMember = (cmd: string, member_name?: any) => {
     let newForeignMember;
+    if(foreignMember.member_name == '' || foreignMember.country == ''){
+      alert("Select member and contry");
+      return
+    }
     if (cmd == "add") {
       newForeignMember = household.foreign_members ?? [];
       newForeignMember.push(foreignMember);
@@ -190,6 +204,47 @@ export default function GharKoDetailBiabarn(props: any) {
     }
     handleArrayChangeInHousehold("lands", newLand);
     setLand({ ...initialLand });
+  };
+
+  const handleIEChange = (e: any) => {
+    setIncomeExpense((income_expense) => ({
+      ...income_expense,
+      [e.target.name]: e.target.value,
+    }));
+    if (e.target.name == "income_source_id") {
+      let v = income_sources.find((s: any) => s.id == e.target.value);
+      setIncomeExpense((income_expense) => ({
+        ...income_expense,
+        source: v.name,
+        source_id: v.id,
+        type: '1',
+      }));
+    }
+    if (e.target.name == "expense_source_id") {
+      let v = expense_sources.find((s: any) => s.id == e.target.value);
+      setIncomeExpense((income_expense) => ({
+        ...income_expense,
+        source: v.name,
+        source_id: v.id,
+        type: '2',
+      }));
+    }
+  };
+
+  const saveIE = (cmd: string, index?: any) => {
+    let newIE;
+    newIE = household.income_expenses ?? [];
+    if(income_expense.source_id == '' || income_expense.amount == ''){
+      alert("Add source and amount");
+      return
+    }
+    if (cmd == "add") {
+      newIE.push(income_expense);
+    } else {
+      newIE.splice(index, 1);
+    }
+    handleArrayChangeInHousehold("income_expenses", newIE);
+    setIncomeExpense({ ...initialIncomeExpense });
   };
 
   const getHohPhoto = async () => {
@@ -463,16 +518,31 @@ export default function GharKoDetailBiabarn(props: any) {
               </select>
             </div>
             <div className="options-horizontal">
+            <select
+                className="form-control"
+                value={foreignMember.country_samuha_id}
+                name="country_samuha_id"
+                onChange={handleForeignMemberChange}
+              >
+                <option value={""} key={"देश समुह-1"}>
+                  ---- देश समुह-----
+                </option>
+                {country_samuhas.map((option:any, key:any) => (
+                  <option value={option.id} key={"death_reasons" + key}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
               <select
                 className="form-control"
                 value={foreignMember.country_id}
                 name="country_id"
                 onChange={handleForeignMemberChange}
               >
-                <option value={""} key={"कारन-1"}>
+                <option value={""} key={"देश-1"}>
                   ---- देश -----
                 </option>
-                {countries.map((option, key) => (
+                {countries.map((option:any, key:any) => (
                   <option value={option.id} key={"death_reasons" + key}>
                     {option.name}
                   </option>
@@ -845,6 +915,24 @@ export default function GharKoDetailBiabarn(props: any) {
             }
             onRemove={(value) =>
               handleArrayChangeInHousehold("light_fuels", value)
+            }
+            displayValue="name"
+            selectionLimit={5}
+          />
+        </div>
+
+        <label className="label" id={"light_fuels"}>
+          58. निम्न कुन कुन सुबिधाहरु परिवार ले उपभोग गरेको छ ?
+        </label>
+        <div className="options-vertical">
+          <Multiselect
+            options={facilities}
+            selectedValues={household.facilities}
+            onSelect={(value) =>
+              handleArrayChangeInHousehold("facilities", value)
+            }
+            onRemove={(value) =>
+              handleArrayChangeInHousehold("facilities", value)
             }
             displayValue="name"
             selectionLimit={5}
@@ -1289,9 +1377,137 @@ export default function GharKoDetailBiabarn(props: any) {
             </button>
           </div>
         </div>
+     
+        <label className="label" id={"total_area"}>
+          69. आय सम्बन्धी{" "}
+        </label>
+        <div className="options-horizontal">
+          <div className="child-section">
+            {household.income_expenses &&
+              household.income_expenses.map((an: any, an_key: any) => (
+                an.type == '1' &&
+                <button
+                  className="btn btn-outline-info btn-sm btn-block"
+                  key={an_key}
+                  onClick={() => saveIE("remove", an_key)}
+                >
+                  {an.source} - {an.amount}
+                </button>
+              ))}
+            <br />
+            <label className="label" id={"location"}>
+              a. आयको स्रोत
+            </label>
+
+            <div className="options-horizontal">
+              <select
+                className="form-control"
+                value={income_expense.income_source_id}
+                name="income_source_id"
+                onChange={handleIEChange}
+              >
+                <option value={""} key={"आयको स्रोत"}>
+                  ---- आयको स्रोत -----
+                </option>
+                {income_sources.map((option, key) => (
+                  <option value={option.id} key={"आयको स्रोत" + key}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <label className="label" id={"land_type_id"}>
+              b. बार्षिक  आय( रु. हजारमा )
+            </label>
+            
+            <div className="options-horizontal">
+              <input
+                type="number"
+                className="form-control"
+                value={income_expense.amount ?? ""}
+                name="amount"
+                onChange={handleIEChange}
+                placeholder="रु."
+                min="0"
+              />
+            </div>
+            
+            <button
+              onClick={() => saveIE("add")}
+              className="btn btn-sm btn-success"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+
+        <label className="label" id={"total_area"}>
+          70. खर्च सम्बन्धी{" "}
+        </label>
+        <div className="options-horizontal">
+          <div className="child-section">
+            {household.income_expenses &&
+              household.income_expenses.map((an: any, an_key: any) => (
+                an.type == '2' &&
+                <button
+                  className="btn btn-outline-info btn-sm btn-block"
+                  key={an_key}
+                  onClick={() => saveIE("remove", an_key)}
+                >
+                  {an.source} - {an.amount}
+                </button>
+              ))}
+            <br />
+            <label className="label" id={"location"}>
+              a. खर्चको स्रोत
+            </label>
+
+            <div className="options-horizontal">
+              <select
+                className="form-control"
+                value={income_expense.expense_source_id}
+                name="expense_source_id"
+                onChange={handleIEChange}
+              >
+                <option value={""} key={"आयको स्रोत"}>
+                  ---- आयको स्रोत -----
+                </option>
+                {expense_sources.map((option, key) => (
+                  <option value={option.id} key={"आयको स्रोत" + key}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <label className="label" id={"land_type_id"}>
+              b. बार्षिक खर्च( रु. हजारमा )
+            </label>
+            
+            <div className="options-horizontal">
+              <input
+                type="number"
+                className="form-control"
+                value={income_expense.amount ?? ""}
+                name="amount"
+                onChange={handleIEChange}
+                placeholder="रु."
+                min="0"
+              />
+            </div>
+            
+            <button
+              onClick={() => saveIE("add")}
+              className="btn btn-sm btn-success"
+            >
+              Add
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className={`form-group`} id="20">
+      <div className={`form-group`} id="21">
         <label className="label" id={"responder_name"}>
           69. उत्तरदाताको नाम
         </label>

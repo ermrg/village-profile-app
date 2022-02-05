@@ -6,6 +6,7 @@ import {
   disability_types,
   disease_names,
   education_faculties,
+  education_leave_reasons,
   education_levels,
   education_statuses,
   gender_choice,
@@ -120,7 +121,7 @@ export default function PariwarKoBibaran(props: any) {
                 id={"name_eng-" + memberKey}
                 errors={errors}
               />
-              <InputComponent
+              {/* <InputComponent
                 name={"mobile_num"}
                 label={"16. मोवाईल नम्बर:"}
                 wrapperClass={"options-verical"}
@@ -132,7 +133,7 @@ export default function PariwarKoBibaran(props: any) {
                 type={"number"}
                 id={"mobile_num-" + memberKey}
                 errors={errors}
-              />
+              /> */}
               {/* <InputComponent
                 name={"citizenship_num"}
                 label={"17. सदस्यको नागरिकता नं."}
@@ -211,6 +212,27 @@ export default function PariwarKoBibaran(props: any) {
                 placeholder="शैक्षिक अवस्थाः"
                 errors={errors}
               />
+              {member.education_status_id == "2" && (
+                <div className="child-section">
+                  <SelectComponent
+                    options={education_leave_reasons}
+                    wrapperClass="options-verical"
+                    label={"a. बिद्यालय बिचैमा छोड्‌नुको कारण"}
+                    name="education_leave_reasons"
+                    handleChange={(e: any) =>
+                      handleMemberChange(
+                        memberKey,
+                        "education_leave_reasons",
+                        e.target.value
+                      )
+                    }
+                    defaultValue={member.education_leave_reasons}
+                    id={"education_leave_reasons-" + memberKey}
+                    placeholder="बिद्यालय बिचैमा छोड्‌नुको कारण"
+                    errors={errors}
+                  />
+                </div>
+              )}
               <SelectComponent
                 options={education_levels}
                 wrapperClass="options-verical"
@@ -228,9 +250,10 @@ export default function PariwarKoBibaran(props: any) {
                 placeholder="शैक्षिक स्तरः"
                 errors={errors}
               />
-              {member.education_level_id == "4" ||
-              member.education_level_id == "5" ||
-              member.education_level_id == "6" ? (
+              {member.education_level_id == "6" ||
+              member.education_level_id == "7" ||
+              member.education_level_id == "8" ||
+              member.education_level_id == "9" ? (
                 <div className="child-section">
                   <SelectComponent
                     options={education_faculties}
@@ -1034,10 +1057,10 @@ export default function PariwarKoBibaran(props: any) {
                       </option>
                       <option value={"जोनसन"}>जोनसन</option>
                       <option value={"कोभिसिल्ड/एस्ट्राजेनिका ( पहिलो  डोज)"}>
-                      कोभिसिल्ड/ एस्ट्राजेनिका ( पहिलो  डोज)
+                        कोभिसिल्ड/ एस्ट्राजेनिका ( पहिलो डोज)
                       </option>
                       <option value={"कोभिसिल्ड/एस्ट्राजेनिका ( दुबै डोज)"}>
-                      कोभिसिल्ड/ एस्ट्राजेनिका ( दुबै डोज)
+                        कोभिसिल्ड/ एस्ट्राजेनिका ( दुबै डोज)
                       </option>
                     </select>
                   </div>

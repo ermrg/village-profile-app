@@ -11,8 +11,21 @@ export interface IMissingDeceasedMember {
   name?: string;
   gender?: string;
 }
+export interface IIncomeExpense {
+  source: string;
+  source_id: string;
+  income_source_id?: string;
+  expense_source_id?: string;
+  amount: string;
+  type?: string;
+}
 
 export interface IFestivals {
+  id: string;
+  name: string;
+}
+
+export interface IFacility {
   id: string;
   name: string;
 }
@@ -48,6 +61,7 @@ export interface IForeignMember {
   reason_id: string;
   country: string;
   country_id: string;
+  country_samuha_id: string;
   visited_year_bs?: string;
   return_year_bs?: string;
   monthly_income?: string;
@@ -142,6 +156,8 @@ export interface IHousehold extends IObjectKeys {
   map_pass?: string;
   animals?: IAnimal[];
   lands?: ILand[];
+  income_expenses?: IIncomeExpense[];
+  facilities?: IFacility[];
 }
 export class Household {
   id: number;
@@ -226,6 +242,8 @@ export class Household {
   map_pass?: string;
   animals?: IAnimal[];
   lands?: ILand[];
+  income_expenses?: IIncomeExpense[];
+  facilities?: IFacility[];
 
   constructor(data: IHousehold) {
     this.hoh_name = data.hoh_name;
@@ -308,6 +326,8 @@ export class Household {
     this.map_pass = data.map_pass;
     this.animals = data.animals;
     this.lands = data.lands;
+    this.income_expenses = data.income_expenses;
+    this.facilities = data.facilities;
     this.jaati_samuha_id = data.jaati_samuha_id;
 
     if (data.id) this.id = data.id;

@@ -1,9 +1,12 @@
 import api from "../Api/api";
 import { addNewBasti, getBastiByName } from "./models/BastiModel";
+import { addNewCountry, getCountryByName } from "./models/CountryModel";
+import { addNewCountrySamuha, getCountrySamuhaByName } from "./models/CountrySamuhaModel";
 import { addNewDharma, getDharmaByName } from "./models/DharmaModel";
 import { addNewJaati, getJaatiByName } from "./models/JaatiModel";
 import { addNewJaatiSamuha, getJaatiSamuhaByName } from "./models/JaatiSamuhaModel";
 import { addNewMarga, getMargaByName } from "./models/MargaModel";
+import { addNewMotherToungue, getMotherToungueByName } from "./models/MotherTongue";
 import { addNewOccupation, getOccupationByName } from "./models/Occupation";
 import { addNewTechnicalSkill, getTechnicalSkillByName } from "./models/TechnicalSkill";
 import { addNewWard, getWardByName } from "./models/WardModel";
@@ -66,6 +69,20 @@ export async function getMargas(office_id: String) {
   }
 }
 
+export async function getMotherToungure() {
+  console.log("Synchronizing MT Samuha...");
+  let res = await api.loadMotherTongues();
+  if (res.status === 200) {
+    let mother_tongues = res.data;
+    mother_tongues.map(async (m: any) => {
+      let checkMt = await getMotherToungueByName(m.name);
+      if (checkMt.length === 0) {
+        await addNewMotherToungue({ ...m });
+      }
+    });
+    console.log(mother_tongues.length, " MT Synced.");
+  }
+}
 export async function getJaatiSamuha() {
   console.log("Synchronizing Jaati Samuha...");
   let res = await api.loadJaatiSamuhas();
@@ -93,6 +110,35 @@ export async function getJaati() {
       }
     });
     console.log(jaatis.length, " Jaati Synced.");
+  }
+}
+export async function getCountrySamuha() {
+  console.log("Synchronizing Country Samuha...");
+  let res = await api.loadCountrySamuhas();
+  if (res.status === 200) {
+    let Countrys = res.data;
+    Countrys.map(async (m: any) => {
+      let checkCountry = await getCountrySamuhaByName(m.name);
+      if (checkCountry.length === 0) {
+        await addNewCountrySamuha({ ...m });
+      }
+    });
+    console.log(Countrys.length, " Country Samuha Synced.");
+  }
+}
+
+export async function getCountry() {
+  console.log("Synchronizing Country...");
+  let res = await api.loadCountry();
+  if (res.status === 200) {
+    let Countrys = res.data;
+    Countrys.map(async (m: any) => {
+      let checkCountry = await getCountryByName(m.name);
+      if (checkCountry.length === 0) {
+        await addNewCountry({ ...m });
+      }
+    });
+    console.log(Countrys.length, " Country Synced.");
   }
 }
 
@@ -151,5 +197,6 @@ export async function syncDb(data: any) {
     await getDharma();
     await getOccupation();
     await getTechnicalSkill();
+    await getMotherToungure();
   }
 }
