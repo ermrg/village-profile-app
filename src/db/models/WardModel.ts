@@ -37,7 +37,7 @@ export async function getAllWards() {
 }
 
 export async function getWardById(id: string) {
-  return await db.wards.get(id);
+  return await db.wards.get(parseInt(id));
 }
 
 export async function getWardByName(name: string) {

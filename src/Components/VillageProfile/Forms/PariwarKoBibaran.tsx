@@ -155,7 +155,7 @@ export default function PariwarKoBibaran(props: any) {
               <SelectComponent
                 options={gender_choice}
                 wrapperClass="options-verical"
-                label={"18. सदस्यको लिंग"}
+                label={"16. सदस्यको लिंग"}
                 name="gender_id"
                 handleChange={(e: any) =>
                   handleMemberChange(memberKey, "gender_id", e.target.value)
@@ -168,7 +168,7 @@ export default function PariwarKoBibaran(props: any) {
               <SelectComponent
                 options={relations}
                 wrapperClass="options-verical"
-                label={"19. घरमुलीसँग नाता:"}
+                label={"17. घरमुलीसँग नाता:"}
                 name="relation_with_hoh_id"
                 handleChange={(e: any) =>
                   handleMemberChange(
@@ -184,7 +184,7 @@ export default function PariwarKoBibaran(props: any) {
               />
               <InputComponent
                 name={"dob_bs"}
-                label={"20. जन्ममितिः"}
+                label={"18. जन्ममितिः"}
                 wrapperClass={"options-verical"}
                 handleChange={(e: any) =>
                   handleMemberChange(memberKey, "dob_bs", e.target.value)
@@ -198,7 +198,7 @@ export default function PariwarKoBibaran(props: any) {
               <SelectComponent
                 options={education_statuses}
                 wrapperClass="options-verical"
-                label={"21.सदस्यको पढाईको अवस्थाः"}
+                label={"19.सदस्यको पढाईको अवस्थाः"}
                 name="education_status_id"
                 handleChange={(e: any) =>
                   handleMemberChange(
@@ -236,7 +236,7 @@ export default function PariwarKoBibaran(props: any) {
               <SelectComponent
                 options={education_levels}
                 wrapperClass="options-verical"
-                label={"22. सदस्यको शैक्षिक स्तरः"}
+                label={"20. सदस्यको शैक्षिक स्तरः"}
                 name="education_level_id"
                 handleChange={(e: any) =>
                   handleMemberChange(
@@ -280,7 +280,7 @@ export default function PariwarKoBibaran(props: any) {
               <SelectComponent
                 options={yes_nos}
                 wrapperClass="options-verical"
-                label={"23. अनौपचारिक शिक्षा लिएको छ?"}
+                label={"21. अनौपचारिक शिक्षा लिएको छ?"}
                 name="has_informal_education"
                 handleChange={(e: any) =>
                   handleMemberChange(
@@ -298,7 +298,7 @@ export default function PariwarKoBibaran(props: any) {
               <SelectComponent
                 options={occupations}
                 wrapperClass="options-verical"
-                label={"24. मुख्य पेशा"}
+                label={"22. मुख्य पेशा"}
                 name="main_occupation_id"
                 handleChange={(e: any) =>
                   handleMemberChange(
@@ -316,7 +316,7 @@ export default function PariwarKoBibaran(props: any) {
               <SelectComponent
                 options={occupations}
                 wrapperClass="options-verical"
-                label={"25. सहायक पेशा:"}
+                label={"23. सहायक पेशा:"}
                 name="other_occupation_id"
                 handleChange={(e: any) =>
                   handleMemberChange(
@@ -358,7 +358,7 @@ export default function PariwarKoBibaran(props: any) {
               <SelectComponent
                 options={yes_nos}
                 wrapperClass="options-verical"
-                label={"26. प्राविधिक सिप"}
+                label={"24. प्राविधिक सिप"}
                 name="has_technical_training"
                 handleChange={(e: any) =>
                   handleMemberChange(
@@ -456,7 +456,7 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               )}
               <label className="label" id={"is_married-" + memberKey}>
-                27. वैवाविक स्थितिः{" "}
+                25. वैवाविक स्थितिः{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -558,7 +558,7 @@ export default function PariwarKoBibaran(props: any) {
             >
               <h5>Member: {memberKey + 1} ***</h5>
               <label className="label" id={"resident_place-" + memberKey}>
-                28. बसोबास गर्ने ठाउः
+                26. बसोबास गर्ने ठाउः
               </label>
               <div className="options-vertical">
                 <select
@@ -583,7 +583,7 @@ export default function PariwarKoBibaran(props: any) {
                 </select>
               </div>
               <label className="label" id={"has_vehicle-" + memberKey}>
-                29. सवारी साधन ?{" "}
+                27. सवारी साधन ?{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -664,7 +664,7 @@ export default function PariwarKoBibaran(props: any) {
                 </div>
               )}
               <label className="label" id={"has_health_insurance-" + memberKey}>
-                30. स्वास्थ्य बिमा गरिएको छ ?{" "}
+                28. स्वास्थ्य बिमा गरिएको छ ?{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -686,7 +686,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
 
               <label className="label" id={"has_life_insurance-" + memberKey}>
-                31. जिमा बिमा गरिएको छ ?{" "}
+                29. जिमा बिमा गरिएको छ ?{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -708,7 +708,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
 
               <label className="label" id={"has_bank_account-" + memberKey}>
-                32. बैंकमा खाता छ?{" "}
+                30. बैंकमा खाता छ?{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -733,7 +733,7 @@ export default function PariwarKoBibaran(props: any) {
                 className="label"
                 id={"has_cooperative_account-" + memberKey}
               >
-                33. सहकारीमा सदस्य हुनुहुन्छ?{" "}
+                31. सहकारीमा सदस्य हुनुहुन्छ?{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -755,7 +755,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
 
               <label className="label" id={"has_pension-" + memberKey}>
-                34. तपाई पेन्सन बुझ्नुहुन्छ?{" "}
+                32. तपाई पेन्सन बुझ्नुहुन्छ?{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -796,7 +796,7 @@ export default function PariwarKoBibaran(props: any) {
                 </>
               )}
               <label className="label" id={"has_disability-" + memberKey}>
-                35. अपाङ्ता छ?
+                33. अपाङ्ता छ?
               </label>
               <div className="options-vertical">
                 <select
@@ -895,7 +895,7 @@ export default function PariwarKoBibaran(props: any) {
               <h5>Member: {memberKey + 1} ****</h5>
 
               <label className="label" id={"has_chronic_disease-" + memberKey}>
-                36. रोग छ?{" "}
+                34. रोग छ?{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -980,7 +980,7 @@ export default function PariwarKoBibaran(props: any) {
                 className="label"
                 id={"covid_infection_status-" + memberKey}
               >
-                37. तपाईलाई कोरोना सक्रमण वा शंका लागेको थियो ?{" "}
+                35. तपाईलाई कोरोना सक्रमण वा शंका लागेको थियो ?{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -1005,7 +1005,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
 
               <label className="label" id={"has_covid_vaccine-" + memberKey}>
-                38. कोभिड भ्याक्सिन लगाएको/ नलगाएको
+                36. कोभिड भ्याक्सिन लगाएको/ नलगाएको
               </label>
               <div className="options-vertical">
                 <select
@@ -1068,7 +1068,7 @@ export default function PariwarKoBibaran(props: any) {
               )}
 
               <label className="label" id={"has_smartphone-" + memberKey}>
-                39. तपाईको स्माट्रफोन छ ?{" "}
+                37. तपाईको स्माट्रफोन छ ?{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -1110,7 +1110,7 @@ export default function PariwarKoBibaran(props: any) {
               )}
 
               <label className="label" id={"has_voter_card-" + memberKey}>
-                40. भोटर कार्ड भएको नभएको ?{" "}
+                38. भोटर कार्ड भएको नभएको ?{" "}
               </label>
               <div className="options-vertical">
                 <select
@@ -1168,7 +1168,7 @@ export default function PariwarKoBibaran(props: any) {
                 className="label"
                 id={"feelings_for_local_government-" + memberKey}
               >
-                41. अहिलेको स्थानिय सरकारको काम कस्तो लागेको छ?
+                39. अहिलेको स्थानिय सरकारको काम कस्तो लागेको छ?
               </label>
               <div className="options-vertical">
                 <select
@@ -1196,7 +1196,7 @@ export default function PariwarKoBibaran(props: any) {
                 className="label"
                 id={"recommendation_for_local_level-" + memberKey}
               >
-                42. गाउँपालिकाले तिब्र विकासको लागि कुन क्षेत्रमा बढी ध्यान
+                40. गाउँपालिकाले तिब्र विकासको लागि कुन क्षेत्रमा बढी ध्यान
                 दिनुपर्छ ?
               </label>
               <div className="options-vertical">
@@ -1224,7 +1224,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
 
               <label className="label" id={"house_count-" + memberKey}>
-                43. तपाइँको गाउँपालिका भित्रको घरको संख्या?
+                41. तपाइँको गाउँपालिका भित्रको घरको संख्या?
               </label>
               <div className="options-verical">
                 <input
@@ -1240,7 +1240,7 @@ export default function PariwarKoBibaran(props: any) {
               </div>
 
               <label className="label" id={"land_count-" + memberKey}>
-                44. जग्गा जमिनको संख्या?
+                42. जग्गा जमिनको संख्या?
               </label>
               <div className="options-verical">
                 <input

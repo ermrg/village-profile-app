@@ -188,7 +188,7 @@ export default function GharKoBiabarn(props: any) {
         <RadioComponent
           options={gender_choice}
           wrapperClass="options-verical"
-          label={"7. घरमुलीको लिंग"}
+          label={"6. घरमुलीको लिंग"}
           name="hoh_gender"
           handleChange={handleChange}
           defaultValue={household.hoh_gender}
@@ -198,7 +198,7 @@ export default function GharKoBiabarn(props: any) {
         <SelectComponent
           options={jaati_samuhas}
           wrapperClass="options-verical"
-          label={"8. जातजाति समुह"}
+          label={"7. जातजाति समुह"}
           name="jaati_samuha_id"
           handleChange={handleChange}
           defaultValue={household.jaati_samuha_id}

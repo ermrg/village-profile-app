@@ -43,7 +43,7 @@ export async function getAllMarga() {
 }
 
 export async function getMargaById(id: string) {
-  return await db.margas.get(id);
+  return await db.margas.get(parseInt(id));
 }
 
 export async function getMargaByName(name: string) {

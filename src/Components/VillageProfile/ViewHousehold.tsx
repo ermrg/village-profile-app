@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { getBastiById, IBasti } from "../../db/models/BastiModel";
 import { getDharmaById, IDharma } from "../../db/models/DharmaModel";
 import { getHouseholdById, IHousehold } from "../../db/models/Household";
-import { getJaatiById,getAllJaatis, IJaati } from "../../db/models/JaatiModel";
+import { getJaatiById, getAllJaatis, IJaati } from "../../db/models/JaatiModel";
 import { getMargaById, IMarga } from "../../db/models/MargaModel";
 import { getMembersbyHousehold, IMember } from "../../db/models/Member";
 import { getWardById, IWard } from "../../db/models/WardModel";
@@ -95,7 +95,9 @@ export default function ViewHousehold() {
         )}
 
         <h3>{household.hoh_name}</h3>
+
         <img src={household.hoh_image} alt="" />
+        
         <p>
           Ward: <h4>{ward?.name}</h4>
         </p>
@@ -196,7 +198,14 @@ export default function ViewHousehold() {
               </tbody>
             </table>
           </>
-        ): 'No Members'}
+        ) : (
+          "No Members"
+        )}
+
+        <p>
+          Responder Name:<h4>{household.responder_name}</h4>
+        </p>
+        <img src={household.responder_image} alt="" />
       </div>
     );
   } else {

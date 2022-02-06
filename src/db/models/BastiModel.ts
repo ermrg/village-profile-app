@@ -40,7 +40,7 @@ export async function getAllBasti() {
 }
 
 export async function getBastiById(id: string) {
-  return await db.bastis.get(id);
+  return await db.bastis.get(parseInt(id));
 }
 
 export async function getBastiByName(name: string) {

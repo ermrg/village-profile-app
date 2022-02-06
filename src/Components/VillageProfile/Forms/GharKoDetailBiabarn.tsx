@@ -102,9 +102,9 @@ export default function GharKoDetailBiabarn(props: any) {
 
   const saveForeignMember = (cmd: string, member_name?: any) => {
     let newForeignMember;
-    if(foreignMember.member_name == '' || foreignMember.country == ''){
+    if (foreignMember.member_name == "" || foreignMember.country == "") {
       alert("Select member and contry");
-      return
+      return;
     }
     if (cmd == "add") {
       newForeignMember = household.foreign_members ?? [];
@@ -126,7 +126,7 @@ export default function GharKoDetailBiabarn(props: any) {
       [e.target.name]: e.target.value,
     }));
     if (e.target.name == "reason_id") {
-      let v = death_reasons.find((s: any) => s.value == e.target.value);
+      let v = death_reasons.find((s: any) => s.id == e.target.value);
       setMissingMember((missingMember) => ({
         ...missingMember,
         reason: v.name,
@@ -217,7 +217,7 @@ export default function GharKoDetailBiabarn(props: any) {
         ...income_expense,
         source: v.name,
         source_id: v.id,
-        type: '1',
+        type: "1",
       }));
     }
     if (e.target.name == "expense_source_id") {
@@ -226,7 +226,7 @@ export default function GharKoDetailBiabarn(props: any) {
         ...income_expense,
         source: v.name,
         source_id: v.id,
-        type: '2',
+        type: "2",
       }));
     }
   };
@@ -234,9 +234,9 @@ export default function GharKoDetailBiabarn(props: any) {
   const saveIE = (cmd: string, index?: any) => {
     let newIE;
     newIE = household.income_expenses ?? [];
-    if(income_expense.source_id == '' || income_expense.amount == ''){
+    if (income_expense.source_id == "" || income_expense.amount == "") {
       alert("Add source and amount");
-      return
+      return;
     }
     if (cmd == "add") {
       newIE.push(income_expense);
@@ -252,7 +252,9 @@ export default function GharKoDetailBiabarn(props: any) {
       "mediaDevices" in navigator &&
       "getUserMedia" in navigator.mediaDevices
     ) {
-      let video = document.querySelector("#responder_image_video") as HTMLVideoElement;
+      let video = document.querySelector(
+        "#responder_image_video"
+      ) as HTMLVideoElement;
       navigator.mediaDevices
         .getUserMedia({
           audio: false,
@@ -277,7 +279,9 @@ export default function GharKoDetailBiabarn(props: any) {
   };
 
   const clickPhoto = async () => {
-    let video = document.querySelector("#responder_image_video") as HTMLVideoElement;
+    let video = document.querySelector(
+      "#responder_image_video"
+    ) as HTMLVideoElement;
     let canvas = document.querySelector(
       "#responder_image_canvas"
     ) as HTMLCanvasElement;
@@ -301,8 +305,12 @@ export default function GharKoDetailBiabarn(props: any) {
   };
 
   const resetPhoto = async () => {
-    let canvas = document.querySelector("#responder_image_canvas") as HTMLCanvasElement;
-    let reset = document.querySelector("#responder_imagereset-photo") as HTMLButtonElement;
+    let canvas = document.querySelector(
+      "#responder_image_canvas"
+    ) as HTMLCanvasElement;
+    let reset = document.querySelector(
+      "#responder_imagereset-photo"
+    ) as HTMLButtonElement;
     reset.style.display = "none";
     canvas.style.display = "none";
     let existingImage = document.getElementById("imageDisplay");
@@ -318,7 +326,7 @@ export default function GharKoDetailBiabarn(props: any) {
         <h5>Family Detail</h5>
 
         <label className="label" id={"has_missing_deceased_member"}>
-          45. परिवारमा कोही बेपत्ता/मृत्यु/दुर्घटना/आत्महत्या/हत्या भएको छ?
+          43. परिवारमा कोही बेपत्ता/मृत्यु/दुर्घटना/आत्महत्या/हत्या भएको छ?
         </label>
         <div className="options-horizontal">
           <select
@@ -418,7 +426,7 @@ export default function GharKoDetailBiabarn(props: any) {
         )}
 
         <label className="label" id={"animal_count"}>
-          46. परिवारमा रहेको पशु चौपायाहरुको संख्या?
+          44. परिवारमा रहेको पशु चौपायाहरुको संख्या?
         </label>
         <div className="options-verical">
           <input
@@ -431,7 +439,7 @@ export default function GharKoDetailBiabarn(props: any) {
         </div>
 
         <label className="label" id={"business_count"}>
-          47. परिवारबाट संचालित ब्यापार, ब्याबसाय, उद्योगको संख्या?
+          45. परिवारबाट संचालित ब्यापार, ब्याबसाय, उद्योगको संख्या?
         </label>
         <div className="options-verical">
           <input
@@ -444,7 +452,7 @@ export default function GharKoDetailBiabarn(props: any) {
         </div>
 
         <label className="label" id={"rent_business_count"}>
-          48. परिवारले भाडामा दिई संचालन भएका व्यवापार, व्यवसाय, उद्योगको
+          46. परिवारले भाडामा दिई संचालन भएका व्यवापार, व्यवसाय, उद्योगको
           संख्या?
         </label>
         <div className="options-verical">
@@ -458,7 +466,7 @@ export default function GharKoDetailBiabarn(props: any) {
         </div>
 
         <label className="label" id={"annual_expense"}>
-          49. परिवारको वार्षिक खर्च उल्लेख गर्नुहोस
+          47. परिवारको वार्षिक खर्च उल्लेख गर्नुहोस
         </label>
         <div className="options-verical">
           <input
@@ -470,7 +478,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"has_foreign_member"}>
-          50. परिवारमा कोई बिदेशमा बसेको वा गएको छ?
+          48. परिवारमा कोई बिदेशमा बसेको वा गएको छ?
         </label>
         <div className="options-horizontal">
           <select
@@ -518,7 +526,7 @@ export default function GharKoDetailBiabarn(props: any) {
               </select>
             </div>
             <div className="options-horizontal">
-            <select
+              <select
                 className="form-control"
                 value={foreignMember.country_samuha_id}
                 name="country_samuha_id"
@@ -527,7 +535,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 <option value={""} key={"देश समुह-1"}>
                   ---- देश समुह-----
                 </option>
-                {country_samuhas.map((option:any, key:any) => (
+                {country_samuhas.map((option: any, key: any) => (
                   <option value={option.id} key={"death_reasons" + key}>
                     {option.name}
                   </option>
@@ -542,7 +550,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 <option value={""} key={"देश-1"}>
                   ---- देश -----
                 </option>
-                {countries.map((option:any, key:any) => (
+                {countries.map((option: any, key: any) => (
                   <option value={option.id} key={"death_reasons" + key}>
                     {option.name}
                   </option>
@@ -601,7 +609,7 @@ export default function GharKoDetailBiabarn(props: any) {
           </div>
         )}
         <label className="label" id={"festivals"}>
-          51. तपाईले मान्ने पर्वहरु प्राथमिकता अनुसार स्तरीकरण गर्नुहोस्(मुख्य
+          49. तपाईले मान्ने पर्वहरु प्राथमिकता अनुसार स्तरीकरण गर्नुहोस्(मुख्य
           बढीमा ५ वटा मात्र)
         </label>
         <div className="options-vertical">
@@ -624,7 +632,7 @@ export default function GharKoDetailBiabarn(props: any) {
         <h5>Health</h5>
 
         <label className="label" id={"has_pregnant_member"}>
-          52. गर्भवर्ती परिवारमा छ/ छैन?
+          50. गर्भवर्ती परिवारमा छ/ छैन?
         </label>
         <div className="options-horizontal">
           <select
@@ -679,7 +687,7 @@ export default function GharKoDetailBiabarn(props: any) {
         )}
 
         <label className="label" id={"has_maternity_member"}>
-          53. परीवारमा ६ महिनाभित्रको सुत्केरी छ/ छैन?
+          51. परीवारमा ६ महिनाभित्रको सुत्केरी छ/ छैन?
         </label>
         <div className="options-horizontal">
           <select
@@ -707,6 +715,8 @@ export default function GharKoDetailBiabarn(props: any) {
                 value={household.maternity_location == "1" ? "1" : "0"}
                 onChange={(e) => handleChange(e)}
               >
+                <option value={""}>------</option>
+
                 <option value={"स्वास्थ्य संस्था"}>स्वास्थ्य संस्था</option>
                 <option value={"घर"}>घर</option>
               </select>
@@ -730,7 +740,7 @@ export default function GharKoDetailBiabarn(props: any) {
         )}
 
         <label className="label" id={"has_maternity_death"}>
-          54. मातृ मृत्यु भएको छ/ छैन?
+          52. मातृ मृत्यु भएको छ/ छैन?
         </label>
         <div className="options-horizontal">
           <select
@@ -761,6 +771,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 }
                 onChange={(e) => handleChange(e)}
               >
+                <option value={""}>------</option>
                 <option value={"गर्भाअवस्था"}>गर्भाअवस्था</option>
                 <option value={"४५ दिनभितत्रको सुत्केरी"}>
                   ४५ दिनभितत्रको सुत्केरी
@@ -771,7 +782,7 @@ export default function GharKoDetailBiabarn(props: any) {
         )}
 
         <label className="label" id={"child_death"}>
-          55. नवशिशु / शिशु/ बाल मृत्यु भएको छ?
+          53. नवशिशु / शिशु/ बाल मृत्यु भएको छ?
         </label>
         <div className="options-horizontal">
           <select
@@ -802,6 +813,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 }
                 onChange={(e) => handleChange(e)}
               >
+                <option value={""}>------</option>
                 <option value={"नवशिशु"}>नवशिशु</option>
                 <option value={"शिशु"}>शिशु</option>
                 <option value={"बाल"}>बाल</option>
@@ -825,7 +837,7 @@ export default function GharKoDetailBiabarn(props: any) {
       <div className={`form-group`} id="17">
         <h5>Resources</h5>
         <label className="label" id={"water_source_id"}>
-          56. खानेपानीको मुख्य श्रोत
+          54. खानेपानीको मुख्य श्रोत
         </label>
         <div className="options-horizontal">
           <select
@@ -886,7 +898,7 @@ export default function GharKoDetailBiabarn(props: any) {
         )}
 
         <label className="label" id={"cooking_fuels"}>
-          57. खाना पकाउन
+          55. खाना पकाउन
         </label>
         <div className="options-vertical">
           <Multiselect
@@ -904,7 +916,7 @@ export default function GharKoDetailBiabarn(props: any) {
         </div>
 
         <label className="label" id={"light_fuels"}>
-          58. बत्ति बाल्न
+          56. बत्ति बाल्न
         </label>
         <div className="options-vertical">
           <Multiselect
@@ -922,7 +934,7 @@ export default function GharKoDetailBiabarn(props: any) {
         </div>
 
         <label className="label" id={"light_fuels"}>
-          58. निम्न कुन कुन सुबिधाहरु परिवार ले उपभोग गरेको छ ?
+          57. निम्न कुन कुन सुबिधाहरु परिवार ले उपभोग गरेको छ ?
         </label>
         <div className="options-vertical">
           <Multiselect
@@ -940,7 +952,7 @@ export default function GharKoDetailBiabarn(props: any) {
         </div>
 
         <label className="label" id={"public_vehicle_distance_meter"}>
-          59. सार्वजनिक यातायात चल्ने सम्मको दुरी ? (मिटर/मिनेट)
+          58. सार्वजनिक यातायात चल्ने सम्मको दुरी ? (मिटर/मिनेट)
         </label>
         <div className="options-horizontal">
           <input
@@ -961,7 +973,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"public_vehicle_distance_meter"}>
-          60. घरबाट नजिक सडक सम्मको दुरी ? (मिटर/मिनेट)
+          59. घरबाट नजिक सडक सम्मको दुरी ? (मिटर/मिनेट)
         </label>
         <div className="options-horizontal">
           <input
@@ -982,7 +994,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"hospital_distance_meter"}>
-          61. स्वास्थ्य चौकी वा अस्पताल सम्म लाग्ने दुरी? (मिटर/मिनेट)
+          60. स्वास्थ्य चौकी वा अस्पताल सम्म लाग्ने दुरी? (मिटर/मिनेट)
         </label>
         <div className="options-horizontal">
           <input
@@ -1003,7 +1015,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"primary_distance"}>
-          62. आधारभुत विद्यालय सम्म लाग्ने समय
+          61. आधारभुत विद्यालय सम्म लाग्ने समय
         </label>
         <div className="options-horizontal">
           <input
@@ -1016,7 +1028,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"secondary_distance"}>
-          63. माध्यमिक विद्यालय सम्म लाग्ने समय
+          62. माध्यमिक विद्यालय सम्म लाग्ने समय
         </label>
         <div className="options-horizontal">
           <input
@@ -1029,7 +1041,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"higher_secondary_distance"}>
-          64. उच्च मा.बि वा कलेज सम्म लाग्ने समय
+          63. उच्च मा.बि वा कलेज सम्म लाग्ने समय
         </label>
         <div className="options-horizontal">
           <input
@@ -1121,6 +1133,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 }
                 onChange={(e) => handleChange(e)}
               >
+                <option value={""}>------</option>
                 <option value={"सम्झौता मात्र गरेको"}>
                   सम्झौता मात्र गरेको
                 </option>
@@ -1377,23 +1390,25 @@ export default function GharKoDetailBiabarn(props: any) {
             </button>
           </div>
         </div>
-     
+
         <label className="label" id={"total_area"}>
           69. आय सम्बन्धी{" "}
         </label>
         <div className="options-horizontal">
           <div className="child-section">
             {household.income_expenses &&
-              household.income_expenses.map((an: any, an_key: any) => (
-                an.type == '1' &&
-                <button
-                  className="btn btn-outline-info btn-sm btn-block"
-                  key={an_key}
-                  onClick={() => saveIE("remove", an_key)}
-                >
-                  {an.source} - {an.amount}
-                </button>
-              ))}
+              household.income_expenses.map(
+                (an: any, an_key: any) =>
+                  an.type == "1" && (
+                    <button
+                      className="btn btn-outline-info btn-sm btn-block"
+                      key={an_key}
+                      onClick={() => saveIE("remove", an_key)}
+                    >
+                      {an.source} - {an.amount}
+                    </button>
+                  )
+              )}
             <br />
             <label className="label" id={"location"}>
               a. आयको स्रोत
@@ -1416,11 +1431,11 @@ export default function GharKoDetailBiabarn(props: any) {
                 ))}
               </select>
             </div>
-            
+
             <label className="label" id={"land_type_id"}>
-              b. बार्षिक  आय( रु. हजारमा )
+              b. बार्षिक आय( रु. हजारमा )
             </label>
-            
+
             <div className="options-horizontal">
               <input
                 type="number"
@@ -1432,7 +1447,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 min="0"
               />
             </div>
-            
+
             <button
               onClick={() => saveIE("add")}
               className="btn btn-sm btn-success"
@@ -1448,16 +1463,18 @@ export default function GharKoDetailBiabarn(props: any) {
         <div className="options-horizontal">
           <div className="child-section">
             {household.income_expenses &&
-              household.income_expenses.map((an: any, an_key: any) => (
-                an.type == '2' &&
-                <button
-                  className="btn btn-outline-info btn-sm btn-block"
-                  key={an_key}
-                  onClick={() => saveIE("remove", an_key)}
-                >
-                  {an.source} - {an.amount}
-                </button>
-              ))}
+              household.income_expenses.map(
+                (an: any, an_key: any) =>
+                  an.type == "2" && (
+                    <button
+                      className="btn btn-outline-info btn-sm btn-block"
+                      key={an_key}
+                      onClick={() => saveIE("remove", an_key)}
+                    >
+                      {an.source} - {an.amount}
+                    </button>
+                  )
+              )}
             <br />
             <label className="label" id={"location"}>
               a. खर्चको स्रोत
@@ -1471,7 +1488,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 onChange={handleIEChange}
               >
                 <option value={""} key={"आयको स्रोत"}>
-                  ---- आयको स्रोत -----
+                  ---- खर्चको स्रोत -----
                 </option>
                 {expense_sources.map((option, key) => (
                   <option value={option.id} key={"आयको स्रोत" + key}>
@@ -1480,11 +1497,11 @@ export default function GharKoDetailBiabarn(props: any) {
                 ))}
               </select>
             </div>
-            
+
             <label className="label" id={"land_type_id"}>
               b. बार्षिक खर्च( रु. हजारमा )
             </label>
-            
+
             <div className="options-horizontal">
               <input
                 type="number"
@@ -1496,7 +1513,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 min="0"
               />
             </div>
-            
+
             <button
               onClick={() => saveIE("add")}
               className="btn btn-sm btn-success"
@@ -1509,7 +1526,7 @@ export default function GharKoDetailBiabarn(props: any) {
 
       <div className={`form-group`} id="21">
         <label className="label" id={"responder_name"}>
-          69. उत्तरदाताको नाम
+          71. उत्तरदाताको नाम
         </label>
         <div className="options-horizontal">
           <input
@@ -1521,7 +1538,7 @@ export default function GharKoDetailBiabarn(props: any) {
           />
         </div>
         <label className="label" id={"responder_image"}>
-          70. उत्तरदाताको फोटोः
+          72. उत्तरदाताको फोटोः
         </label>
         <div className="options-verical image-component">
           <video
@@ -1566,7 +1583,8 @@ export default function GharKoDetailBiabarn(props: any) {
             </div>
           )}
           <button className="btn btn-secondary" onClick={getHohPhoto}>
-          उत्तरदाताको फोटोः {household.responder_image && household.id && "Reset"}
+            उत्तरदाताको फोटोः{" "}
+            {household.responder_image && household.id && "Reset"}
           </button>
         </div>
       </div>

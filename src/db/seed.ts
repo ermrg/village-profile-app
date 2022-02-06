@@ -198,5 +198,7 @@ export async function syncDb(data: any) {
     await getOccupation();
     await getTechnicalSkill();
     await getMotherToungure();
+    await getCountrySamuha()
+    await getCountry()
   }
 }
