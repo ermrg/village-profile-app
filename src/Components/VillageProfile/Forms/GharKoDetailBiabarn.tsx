@@ -48,6 +48,8 @@ let initialAnimal = {
   count: "1",
 } as IAnimal;
 let initialIncomeExpense = {
+  income_source_id: "",
+  expense_source_id: "",
   source: "",
   source_id: "",
   amount: "",
@@ -234,11 +236,12 @@ export default function GharKoDetailBiabarn(props: any) {
   const saveIE = (cmd: string, index?: any) => {
     let newIE;
     newIE = household.income_expenses ?? [];
-    if (income_expense.source_id == "" || income_expense.amount == "") {
-      alert("Add source and amount");
-      return;
-    }
+    
     if (cmd == "add") {
+      if (income_expense.source_id == "" || income_expense.amount == "") {
+        alert("Add source and amount");
+        return;
+      }
       newIE.push(income_expense);
     } else {
       newIE.splice(index, 1);
@@ -712,7 +715,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 className="form-control"
                 name="maternity_location"
                 key={"कहाँ सुत्केरी भएको?"}
-                value={household.maternity_location == "1" ? "1" : "0"}
+                value={household.maternity_location}
                 onChange={(e) => handleChange(e)}
               >
                 <option value={""}>------</option>
@@ -1129,7 +1132,7 @@ export default function GharKoDetailBiabarn(props: any) {
                 name="earthquake_house_relief_status"
                 key={"मातृ मृत्यु भएको छ/ छैन?"}
                 value={
-                  household.earthquake_house_relief_status == "1" ? "1" : "0"
+                  household.earthquake_house_relief_status
                 }
                 onChange={(e) => handleChange(e)}
               >
